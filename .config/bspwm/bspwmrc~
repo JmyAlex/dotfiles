@@ -1,0 +1,29 @@
+#! /bin/sh
+
+bspc monitor -d shell web chat dev float media
+
+bspc config border_width        2
+bspc config window_gap          12
+bspc config split_ratio         0.52
+
+bspc config borderless_monocle  true
+bspc config gapless_monocle     true
+
+bspc config focus_follows_pointer true
+bspc config auto_alternate true
+bspc config auto_cancel true
+
+bspc rule -a Firefox -d ^2
+bspc rule -a vlc -d ^6 --follow
+bspc rule -a gmrun --follow
+bspc rule -a Nautilus --floating
+bspc rule -a Skype -d ^3 --floating
+bspc rule -a transmission-gtk -d ^6 --follow --floating
+bspc rule -a feh --floating
+bspc rule -a Steam -d ^5 --floating
+
+bspwm_colors
+reloadpanel
+reloadwallpaper
+
+compton -b

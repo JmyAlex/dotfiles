@@ -1,0 +1,8 @@
+#! /bin/bash
+
+if [[ -z `xrandr | grep " connected" | grep 'VGA'` ]]; then
+	echo "No monitor found"
+	xrandr --output VGA-0 --off
+else
+	xrandr --output LVDS-0 --off
+fi

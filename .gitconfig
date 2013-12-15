@@ -1,0 +1,74 @@
+[user]
+    name = Oleksandr Solovov
+    email = oleksandr.solovov@globallogic.com
+
+[color]
+    diff = auto 
+    status = auto
+    branch = auto 
+    interactive = auto
+	#ui = true
+	ui = auto
+
+[color "diff"]
+#	meta = yellow bold
+#	frag = magenta bold
+#	old = red bold
+#	new = green bold
+
+[color "branch"]
+#	current = yellow reverse
+#	local = yellow
+#	remote = green
+
+[color "status"]
+#	added = yellow
+#	changed = green
+#	untracked = cyan
+
+[commit]
+	template = ~/.git-commit-template
+
+[alias]
+	br = branch -a
+	cl = log --stat -C -2
+	c = commit
+	co = checkout
+	d = diff --color-words
+	dh = diff HEAD
+	dc = diff --staged
+	dw = diff --word-diff
+	dcw = diff --color-words
+	dm = !git diff | mate
+	dv = !git diff | vim
+	who = shortlog -s --
+	lod = log --oneline --decorate
+	lpo = log --pretty=oneline --abbrev-commit --graph --decorate --all
+	lsm = log -M --stat
+	hse = log --stat -5
+	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	redocommit = reset --soft HEAD^
+	listunstaged = diff --name-status
+	liststaged = diff --name-status --staged
+	listhistory = log --name-status
+	busypeople = shortlog -6
+	busythisweek = shortlog --since=one.week.ago
+
+
+    s = status
+    su = status -uno
+    amr = am --reject
+    l = log -C --decorate
+    ls = log -C --stat --decorate
+    lsp = log -C --stat -p --decorate
+    lg = log --graph '--pretty=tformat:%Cblue%h%Creset %Cgreen%ar%Creset %Cblue%d%Creset %s' 
+    lga = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all
+    lsd = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all --simplify-by-decoration
+    g = !gitg&
+
+	l1 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	l2 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	l3 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+[meld]
+    tool = meld
