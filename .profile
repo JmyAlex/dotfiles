@@ -38,3 +38,7 @@ export LANG=en_US.UTF-8
 export DPMS_STANDBY=180
 export DPMS_SUSPEND=360
 export DPMS_OFF=480
+
+export SHELL_PROMT="$HOME/.shell_promt"
+export SHELL_ALIASES="$HOME/.shell_aliases"
+export SHELL_FUNCTIONS="$HOME/.shell_functions"
