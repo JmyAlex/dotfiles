@@ -39,19 +39,54 @@ cHost='\[\033[00;38;5;98m\]'
 cPwd='\[\033[01;34m\]'
 cDate='\e[1;30m'
 cDivider='\[\033[00;38;5;37m\]' 
-# Code for a cool Prompt
-function pre_prompt
-{
-	exitStatus="$?"
 
-	newPWD="${PWD}"
-	user="whoami"
-	host=$(echo -n $HOSTNAME | sed -e "s/[\.].*//")
-	datenow=$(date "+%a, %d %b %y")
-	#let promptsize=$(echo -n "--|$user@$host:${PWD}|---|llllllllllll|ddd:ddd|j|---" \
-		#| wc -c | tr -d " ")
-	let promptsize=$(echo -n "--|$user@$host:${PWD}|-|$(load_show)|$(date "+%H:%M")|$(jobs_show)|--" \
-		| wc -c | tr -d " ")
+#------------------------------------------------------------------------
+
+GIT_BRANCH_SYMBOL='⑂ '
+GIT_BRANCH_CHANGED_SYMBOL='+'
+GIT_NEED_PUSH_SYMBOL='⇡'
+GIT_NEED_PULL_SYMBOL='⇣'
+
+git_branch() 
+{
+	[ -z "$(which git)" ] && echo "no git" && return # no git command found
+
+	# try to get current branch or or SHA1 hash for detached head
+	local branch="$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)"
+	[ -z "$branch" ] && echo "no git" && return # not a git branch
+
+	local marks
+
+	# branch is modified
+	[ -n "$(git status --porcelain)" ] && marks+=" $GIT_BRANCH_CHANGED_SYMBOL"
+
+	# check if local branch is ahead/behind of remote and by how many commits
+	# Shamelessly copied from http://stackoverflow.com/questions/2969214/git-programmatically-know-by-how-much-the-branch-is-ahead-behind-a-remote-branc
+	local remote="$(git config branch.$branch.remote)"
+	local remote_ref="$(git config branch.$branch.merge)"
+	local remote_branch="${remote_ref##refs/heads/}"
+	local tracking_branch="refs/remotes/$remote/$remote_branch"
+	if [ -n "$remote" ]; then
+		local pushN="$(git rev-list $tracking_branch..HEAD|wc -l|tr -d ' ')"
+		local pullN="$(git rev-list HEAD..$tracking_branch|wc -l|tr -d ' ')"
+		[ "$pushN" != "0" ] && marks+=" $GIT_NEED_PUSH_SYMBOL$pushN"
+		[ "$pullN" != "0" ] && marks+=" $GIT_NEED_PULL_SYMBOL$pullN"
+	fi
+
+	# print the git branch segment without a trailing newline
+	printf "$GIT_BRANCH_SYMBOL$branch$marks"
+}
+
+#------------------------------------------------------------------------
+
+get_fill_size()
+{
+	local fillsize
+	local promtsize
+	local width
+
+	let promptsize=$(echo -n "┌─|$user@$host:${newPWD}||${gitbranch}|${load})|${datenow}|${jobsnow}|─┐" \
+		| wc -m | tr -d " ")
 
 	width=$(tput cols)
 
@@ -62,6 +97,22 @@ function pre_prompt
 		let fillsize=${width}-${promptsize}-1
 	fi
 
+	echo $fillsize
+}
+
+# Code for a cool Prompt
+pre_prompt()
+{
+	exitStatus="$?"
+	newPWD="${PWD}"
+	user="$(whoami)"
+	host=$(echo -n $HOSTNAME | sed -e "s/[\.].*//")
+	datenow="$(date "+%H:%M")"
+	load="$(load_show)"
+	jobsnow="$(jobs_show)"
+	gitbranch="$(git_branch)"
+
+	fillsize=$(get_fill_size)
 	fill=""
 
 	while [ "$fillsize" -gt "0" ]
@@ -83,24 +134,18 @@ function pre_prompt
 		promt_color=$'\[\e[31m\]'
 	fi
 	
-	#-------------------------------
-	let promptsize=$(echo -n "--|$user@$host:${newPWD}|-|$(load_show)|$(date "+%H:%M")|$(jobs_show)|--" \
-		| wc -c | tr -d " ")
-
-	if [ `id -u` -eq 0 ]
-	then
-		let fillsize=${width}-${promptsize}+1
-	else
-		let fillsize=${width}-${promptsize}-1
-	fi
+	fillsize=$(get_fill_size)
 
 	if [ "$fillsize" -lt "0" ]
 	then
-		PS1="${debian_chroot:+($debian_chroot)}${promt_color}▶ ${cBorder}"
+		PS1="${promt_color}▶ ${cBorder}"
 		return
 	fi
 
-	PS1="${debian_chroot:+($debian_chroot)}${cBorder}┌─|${cUser}\u${cDivider}@${cHost}\h${cBorder}:${cPwd}\$newPWD${cBorder}|─\${fill}─|\$(load_color)\$(load_show)${cBorder}|${cDate}\$(date \"+%H:%M\")${cBorder}|\$(job_color)\$(jobs_show)${cBorder}\
+	PS1="${cBorder}┌─|${cUser}${user}${cDivider}@\
+${cHost}${host}${cBorder}:${cPwd}\$newPWD${cBorder}|─\${fill}─|\
+${gitbranch}|\$(load_color)${load}${cBorder}|${cDate}${datenow}\
+${cBorder}|\$(job_color)${jobsnow}${cBorder}\
 ${cBorder}|─┐\n${cBorder}└${promt_color}$ ${cBorder}"
 }
 
