@@ -29,10 +29,14 @@
 [commit]
 	template = ~/.git-commit-template
 
+[diff]
+    tool = vimdiff
+
 [alias]
 	br = branch -a
 	cl = log --stat -C -2
-	c = commit
+	ci = commit
+    cia = commit --amend
 	co = checkout
 	d = diff --color-words
 	dh = diff HEAD
@@ -54,6 +58,11 @@
 	busypeople = shortlog -6
 	busythisweek = shortlog --since=one.week.ago
 
+    au = add -u
+    a = add
+	fp = format-patch
+	dt = difftool
+	g = grep
 
     s = status
     su = status -uno
@@ -69,6 +78,8 @@
 	l1 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	l2 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	l3 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+	gn = grep -n
 
 [meld]
     tool = meld

@@ -159,6 +159,9 @@ nmap <F5> :r ~/.vim/clipboard<CR>
 
 set pastetoggle=<leader>p
 
+" Clean trailing whitespace
+nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
 " }}}
 
 " Triggers {{{
@@ -171,6 +174,32 @@ augroup FastEscape
         au InsertEnter * set timeoutlen=0
         au InsertLeave * set timeoutlen=1000
 augroup END
+
+" Line Return {{{
+
+" Make sure Vim returns to the same line when you reopen a file.
+augroup line_return
+	au!
+	au BufReadPost *
+		\ if line("'\"") > 0 && line("'\"") <= line("$") |
+		\     execute 'normal! g`"zvzz' |
+		\ endif
+augroup END
+
+" }}}
+
+" Trailing whitespace {{{
+" Only shown when not in insert mode so I don't go insane.
+augroup trailing
+	au!
+	au InsertEnter * :set listchars-=trail:␣
+	au InsertLeave * :set listchars+=trail:␣
+augroup END
+
+" Remove trailing whitespaces when saving
+"autocmd BufWritePre * :%s/\s\+$//e
+
+" }}}
 
 " }}}
 
@@ -207,7 +236,7 @@ set autoindent  " Копирует отступ от предыдущей стр
 set smartindent
 
 set tabstop=4  " Размер табуляции
-set softtabstop=4  
+set softtabstop=4
 set shiftwidth=4  " Размер сдвига при нажатии на клавиши < и >
 set smarttab
 "set expandtab
@@ -230,7 +259,7 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.spl " compiled spelling word lists
 set wildignore+=*.sw? " Vim swap files
 
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:␣
 set showbreak=↪
 
 " Don't try to highlight lines longer than 800 characters.
@@ -359,6 +388,10 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
+" Sort lines
+nnoremap <leader>s vip:!sort<cr>
+vnoremap <leader>s :!sort<cr>
+
 " Tabs
 nnoremap <leader>( :tabprev<cr>
 nnoremap <leader>) :tabnext<cr>
@@ -380,6 +413,15 @@ nnoremap zO zCzO
 
 " Use ,z to "focus" the current fold.
 nnoremap <leader>z zMzvzz
+
+" }}}
+
+" Quick editing {{{
+
+nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
+nnoremap <leader>es <C-w>s<C-w>j:e ~/.vim/snippets/<cr>
+nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
+nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
 
 " }}}
 
@@ -424,7 +466,7 @@ augroup END
 if has("gui_running")
 	set background=dark
     colorscheme hybrid
-	"set guifont=Ubuntu\ Mono\ for\ Powerline\ 12
+	set guifont=CosmicSansNeueMono\ 14
 	set lines=60
 	set columns=100 
 endif
