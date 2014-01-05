@@ -89,9 +89,9 @@ pre_prompt()
 
 	if [ "${exitStatus}" -eq 0 ]
 	then 
-		promt_color=$'\[\033[01;32m\]'
+		promt_color=$'\[\033[00;38;5;112m\]'
 	else
-		promt_color=$'\[\e[31m\]'
+		promt_color=$'\[\033[00;38;5;124m\]'
 	fi
 	
 	fillsize=$(get_fill_size)

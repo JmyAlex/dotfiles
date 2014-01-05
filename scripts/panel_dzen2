@@ -6,6 +6,8 @@ font_family='sans-serif'
 font_size=11
 icons_font_family=$font_family
 icons_font_size=$font_size
+my_icons_font_family='fontello'
+my_icons_font_size=16
 
 . panel_colors
 
@@ -104,6 +106,11 @@ while read -r line ; do
             fi
             sys_net="^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fn() ${line#?}${PADDING}^fg()^bg()"
             ;;
+        D*)
+            # dropbox output
+			icon_state=Q
+            dropbox="^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)${PADDING}^fn(${my_icons_font_family}:pixelsize=${my_icons_font_size})${icon_state}^fn() ${line#?}${PADDING}^fg()^bg()"
+            ;;
         T*)
             # xtitle output
             title="^fg($COLOR_TITLE_FG)^bg($COLOR_TITLE_BG)${PADDING}${line#?}${PADDING}^fg()^bg()"
@@ -117,6 +124,26 @@ while read -r line ; do
             while [ $# -gt 0 ] ; do
                 item=$1
                 name=${item#?}
+				case $name in
+					shell)
+						icon_state="Z"
+						;;
+					web)
+						icon_state=W
+						;;
+					chat)
+						icon_state=R
+						;;
+					dev)
+						icon_state=7
+						;;
+					games)
+						icon_state="<"
+						;;
+					media)
+						icon_state=M
+						;;
+				esac
                 case $item in
                     [OoFfUu]*)
                         # desktops
@@ -157,23 +184,23 @@ while read -r line ; do
                                 font_style=Bold
                                 ;;
                         esac
-                        wm_infos="${wm_infos}^fg(${FG})^bg(${BG})${PADDING}^fn(${font_family}:pixelsize=${font_size}:style=${font_style})${name}^fn()${PADDING}"
+                        wm_infos="${wm_infos}^fg(${FG})^bg(${BG})${PADDING}^fn(${my_icons_font_family}:pixelsize=${my_icons_font_size})${icon_state}^fn() ^fn(${font_family}:pixelsize=${font_size}:style=${font_style})${name}^fn()${PADDING}"
                         ;;
-                    [Mm]*)
-                        case $item in
-                            M*)
-                                FG=$COLOR_ACTIVE_MONITOR_FG
-                                BG=$COLOR_ACTIVE_MONITOR_BG
-                                ;;
-                            m*)
-                                FG=$COLOR_INACTIVE_MONITOR_FG
-                                BG=$COLOR_INACTIVE_MONITOR_BG
-                                ;;
-                        esac
-                        if [ $num_mon -gt 1 ] ; then
-                            wm_infos="${wm_infos}^fg(${FG})^bg(${BG})${PADDING}${name}${PADDING}"
-                        fi
-                        ;;
+					[Mm]*)
+						case $item in
+							M*)
+								FG=$COLOR_ACTIVE_MONITOR_FG
+								BG=$COLOR_ACTIVE_MONITOR_BG
+								;;
+							m*)
+								FG=$COLOR_INACTIVE_MONITOR_FG
+								BG=$COLOR_INACTIVE_MONITOR_BG
+								;;
+						esac
+						if [ $num_mon -gt 1 ] ; then
+							wm_infos="${wm_infos}^fg(${FG})^bg(${BG})${PADDING}${name}${PADDING}"
+						fi
+						;;
                     T*)
                         tags="$tags${PADDING}$name"
                         ;;
@@ -196,7 +223,7 @@ while read -r line ; do
             IFS=$NORMIFS
             ;;
     esac
-    sys_infos="${sys_battery}${sys_net}${sys_volume}${sys_clock}${PADDING}"
+    sys_infos="${dropbox}${sys_battery}${sys_net}${sys_volume}${sys_clock}${PADDING}"
     set -- $(printf '%s\0%s\0%s' "$wm_infos" "$title" "$sys_infos" | sed 's/\^fn()/\\)/g; s/\^fn([^)]\+)/\\(/g; s/\^[a-z]\+([^)]*)//g' | xargs -0 txtw -f "$font_family" -s "$font_size" -F "$icons_font_family" -S "$icons_font_size")
     left_width=$1
     center_width=$2

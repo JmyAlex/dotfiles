@@ -1,6 +1,6 @@
 #! /bin/sh
 
-bspc monitor -d shell web chat dev float media
+bspc monitor -d shell web chat dev games media
 
 bspc config border_width        2
 bspc config window_gap          12
@@ -14,7 +14,7 @@ bspc config history_aware_focus    true
 bspc config ignore_ewmh_focus      true
 
 #bspc config focus_follows_pointer true
-#bspc config auto_alternate true
+bspc config auto_alternate true
 #bspc config auto_cancel true
 
 bspc rule -a Firefox -d ^2

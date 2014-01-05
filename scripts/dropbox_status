@@ -1,17 +1,21 @@
 #!/bin/bash
 
-file='/tmp/status_dropbox'
-status=$(dropbox status)
+while true
+do
+	status=$(dropbox status)
 
-if [[ ("$status" == "Idle" || "$status" == "Dropbox isn't running!") && -f $file ]]; then
-	rm $file
-	exit
+	if [[ $status = "Idle" ]]; then
+		output="Idle"
 
-elif [[ $status = "Idle" || $status == "Dropbox isn't running!" ]]; then
-	exit
+	elif [[ $status == "Dropbox isn't running!" ]]; then
+		output="Not running"
 
-elif [[ $status =~ (Downloading|Uploading).*left.* ]]; then
-	left=$(echo $status | awk '{print $6 substr($7,1,1)}')
-	echo $left > $file
+	elif [[ $status =~ (Downloading|Uploading).*left.* ]]; then
+		left=$(echo $status | awk '{print $6 substr($7,1,1)}')
+		output=$left
 
-fi
+	fi
+
+	echo "D $output"
+	sleep 5
+done
