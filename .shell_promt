@@ -9,11 +9,11 @@ GIT_NEED_PULL_SYMBOL='⇣'
 
 git_branch() 
 {
-	[ -z "$(which git)" ] && echo "no git" && return # no git command found
+	[ -z "$(which git)" ] && return # no git command found
 
 	# try to get current branch or or SHA1 hash for detached head
 	local branch="$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)"
-	[ -z "$branch" ] && echo "no git" && return # not a git branch
+	[ -z "$branch" ] && return # not a git branch
 
 	local marks
 
@@ -34,7 +34,7 @@ git_branch()
 	fi
 
 	# print the git branch segment without a trailing newline
-	printf "$GIT_BRANCH_SYMBOL$branch$marks"
+	printf ":$GIT_BRANCH_SYMBOL$branch$marks"
 }
 
 #------------------------------------------------------------------------
@@ -45,7 +45,7 @@ get_fill_size()
 	local promtsize
 	local width
 
-	let promptsize=$(echo -n "┌─|$user@$host:${newPWD}||${gitbranch}|${load})|${datenow}|${jobsnow}|─┐" \
+	let promptsize=$(echo -n "┌─|$user@$host:${newPWD}${gitbranch}||${load})|${datenow}|${jobsnow}|─┐" \
 		| wc -m | tr -d " ")
 
 	width=$(tput cols)
@@ -89,9 +89,9 @@ pre_prompt()
 
 	if [ "${exitStatus}" -eq 0 ]
 	then 
-		promt_color=$'\[\033[00;38;5;112m\]'
+		promt_color=$'\[\033[00;38;5;10m\]'
 	else
-		promt_color=$'\[\033[00;38;5;124m\]'
+		promt_color=$'\[\033[00;38;5;9m\]'
 	fi
 	
 	fillsize=$(get_fill_size)
@@ -103,8 +103,8 @@ pre_prompt()
 	fi
 
 	PS1="${cBorder}┌─|${cUser}${user}${cDivider}@\
-${cHost}${host}${cBorder}:${cPwd}\$newPWD${cBorder}|─\${fill}─|\
-${cGit}${gitbranch}${cBorder}|\$(load_color)${load}${cBorder}|${cDate}${datenow}\
+${cHost}${host}${cBorder}:${cPwd}\$newPWD${cGit}${gitbranch}${cBorder}|─\${fill}─|\
+\$(load_color)${load}${cBorder}|${cDate}${datenow}\
 ${cBorder}|\$(job_color)${jobsnow}${cBorder}\
 ${cBorder}|─┐\n${cBorder}└${promt_color}\\$ ${cBorder}"
 }
