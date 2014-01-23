@@ -85,16 +85,26 @@ Bundle 'w0ng/vim-hybrid'
 Bundle 'sjl/badwolf'
 Bundle 'zaiste/Atom'
 Bundle 'chriskempson/vim-tomorrow-theme'
-set t_Co=256
-"set background=dark
-colorscheme hybrid
+if &term == "linux"
+	set t_Co=16
+	colorscheme desert
+else
+	set t_Co=256
+	"set background=dark
+	colorscheme hybrid
+endif
 
 " }}}
 
 " _. Fancy {{{
 "Powerline
-set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim
+"set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim
 set laststatus=2
+Bundle 'bling/vim-airline'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_theme = 'tomorrow'
 
 " }}}
 
@@ -426,13 +436,6 @@ nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
 " }}}
 
 " Cursorline {{{
-" Set up the gui cursor to look nice
-set guicursor=n-v-c:block-Cursor-blinkon0
-set guicursor+=ve:ver35-Cursor
-set guicursor+=o:hor50-Cursor
-set guicursor+=i-ci:ver25-Cursor
-set guicursor+=r-cr:hor20-Cursori
-set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
 
 " Only show cursorline in the current window and in normal mode.
 augroup cline
@@ -464,9 +467,19 @@ augroup END
 
 " GUI {{{
 if has("gui_running")
+	" Set up the gui cursor to look nice
+	set guicursor=n-v-c:block-Cursor-blinkon0
+	set guicursor+=ve:ver35-Cursor
+	set guicursor+=o:hor50-Cursor
+	set guicursor+=i-ci:ver25-Cursor
+	set guicursor+=r-cr:hor20-Cursori
+	set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
+
 	set background=dark
     colorscheme hybrid
+
 	set guifont=CosmicSansNeueMono\ 14
+
 	set lines=60
 	set columns=100 
 endif

@@ -8,7 +8,8 @@ fi
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
 bspc config top_padding $PANEL_HEIGHT
-bspc control --put-status
+#bspc control --put-status
+bspc control --subscribe > "$PANEL_FIFO" &
 volume status &
 #bright status &
 xtitle -sf 'T%s' > "$PANEL_FIFO" &
@@ -25,6 +26,6 @@ PANEL_ICONS_FONT_SIZE=16
 
 . panel_colors
 PANEL_HEIGHT=24
-cat "$PANEL_FIFO" | panel_dzen2 -f "$PANEL_FONT_FAMILY" -s "$PANEL_FONT_SIZE" -F "$PANEL_ICONS_FONT_FAMILY" -S "$PANEL_ICONS_FONT_SIZE" | uq | dzen2 -h $PANEL_HEIGHT -dock -ta l -title-name panel -fn "${PANEL_FONT_FAMILY}:pixelsize=${PANEL_FONT_SIZE}" -fg "$COLOR_FOREGROUND" -bg "$COLOR_BACKGROUND" &
+cat "$PANEL_FIFO" | panel_dzen2 -f "$PANEL_FONT_FAMILY" -s "$PANEL_FONT_SIZE" -F "$PANEL_ICONS_FONT_FAMILY" -S "$PANEL_ICONS_FONT_SIZE" | dzen2 -h $PANEL_HEIGHT -dock -ta l -title-name panel -fn "${PANEL_FONT_FAMILY}:pixelsize=${PANEL_FONT_SIZE}" -fg "$COLOR_FOREGROUND" -bg "$COLOR_BACKGROUND" &
 
 wait

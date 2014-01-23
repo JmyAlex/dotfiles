@@ -13,6 +13,7 @@ my_icons_font_size=16
 
 adaptive_centering=0
 screen_width=$(sres -W)
+num_mon=$(bspc query -M | wc -l)
 NORMIFS=$IFS
 FIELDIFS=':'
 PADDING='  '
@@ -168,8 +169,8 @@ while read -r line ; do
                                 ;;
                             o*)
                                 # occupied desktop
-                                FG=$COLOR_OCUPPIED_FG
-                                BG=$COLOR_OCUPPIED_BG
+                                FG=$COLOR_OCCUPIED_FG
+                                BG=$COLOR_OCCUPIED_BG
                                 font_style=Bold
                                 ;;
                             f*)
