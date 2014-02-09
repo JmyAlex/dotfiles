@@ -19,6 +19,11 @@ Bundle 'gmarik/vundle'
 " PACKAGES {{{
 
 " _. General {{{
+Bundle "mileszs/ack.vim"
+nnoremap <leader>a :Ack!<space>
+nnoremap <leader>A :Ack! <C-R>=expand("<cword>")<CR><CR>
+let g:ackprg = 'ack-grep --smart-case --nogroup --nocolor --column'
+
 Bundle 'scrooloose/nerdtree'
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
@@ -90,7 +95,8 @@ if &term == "linux"
 	colorscheme desert
 else
 	set t_Co=256
-	"set background=dark
+	set background=dark
+	let g:hybrid_use_Xresources = 1
 	colorscheme hybrid
 endif
 
@@ -105,6 +111,7 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme = 'tomorrow'
+let g:airline#themes#tomorrow#constant = 1
 Bundle 'edkolev/tmuxline.vim'
 let g:tmuxline_preset = {
       \'a'    : '#S',
@@ -483,6 +490,7 @@ if has("gui_running")
 
 	set background=dark
     colorscheme hybrid
+	let g:airline#themes#tomorrow#constant = 0
 
 	set guifont=CosmicSansNeueMono\ 14
 
