@@ -18,7 +18,6 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 export BSPWM_SOCKET="/tmp/bspwm-socket"
 export PANEL_FIFO=/tmp/panel-fifo
-export PATH=$PATH:$HOME/bspwmPanel
 
 export BSPWM_TREE="$XDG_DATA_HOME/bspwm.tree"
 export BSPWM_HISTORY="$XDG_DATA_HOME/bspwm.history"

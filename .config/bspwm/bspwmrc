@@ -17,14 +17,14 @@ bspc config ignore_ewmh_focus      true
 bspc config auto_alternate true
 #bspc config auto_cancel true
 
-bspc rule -a Firefox -d ^2
-bspc rule -a vlc -d ^6 --follow
-bspc rule -a gmrun --follow
-bspc rule -a Nautilus --floating
-bspc rule -a Skype -d ^3 --floating
-bspc rule -a transmission-gtk -d ^6 --follow --floating
-bspc rule -a feh --floating
-bspc rule -a Steam -d ^5 --floating
+bspc rule -a Firefox desktop=^2
+bspc rule -a vlc desktop=^6 follow=on
+bspc rule -a gmrun follow=on
+bspc rule -a Nautilus floating=on
+bspc rule -a Skype desktop=^3 floating=on
+bspc rule -a transmission-gtk desktop=^6 follow=on floating=on
+bspc rule -a feh floating=on
+bspc rule -a Steam desktop=^5 fullscreen=on
 
 bspwm_colors
 reloadpanel

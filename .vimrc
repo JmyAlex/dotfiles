@@ -295,14 +295,17 @@ set ttimeout
 set ttimeoutlen=10
 
 " _ backups {{{
-set undodir=~/.vim/tmp/undo// " undo files
-set undofile
-set undolevels=3000
-set undoreload=10000
-"set backupdir=~/.vim/tmp/backup// " backups
-"set directory=~/.vim/tmp/swap// " swap files
 set backup
 set noswapfile
+set undofile
+
+set undolevels=3000
+set undoreload=10000
+
+set undodir=~/.vim/tmp/undo// " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap// " swap files
+
 " _ }}}
 
 " Don't redraw while executing macros

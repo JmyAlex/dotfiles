@@ -44,7 +44,7 @@ while read -r line ; do
     case $line in
         C*)
 			icon_state=@	
-            sys_clock="^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fn() ${line#?}${PADDING}^fg()^bg()"
+            sys_clock="^fg($COLOR_ICON)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)^fn() ${line#?}${PADDING}^fg()^bg()"
             ;;
         B*)
             set -- ${line#?}
@@ -87,7 +87,7 @@ while read -r line ; do
                     fi
                     ;;
             esac
-            sys_volume="^fg($FG)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fn() ${level}%${PADDING}^fg()^bg()"
+            sys_volume="^fg($COLOR_ICON)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)^fn() ${level}%${PADDING}^fg()^bg()"
             ;;
         #S*)
             #level=${line#?}
@@ -105,12 +105,12 @@ while read -r line ; do
             else
                 icon_state=d
             fi
-            sys_net="^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fn() ${line#?}${PADDING}^fg()^bg()"
+            sys_net="^fg($COLOR_ICON)^bg($COLOR_STATUS_BG)${PADDING}^fn(${icons_font_family}:pixelsize=${icons_font_size})${icon_state}^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)^fn() ${line#?}${PADDING}^fg()^bg()"
             ;;
         D*)
             # dropbox output
 			icon_state=Q
-            dropbox="^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)${PADDING}^fn(${my_icons_font_family}:pixelsize=${my_icons_font_size})${icon_state}^fn() ${line#?}${PADDING}^fg()^bg()"
+            dropbox="^fg($COLOR_ICON)^bg($COLOR_STATUS_BG)${PADDING}^fn(${my_icons_font_family}:pixelsize=${my_icons_font_size})${icon_state}^fg($COLOR_STATUS_ACTIVE_FG)^bg($COLOR_STATUS_BG)^fn() ${line#?}${PADDING}^fg()^bg()"
             ;;
         T*)
             # xtitle output
@@ -127,7 +127,7 @@ while read -r line ; do
                 name=${item#?}
 				case $name in
 					shell)
-						icon_state="Z"
+						icon_state="'"
 						;;
 					web)
 						icon_state=W
@@ -185,7 +185,7 @@ while read -r line ; do
                                 font_style=Bold
                                 ;;
                         esac
-                        wm_infos="${wm_infos}^fg(${FG})^bg(${BG})${PADDING}^fn(${my_icons_font_family}:pixelsize=${my_icons_font_size})${icon_state}^fn() ^fn(${font_family}:pixelsize=${font_size}:style=${font_style})${name}^fn()${PADDING}"
+                        wm_infos="${wm_infos}^fg(${COLOR_ICON})^bg(${BG})${PADDING}^fn(${my_icons_font_family}:pixelsize=${my_icons_font_size})${icon_state}^fn()^fg(${FG})^bg(${BG})^fn(${font_family}:pixelsize=${font_size}:style=${font_style}) ${name}^fn()${PADDING}"
                         ;;
 					[Mm]*)
 						case $item in

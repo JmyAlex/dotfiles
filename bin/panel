@@ -7,6 +7,11 @@ fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
+if [ ! -p "$PANEL_FIFO" ] ; then
+    [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+    mkfifo "$PANEL_FIFO"
+fi
+
 bspc config top_padding $PANEL_HEIGHT
 #bspc control --put-status
 bspc control --subscribe > "$PANEL_FIFO" &

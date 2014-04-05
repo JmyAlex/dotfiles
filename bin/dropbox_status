@@ -17,5 +17,5 @@ do
 	fi
 
 	echo "D $output"
-	sleep 5
+	sleep 2
 done
