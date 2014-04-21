@@ -81,6 +81,8 @@ fi
 [ -e "$SHELL_ALIASES" ] && . "$SHELL_ALIASES"
 [ -e "$SHELL_FUNCTIONS" ] && . "$SHELL_FUNCTIONS"
 
+. $HOME/Github/z/z.sh
+
 #Start tmux on every shell login
 #[[ $- != *i* ]] && return
 #[[ -z "$TMUX" ]] && exec tmux

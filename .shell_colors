@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Normal Colors
-Black='\e[0;30m'        # Black
-Red='\e[0;31m'          # Red
-Green='\e[0;32m'        # Green
-Yellow='\e[0;33m'       # Yellow
-Blue='\e[0;34m'         # Blue
-Purple='\e[0;35m'       # Purple
-Cyan='\e[0;36m'         # Cyan
-White='\e[0;37m'        # White
+Black='\033[00;38;5;0m'        # Black
+Red='\033[00;38;5;1m'          # Red
+Green='\033[00;38;5;2m'        # Green
+Yellow='\033[00;38;5;3m'       # Yellow
+Blue='\033[00;38;5;4m'         # Blue
+Purple='\033[00;38;5;5m'       # Purple
+Cyan='\033[00;38;5;6m'         # Cyan
+White='\033[00;38;5;7m'        # White
 
 # Bold
 BBlack='\e[1;30m'       # Black

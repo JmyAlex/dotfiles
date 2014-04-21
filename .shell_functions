@@ -64,17 +64,17 @@ generate_tags()
 #--------------------------------------------------------------------
 
 #_cd() {
-    #pushd "$@" > /dev/null
+	#pushd "$@" > /dev/null
 #}
 
 #cd() {
-    #if [ -z "$1" ] ; then
-        #_cd "$HOME"
-    #elif [ -f "$1" ] ; then
-        #_cd "$(dirname "$1")"
-    #else
-        #_cd "$1"
-    #fi
+	#if [ -z "$1" ] ; then
+		#_cd "$HOME"
+	#elif [ -f "$1" ] ; then
+		#_cd "$(dirname "$1")"
+	#else
+		#_cd "$1"
+	#fi
 #}
 
 dud() {

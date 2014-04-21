@@ -128,7 +128,8 @@ super + shift + Return
     #gnome-terminal && bspc window -t floating
 
 super + space
-	gmrun
+	dmenu_launch
+	#gmrun
 
 super + shift + b
 	firefox

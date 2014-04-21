@@ -64,7 +64,7 @@ get_fill_size()
 pre_prompt()
 {
 	exitStatus="$?"
-	newPWD="${PWD}"
+	newPWD="${PWD/#$HOME/~}"
 	user="$(whoami)"
 	host=$(echo -n $HOSTNAME | sed -e "s/[\.].*//")
 	datenow="$(date "+%H:%M")"
