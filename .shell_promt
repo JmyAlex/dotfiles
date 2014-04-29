@@ -7,7 +7,7 @@ GIT_BRANCH_CHANGED_SYMBOL='+'
 GIT_NEED_PUSH_SYMBOL='⇡'
 GIT_NEED_PULL_SYMBOL='⇣'
 
-git_branch() 
+git_branch()
 {
 	[ -z "$(which git)" ] && return # no git command found
 
@@ -34,7 +34,7 @@ git_branch()
 	fi
 
 	# print the git branch segment without a trailing newline
-	printf ":$GIT_BRANCH_SYMBOL$branch$marks"
+	printf "${cBorder}|${cGit}$GIT_BRANCH_SYMBOL$branch$marks"
 }
 
 #------------------------------------------------------------------------
@@ -50,6 +50,12 @@ get_fill_size()
 
 	width=$(tput cols)
 
+	#bull shit
+	if [[ $gitbranch != "" ]]
+	then
+		let promptsize=${promptsize}-25
+	fi
+
 	if [ `id -u` -eq 0 ]
 	then
 		let fillsize=${width}-${promptsize}+1
@@ -60,10 +66,20 @@ get_fill_size()
 	echo $fillsize
 }
 
+do_fill()
+{
+	while [ "$fillsize" -gt "0" ]
+	do
+		fill="${fill}─"
+		let fillsize=${fillsize}-1
+	done
+}
+
 # Code for a cool Prompt
 pre_prompt()
 {
 	exitStatus="$?"
+	builtin history -a
 	newPWD="${PWD/#$HOME/~}"
 	user="$(whoami)"
 	host=$(echo -n $HOSTNAME | sed -e "s/[\.].*//")
@@ -75,16 +91,15 @@ pre_prompt()
 	fillsize=$(get_fill_size)
 	fill=""
 
-	while [ "$fillsize" -gt "0" ]
-	do
-		fill="${fill}─"
-		let fillsize=${fillsize}-1
-	done
+	do_fill
 
 	if [ "$fillsize" -lt "0" ]
 	then
-		let cutt=3-${fillsize}
-		newPWD="...$(echo -n $PWD | sed -e "s/\(^.\{$cutt\}\)\(.*\)/\2/")"
+		#let cutt=3-${fillsize}
+		#newPWD="...$(echo -n $newPWD | sed -e "s/\(^.\{$cutt\}\)\(.*\)/\2/")"
+		newPWD=$(sed "s:\([^/]\)[^/]*/:\1/:g" <<<$newPWD)
+		fillsize=$(get_fill_size)
+		do_fill
 	fi
 
 	if [ "${exitStatus}" -eq 0 ]
@@ -103,7 +118,7 @@ pre_prompt()
 	fi
 
 	PS1="${cBorder}┌─|${cUser}${user}${cDivider}@\
-${cHost}${host}${cBorder}:${cPwd}\$newPWD${cGit}${gitbranch}${cBorder}|─\${fill}─|\
+${cHost}${host}${cBorder}:${cPwd}\$newPWD${gitbranch}${cBorder}|─\${fill}─|\
 \$(load_color)${load}${cBorder}|${cDate}${datenow}\
 ${cBorder}|\$(job_color)${jobsnow}${cBorder}\
 ${cBorder}|─┐\n${cBorder}└${promt_color}\\$ ${cBorder}"

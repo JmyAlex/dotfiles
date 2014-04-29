@@ -33,18 +33,105 @@
     tool = vimdiff
 
 [alias]
-	br = branch -a
-	cl = log --stat -C -2
+	#add
+	a = add
+	au = add -u # add only tracked files
+	chunkyadd = add --patch           # stage commits chunk by chunk
+
+	#branch
+	b = branch -a
+
+	#commit
+	c = commit -m # commit with message
 	ci = commit
-    cia = commit --amend
+	cia = commit --amend
+	amend = commit --amend            # ammend your last commit
+
+	#checkout
 	co = checkout
+	nb = checkout -b # create and switch to a new branch (mnemonic: "git new branch branchname...")
+
+	# cherry-pick
+	cp = cherry-pick -x # grab a change from a branch
+
+	#diff
 	d = diff --color-words
 	dh = diff HEAD
-	dc = diff --staged
+	dc = diff --staged # diff staged changes
 	dw = diff --word-diff
 	dcw = diff --color-words
+	last = diff HEAD^ # diff last committed change
+
+	#log
+    l = log -C --decorate
+    ls = log -C --stat --decorate
+    lsp = log -C --stat -p --decorate
+    lg = log --graph '--pretty=tformat:%Cblue%h%Creset %Cgreen%ar%Creset %Cblue%d%Creset %s' 
+    lga = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all
+    lsd = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all --simplify-by-decoration
+	l1 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	l2 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	l3 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+	changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+	short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
+	simple = log --pretty=format:\" * %s\"
+	shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+
+	# pull
+	pl = pull # pull
+
+	# push
+	ps = push # push
+
+	# rebase
+	rc = rebase --continue # continue rebase
+	rs = rebase --skip # skip rebase
+
+	# remote
+	r = remote -v # show remotes (verbose)
+
+ 	# reset
+	unstage = reset HEAD # remove files from index (tracking)
+	uncommit = reset --soft HEAD^ # go back before last commit, with files in uncommitted state
+	filelog = log -u # show changes to a file
+	mt = mergetool # fire up the merge tool
+
+	# stash
+	ss = stash # stash changes
+	sl = stash list # list stashes
+	sa = stash apply # apply stash (restore changes)
+	sd = stash drop # drop stashes (destory changes)
+
+	# status
+	s = status # status
+	st = status # status
+	stat = status # status
+    su = status -uno
+
+	# tag
+	t = tag -n # show tags with <n> lines of each tag message
+
+	# svn helpers
+	svnr = svn rebase
+	svnd = svn dcommit
+	svnl = svn log --oneline --show-commit
+
+	fp = format-patch
+	dt = difftool
+	g = grep
+	gn = grep -n
+
+	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+	snapshots = !git stash list --grep snapshot
+
+	#via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+	recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+
+	cl = log --stat -C -2
 	dm = !git diff | mate
-	dv = !git diff | vim
+	dv = !git diff | vim -R -
 	who = shortlog -s --
 	lod = log --oneline --decorate
 	lpo = log --pretty=oneline --abbrev-commit --graph --decorate --all
@@ -58,28 +145,15 @@
 	busypeople = shortlog -6
 	busythisweek = shortlog --since=one.week.ago
 
-    au = add -u
-    a = add
-	fp = format-patch
-	dt = difftool
-	g = grep
-
-    s = status
-    su = status -uno
     amr = am --reject
-    l = log -C --decorate
-    ls = log -C --stat --decorate
-    lsp = log -C --stat -p --decorate
-    lg = log --graph '--pretty=tformat:%Cblue%h%Creset %Cgreen%ar%Creset %Cblue%d%Creset %s' 
-    lga = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all
-    lsd = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all --simplify-by-decoration
     g = !gitg&
-
-	l1 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-	l2 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	l3 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-
-	gn = grep -n
 
 [meld]
     tool = meld
+
+[merge]
+	tool = splice
+
+[mergetool "splice"]
+	cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
+	trustExitCode = true

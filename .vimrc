@@ -24,6 +24,14 @@ nnoremap <leader>a :Ack!<space>
 nnoremap <leader>A :Ack! <C-R>=expand("<cword>")<CR><CR>
 let g:ackprg = 'ack-grep --smart-case --nogroup --nocolor --column'
 
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-speeddating'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'maxbrunsfeld/vim-yankstack'
+Bundle 'tpope/vim-eunuch'
+
 Bundle 'scrooloose/nerdtree'
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
@@ -34,7 +42,13 @@ let NERDTreeChDirMode = 2
 set guioptions-=r
 set guioptions-=L
 
+Bundle 'vim-scripts/YankRing.vim'
+let g:yankring_replace_n_pkey = '<leader>['
+let g:yankring_replace_n_nkey = '<leader>]'
+"let g:yankring_history_dir = '~/.vim/tmp/'
+nmap <leader>y :YRShow<cr>
 
+Bundle 'Spaceghost/vim-matchit'
 Bundle 'ctrlp.vim'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_jump_to_buffer = 0
@@ -71,12 +85,19 @@ let g:Gitv_WrapLines = 0
 let g:Gitv_TruncateCommitSubjects = 1
 let g:Gitv_OpenPreviewOnLaunch = 1
 
+Bundle 'sjl/splice.vim'
+
 Bundle 'tpope/vim-fugitive'
 nmap <leader>g :Ggrep
 " ,f for global git serach for word under the cursor (with highlight)
 nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
 " same in visual mode
 vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
+
+Bundle 'airblade/vim-gitgutter'
+
+autocmd FileType gitcommit set tw=68 spell
+autocmd FileType gitcommit setlocal foldmethod=manual
 
 " }}}
 
@@ -118,6 +139,17 @@ let g:tmuxline_preset = {
       \'win'  : ['#I', '#W'],
       \'cwin' : ['#I', '#W'],
       \'y'    : ['%b %d', '%R']}
+
+" }}}
+
+" _. Indent {{{
+"Bundle 'Yggdroot/indentLine'
+"set list lcs=tab:\|\
+"let g:indentLine_color_term = 111
+"let g:indentLine_color_gui = '#DADADA'
+"let g:indentLine_char = 'c'
+"let g:indentLine_char = '∙▹¦'
+"let g:indentLine_char = '∙'
 
 " }}}
 
@@ -197,6 +229,9 @@ augroup FastEscape
         au InsertEnter * set timeoutlen=0
         au InsertLeave * set timeoutlen=1000
 augroup END
+
+" When vimrc is edited, reload it
+autocmd! BufWritePost vimrc source ~/.vimrc
 
 " Line Return {{{
 

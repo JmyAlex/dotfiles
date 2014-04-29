@@ -1,6 +1,10 @@
 #! /bin/sh
 
-bspc monitor -d shell web chat dev games media
+#bspc monitor -d shell web chat dev games media
+
+for monitor in $(bspc query -M); do
+	bspc monitor $monitor -d shell web chat dev games media
+done
 
 bspc config border_width        2
 bspc config window_gap          12

@@ -131,6 +131,9 @@ super + space
 	dmenu_launch
 	#gmrun
 
+super + shift + space
+	dmenu_raise
+
 super + shift + b
 	firefox
 

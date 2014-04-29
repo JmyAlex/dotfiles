@@ -3,19 +3,6 @@
 while true
 do
 	status=$(dropbox status)
-
-	if [[ $status = "Idle" ]]; then
-		output="Idle"
-
-	elif [[ $status == "Dropbox isn't running!" ]]; then
-		output="Not running"
-
-	elif [[ $status =~ (Downloading|Uploading).*left.* ]]; then
-		left=$(echo $status | awk '{print $6 substr($7,1,1)}')
-		output=$left
-
-	fi
-
-	echo "D $output"
+	echo "D $status"
 	sleep 2
 done
