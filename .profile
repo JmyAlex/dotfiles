@@ -24,6 +24,7 @@ export BSPWM_HISTORY="$XDG_DATA_HOME/bspwm.history"
 export BSPWM_STACK="$XDG_DATA_HOME/bspwm.stack"
 
 export LANG=en_US.UTF-8
+export EDITOR=vim
 
 export DPMS_STANDBY=180
 export DPMS_SUSPEND=360

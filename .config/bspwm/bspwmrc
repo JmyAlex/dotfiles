@@ -6,8 +6,15 @@ for monitor in $(bspc query -M); do
 	bspc monitor $monitor -d shell web chat dev games media
 done
 
-bspc config border_width        2
-bspc config window_gap          12
+desktop_config() {
+	bspc config $1 $2
+	for M in $(bspc query -M); do
+		bspc config -m $M $1 $2
+	done
+}
+
+desktop_config border_width 	2
+desktop_config window_gap 		12
 bspc config split_ratio         0.52
 
 bspc config borderless_monocle  true
@@ -28,10 +35,15 @@ bspc rule -a Nautilus floating=on
 bspc rule -a Skype desktop=^3 floating=on
 bspc rule -a transmission-gtk desktop=^6 follow=on floating=on
 bspc rule -a feh floating=on
-bspc rule -a Steam desktop=^5 fullscreen=on
+bspc rule -a Steam desktop=^5 floating=on
+
+if [ -e "$BSPWM_TREE" ] ; then
+    bspc restore -T "$BSPWM_TREE" -H "$BSPWM_HISTORY" -S "$BSPWM_STACK"
+    rm "$BSPWM_TREE" "$BSPWM_HISTORY" "$BSPWM_STACK"
+fi
 
 bspwm_colors
 reloadpanel
 reloadwallpaper
 
-compton -b
+compton &
