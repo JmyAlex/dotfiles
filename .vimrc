@@ -60,6 +60,8 @@ let g:ctrlp_extensions = ['tag']
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 nnoremap <leader>. :CtrlPTag<cr>
 
+Bundle 'vim-scripts/scratch.vim'
+
 Bundle 'Gundo'
 map <leader>G :GundoToggle<CR>
 " open on the right so as not to compete with the nerdtree
@@ -96,7 +98,10 @@ vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "
 
 Bundle 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=1
+"let g:syntastic_auto_loc_list=1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_jump = 0
 let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'passive_filetypes': ['html', 'css', 'slim'] }
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
@@ -108,8 +113,26 @@ autocmd FileType gitcommit setlocal foldmethod=manual
 
 " }}}
 
+" _. Ruby {{{
+autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
+autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
+autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+
+" }}}
+
+" _. HTML {{{
+au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+
+" }}}
+
 " _. C/C++ {{{
 Bundle 'cscope.vim'
+augroup project
+    autocmd!
+    autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
+augroup END
 
 " }}}
 
@@ -224,6 +247,16 @@ set pastetoggle=<leader>p
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
+" Easier linewise reselection of what you just pasted.
+nnoremap <leader>V V`]
+
+" Keep the cursor in place while joining lines
+nnoremap J mzJ`z
+
+" Ranger
+nnoremap <leader>r :silent !ranger %:h<cr>:redraw!<cr>
+nnoremap <leader>R :silent !ranger<cr>:redraw!<cr>
+
 " }}}
 
 " Triggers {{{
@@ -282,13 +315,14 @@ set sidescrolloff=5
 set showcmd  " Show uncompleted commands in status bar
 set noshowmode  " Show the current mode
 set showfulltag  " When completing by tag, show the whole tag, not just the function name
-set history=100
+set history=1000
 set shiftround  " Remove unsed white spaces
 set ttyfast
 
 set splitbelow
 set splitright
 
+set textwidth=80
 set colorcolumn=+1
 set matchtime=3
 set title
@@ -297,16 +331,16 @@ set title
 "set visualbell
 
 " White characters {{{
-set autoindent  " Копирует отступ от предыдущей строки
+set autoindent
 set smartindent
 
-set tabstop=4  " Размер табуляции
+set tabstop=4
 set softtabstop=4
-set shiftwidth=4  " Размер сдвига при нажатии на клавиши < и >
+set shiftwidth=4
 set smarttab
-"set expandtab
+set expandtab
 
-set nowrap  " Отключить перенос строк
+set nowrap
 
 " }}}
 
@@ -394,6 +428,9 @@ set gdefault
 " clear search matching
 noremap <leader><space> :noh<cr>:call clearmatches()<cr>
 
+" Don't jump when using * for search
+nnoremap * *<c-o>
+
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -401,9 +438,24 @@ nnoremap N Nzzzv
 " Same when jumping around
 nnoremap g; g;zz
 nnoremap g, g,zz
+nnoremap <c-o> <c-o>zz
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>? :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+
+" Visual Mode */# from Scrooloose {{{
+
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+
+" }}}
 
 " Highlight word {{{
 nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
@@ -419,18 +471,15 @@ nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
 
 " Navigation & UI {{{
 
-" Keep search matches in the middle of the window.
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
-" Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
-nnoremap <c-o> <c-o>zz
-
 " Begining & End of line in Normal mode
 noremap H ^
 noremap L g_
+
+" more natural movement with wrap on
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
 
 " Easy splitted window navigation
 noremap <C-h> <C-w>h
@@ -464,6 +513,58 @@ vnoremap <leader>s :!sort<cr>
 nnoremap <leader>( :tabprev<cr>
 nnoremap <leader>) :tabnext<cr>
 
+" Jumping to tags.
+"
+" Basically, <c-]> jumps to tags (like normal) and <c-\> opens the tag in a new
+" split instead.
+"
+" Both of them will align the destination line to the upper middle part of the
+" screen.  Both will pulse the cursor line so you can see where the hell you
+" are.  <c-\> will also fold everything in the buffer and then unfold just
+" enough for you to see the destination line.
+function! JumpToTag()
+    execute "normal! \<c-]>mzzvzz15\<c-e>"
+    execute "keepjumps normal! `z"
+    Pulse
+endfunction
+function! JumpToTagInSplit()
+    execute "normal! \<c-w>v\<c-]>mzzMzvzz15\<c-e>"
+    execute "keepjumps normal! `z"
+    Pulse
+endfunction
+nnoremap <c-]> :silent! call JumpToTag()<cr>
+nnoremap <c-\> :silent! call JumpToTagInSplit()<cr>
+
+" gi already moves to "last place you exited insert mode", so we'll map gI to
+" something similar: move to last change
+nnoremap gI `.
+
+" "Uppercase word" mapping.
+"
+" This mapping allows you to press <c-u> in insert mode to convert the current
+" word to uppercase.  It's handy when you're writing names of constants and
+" don't want to use Capslock.
+"
+" To use it you type the name of the constant in lowercase.  While your
+" cursor is at the end of the word, press <c-u> to uppercase it, and then
+" continue happily on your way:
+"
+"                            cursor
+"                            v
+"     max_connections_allowed|
+"     <c-u>
+"     MAX_CONNECTIONS_ALLOWED|
+"                            ^
+"                            cursor
+"
+" It works by exiting out of insert mode, recording the current cursor location
+" in the z mark, using gUiw to uppercase inside the current word, moving back to
+" the z mark, and entering insert mode again.
+"
+" Note that this will overwrite the contents of the z mark.  I never use it, but
+" if you do you'll probably want to use another mark.
+inoremap <C-u> <esc>mzgUiw`za
+
 " }}}
 
 " . folding {{{
@@ -490,6 +591,19 @@ nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
 nnoremap <leader>es <C-w>s<C-w>j:e ~/.vim/snippets/<cr>
 nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
 nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
+
+" --------------------
+
+set ofu=syntaxcomplete#Complete
+let g:rubycomplete_buffer_loading = 0
+let g:rubycomplete_classes_in_global = 1
+
+" showmarks
+let g:showmarks_enable = 1
+hi! link ShowMarksHLl LineNr
+hi! link ShowMarksHLu LineNr
+hi! link ShowMarksHLo LineNr
+hi! link ShowMarksHLm LineNr
 
 " }}}
 
@@ -525,6 +639,16 @@ augroup END
 
 " GUI {{{
 if has("gui_running")
+    " Remove all the UI cruft
+    set go-=m
+    set go-=T
+    set go-=l
+    set go-=L
+    set go-=r
+    set go-=R
+
+    highlight SpellBad term=underline gui=undercurl guisp=Orange
+
 	" Set up the gui cursor to look nice
 	set guicursor=n-v-c:block-Cursor-blinkon0
 	set guicursor+=ve:ver35-Cursor
@@ -540,7 +664,7 @@ if has("gui_running")
 	set guifont=CosmicSansNeueMono\ 14
 
 	set lines=60
-	set columns=100 
+	set columns=100
 endif
 "
 " }}}
@@ -618,5 +742,115 @@ function! MyFoldText() " {{{
     return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
+
+" Scratch {{{
+command! ScratchToggle call ScratchToggle()
+
+function! ScratchToggle()
+    if exists("w:is_scratch_window")
+        unlet w:is_scratch_window
+        exec "q"
+    else
+        exec "normal! :Sscratch\<cr>\<C-W>J:resize 13\<cr>"
+        let w:is_scratch_window = 1
+    endif
+endfunction
+
+nnoremap <silent> <leader><tab> :ScratchToggle<cr>
+
+" }}}
+
+" Indent Guides {{{
+
+let g:indentguides_state = 0
+function! IndentGuides() " {{{
+    if g:indentguides_state
+        let g:indentguides_state = 0
+        2match None
+    else
+        let g:indentguides_state = 1
+        execute '2match IndentGuides /\%(\_^\s*\)\@<=\%(\%'.(0*&sw+1).'v\|\%'.(1*&sw+1).'v\|\%'.(2*&sw+1).'v\|\%'.(3*&sw+1).'v\|\%'.(4*&sw+1).'v\|\%'.(5*&sw+1).'v\|\%'.(6*&sw+1).'v\|\%'.(7*&sw+1).'v\)\s/'
+    endif
+endfunction " }}}
+hi def IndentGuides guibg=#303030 ctermbg=234
+nnoremap <leader>I :call IndentGuides()<cr>
+
+" }}}
+
+" Block Colors {{{
+
+let g:blockcolor_state = 0
+function! BlockColor() " {{{
+    if g:blockcolor_state
+        let g:blockcolor_state = 0
+        call matchdelete(77881)
+        call matchdelete(77882)
+        call matchdelete(77883)
+        call matchdelete(77884)
+        call matchdelete(77885)
+        call matchdelete(77886)
+    else
+        let g:blockcolor_state = 1
+        call matchadd("BlockColor1", '^ \{4}.*', 1, 77881)
+        call matchadd("BlockColor2", '^ \{8}.*', 2, 77882)
+        call matchadd("BlockColor3", '^ \{12}.*', 3, 77883)
+        call matchadd("BlockColor4", '^ \{16}.*', 4, 77884)
+        call matchadd("BlockColor5", '^ \{20}.*', 5, 77885)
+        call matchadd("BlockColor6", '^ \{24}.*', 6, 77886)
+    endif
+endfunction " }}}
+" Default highlights {{{
+hi def BlockColor1 guibg=#222222 ctermbg=234
+hi def BlockColor2 guibg=#2a2a2a ctermbg=235
+hi def BlockColor3 guibg=#353535 ctermbg=236
+hi def BlockColor4 guibg=#3d3d3d ctermbg=237
+hi def BlockColor5 guibg=#444444 ctermbg=238
+hi def BlockColor6 guibg=#4a4a4a ctermbg=239
+" }}}
+nnoremap <leader>B :call BlockColor()<cr>
+
+" }}}
+
+" Pulse Line {{{
+
+function! s:Pulse() " {{{
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
+
+    let steps = 8
+    let width = 1
+    let start = width
+    let end = steps * width
+    let color = 233
+
+    for i in range(start, end, width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+    for i in range(end, start, -1 * width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+
+    execute 'hi ' . old_hi
+endfunction " }}}
+command! -nargs=0 Pulse call s:Pulse()
+
+" }}}
+
+" }}}
+
+" TEXT OBJECTS {{{
+
+" Shortcut for [] motion
+onoremap ir i[
+onoremap ar a[
+vnoremap ir i[
+vnoremap ar a[
 
 " }}}
