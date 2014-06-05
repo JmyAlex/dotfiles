@@ -7,11 +7,6 @@ Xft.autohint:	true
 Xft.hintstyle:	hintfull
 Xft.lcdfilter:  lcddefault
 
-!URxvt.font:					xft:Inconsolata for Powerline:size=14:antialias=true:hinting=true:hintsyle=hintslight  
-!URxvt.boldFont:             xft:Inconsolata for Powerline:size=14:antialias=true:hinting=true:hintsyle=hintslight  
-!URxvt.italicFont:           xft:Inconsolata for Powerline:size=14:antialias=true:hinting=true:hintsyle=hintslight  
-!URxvt.boldItalicFont:       xft:Inconsolata for Powerline:size=14:antialias=true:hinting=true:hintsyle=hintslight  
-
 Xcursor.theme:              dmz-aa
 ! Cursor
 URxvt.cursorBlink: 			true
@@ -39,28 +34,21 @@ urxvt.urlLauncher:			/usr/bin/firefox
 urxvt.matcher.button:		1
 
 !URxvt.url-select.launcher:  web_browser
-!URxvt.perl-ext-common:      font-size,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
+URxvt.perl-ext-common:      font-size,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things
 
-!*foreground:				#c5c8c6
-!*background:				#1d1f21
-!*cursorColor:				#aeafad
-!*color0:					#000000
-!*color1:					#912226
-!*color2:					#778900
-!*color3:					#ae7b00
-!*color4:					#1d2594
-!*color5:					#682a9b
-!*color6:					#2b6651
-!*color7:					#929593
-!*color8:					#666666
-!*color9:					#cc6666
-!*color10:					#b5bd68
-!*color11:					#f0c674
-!*color12:					#81a2be
-!*color13:					#b294bb
-!*color14:					#8abeb7
-!*color15:					#ecebec
-
+URxvt.keysym.M-slash: perl:aAtt:complete
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.keysym:M-s: perl:keyboard-select:search
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.C-Up: perl:font-size:increase
+URxvt.keysym.C-Down: perl:font-size:decrease
+URxvt.keysym.S-Up: command:\033]720;1\007
+URxvt.keysym.S-Down: command:\033]721;1\007
+URxvt.keysym.C-Return: command:\033[?25t
+URxvt.keysym.C-Tab: command:\033[?47t
 
 ! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
 ! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim

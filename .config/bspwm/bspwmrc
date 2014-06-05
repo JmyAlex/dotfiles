@@ -46,4 +46,4 @@ bspwm_colors
 reloadpanel
 reloadwallpaper
 
-compton &
+#compton &
