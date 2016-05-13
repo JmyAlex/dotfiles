@@ -4,13 +4,79 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;; *) return;;
+    *i*) ;;
+      *) return;;
 esac
 
+
+## GENERAL OPTIONS ##
+
+# Prevent file overwrite on stdout redirection
+# Use `>|` to force redirection to an existing file
+set -o noclobber
+
+# Update window size after every command
 shopt -s checkwinsize
+
+# Automatically trim long paths in the prompt (requires Bash 4.x)
+PROMPT_DIRTRIM=2
+
+# Enable history expansion with space
+# E.g. typing !!<space> will replace the !! with your last command
+bind Space:magic-space
+
+# Turn on recursive globbing (enables ** to recurse all directories)
+shopt -s globstar 2> /dev/null
+
 shopt -s no_empty_cmd_completion
-shopt -s histappend cmdhist
-shopt -s globstar
+
+## SANE HISTORY DEFAULTS ##
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# Save multi-line commands as one command
+shopt -s cmdhist
+
+## SANE HISTORY DEFAULTS ##
+
+# Avoid duplicate entries
+export HISTCONTROL="erasedups:ignoreboth"
+export HISTSIZE=5000
+export HISTFILESIZE=10000
+
+# Don't record some commands
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+
+# Useful timestamp format
+HISTTIMEFORMAT='%F %T '
+
+## BETTER DIRECTORY NAVIGATION ##
+
+# Prepend cd to directory names automatically
+shopt -s autocd 2> /dev/null
+# Correct spelling errors during tab-completion
+shopt -s dirspell 2> /dev/null
+# Correct spelling errors in arguments supplied to cd
+shopt -s cdspell 2> /dev/null
+
+# This defines where cd looks for targets
+# Add the directories you want to have fast access to, separated by colon
+# Ex: CDPATH=".:~:~/projects" will look for targets in the current working
+# directory, in home and in the ~/projects folder
+CDPATH="."
+
+# This allows you to bookmark your favorite places across the file system
+# Define a variable containing a path and you will be able to cd into it
+# regardless of the directory you're in
+#shopt -s cdable_vars
+
+# Examples:
+# export dotfiles="$HOME/dotfiles"
+# export projects="$HOME/projects"
+# export documents="$HOME/Documents"
+# export dropbox="$HOME/Dropbox"
+
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -40,8 +106,9 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
+
 if [ "$color_prompt" = yes ]; then
-    PS1="${debian_chroot:+($debian_chroot)}\[\033[00;38;5;37m\][\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00;38;5;37m\]]\[\033[00m\]\`if [ \$? = 0 ]; then echo \[\e[33m\]$; else echo \[\e[31m\]$; fi \` \[\033[00m\]"
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -49,7 +116,7 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*|screen*)
+xterm*|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
@@ -82,14 +149,15 @@ fi
 [ -e "$SHELL_FUNCTIONS" ] && . "$SHELL_FUNCTIONS"
 
 . $HOME/Github/z/z.sh
+export TERM=screen-256color
+export PAGER=less
 
-#Start tmux on every shell login
-#[[ $- != *i* ]] && return
-#[[ -z "$TMUX" ]] && exec tmux
+#hexdump -v -e '"0x%03_ax" "," "0x" 1/1 "%02X\n"' ./eeprom/MT7662E2_EEPROM_20130903_ePA.bin | grep -v ",0xFF" > 1.csv
 
-# TMUX
-#if which tmux 2>&1 >/dev/null; then
-    #if not inside a tmux session, and if no session is started, start a new session
-    #test -z "$TMUX" && (tmux attach || tmux new-session)
-#fi
+export PATH=~/bin:/sbin:/usr/sbin:/opt/sublime_text:$PATH
+export HH_CONFIG=hicolor
 
+replace_ccache()
+{
+	grep -rl '/opt/buildroot-gcc463/usr/bin' config linux-2.6.36.x/drivers/net | xargs sed -i "s#/opt/buildroot-gcc463/usr/bin#${HOME}/ccache_dir#"
+}

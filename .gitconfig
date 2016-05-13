@@ -27,10 +27,11 @@
 #	untracked = cyan
 
 [commit]
-	template = ~/.git-commit-template
+	;template = ~/.git-commit-template
 
 [diff]
     tool = vimdiff
+	renameLimit = 0
 
 [alias]
 	#add
@@ -153,6 +154,7 @@
 
 [merge]
 	tool = splice
+	renameLimit = 0
 
 [mergetool "splice"]
 	cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"

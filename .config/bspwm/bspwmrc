@@ -2,30 +2,37 @@
 
 #bspc monitor -d shell web chat dev games media
 
-for monitor in $(bspc query -M); do
-	bspc monitor $monitor -d shell web chat dev games media
-done
+#for monitor in $(bspc query -M); do
+	#bspc monitor $monitor -d shell web chat dev games media
+#done
 
-desktop_config() {
-	bspc config $1 $2
-	for M in $(bspc query -M); do
-		bspc config -m $M $1 $2
-	done
-}
+#desktop_config() {
+	#bspc config $1 $2
+	#for M in $(bspc query -M); do
+		#bspc config -m $M $1 $2
+	#done
+#}
+
+sxhkd &
 
 desktop_config border_width 	2
 desktop_config window_gap 		12
 bspc config split_ratio         0.52
 
-bspc config borderless_monocle  true
-bspc config gapless_monocle     true
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+bspc config focus_by_distance    true
+bspc config history_aware_focus  true
 
-bspc config apply_floating_atom    true
-bspc config history_aware_focus    true
-bspc config ignore_ewmh_focus      true
+#bspc config borderless_monocle  true
+#bspc config gapless_monocle     true
+
+#bspc config apply_floating_atom    true
+#bspc config history_aware_focus    true
+#bspc config ignore_ewmh_focus      true
 
 #bspc config focus_follows_pointer true
-bspc config auto_alternate true
+#bspc config auto_alternate true
 #bspc config auto_cancel true
 
 bspc rule -a Firefox desktop=^2
@@ -37,13 +44,13 @@ bspc rule -a transmission-gtk desktop=^6 follow=on floating=on
 bspc rule -a feh floating=on
 bspc rule -a Steam desktop=^5 floating=on
 
-if [ -e "$BSPWM_TREE" ] ; then
-    bspc restore -T "$BSPWM_TREE" -H "$BSPWM_HISTORY" -S "$BSPWM_STACK"
-    rm "$BSPWM_TREE" "$BSPWM_HISTORY" "$BSPWM_STACK"
-fi
+#if [ -e "$BSPWM_TREE" ] ; then
+    #bspc restore -T "$BSPWM_TREE" -H "$BSPWM_HISTORY" -S "$BSPWM_STACK"
+    #rm "$BSPWM_TREE" "$BSPWM_HISTORY" "$BSPWM_STACK"
+#fi
 
-bspwm_colors
-reloadpanel
-reloadwallpaper
+#bspwm_colors
+#reloadpanel
+#reloadwallpaper
 
 #compton &

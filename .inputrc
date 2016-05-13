@@ -9,6 +9,8 @@ set output-meta                 on
 # commands (i.e. more intelligent Up/Down behavior)
 "\e[B": history-search-forward
 "\e[A": history-search-backward
+"\e[C": forward-char
+"\e[D": backward-char
 
 set skip-completed-text on
 set show-all-if-ambiguous on

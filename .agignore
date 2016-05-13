@@ -1,0 +1,15 @@
+tags
+cscope.out
+*.orig*
+*.tmp*
+*.csv
+*.old
+*.json
+*.xml
+*.html
+*.plist
+*.pdf
+*.md
+*.log
+*.txt*
+*.patch
