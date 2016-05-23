@@ -9,20 +9,24 @@ let mapleader = ","
 let maplocalleader = "\\"
 
 " VUNDLE {{{
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " }}}
 
 " PACKAGES {{{
 
 " _. General {{{
-Bundle "mileszs/ack.vim"
-nnoremap <leader>a :Ack!<space>
-nnoremap <leader>A :Ack! <C-R>=expand("<cword>")<CR><CR>
-let g:ackprg = 'ack-grep --smart-case --nogroup --nocolor --column'
+"Bundle "mileszs/ack.vim"
+"nnoremap <leader>a :Ack!<space>
+"nnoremap <leader>A :Ack! <C-R>=expand("<cword>")<CR><CR>
+"let g:ackprg = 'ack-grep --smart-case --nogroup --nocolor --column'
+
+Bundle 'rking/ag.vim'
+nnoremap <leader>a :Ag -i<space>
+nnoremap <leader>A :Ag -i<space><C-R>=expand("<cword>")<CR><CR>
 
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-repeat'
@@ -128,11 +132,18 @@ au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expan
 " }}}
 
 " _. C/C++ {{{
-Bundle 'cscope.vim'
+"Bundle 'cscope.vim'
+
 augroup project
     autocmd!
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
 augroup END
+
+"Bundle 'Valloric/YouCompleteMe'
+"let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+"let g:ycm_add_preview_to_completeopt = 0
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " }}}
 
@@ -141,15 +152,6 @@ Bundle 'w0ng/vim-hybrid'
 Bundle 'sjl/badwolf'
 Bundle 'zaiste/Atom'
 Bundle 'chriskempson/vim-tomorrow-theme'
-if &term == "linux"
-	set t_Co=16
-	colorscheme desert
-else
-	set t_Co=256
-	set background=dark
-	let g:hybrid_use_Xresources = 1
-	colorscheme hybrid
-endif
 
 " }}}
 
@@ -158,17 +160,35 @@ endif
 "set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim
 set laststatus=2
 Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme = 'tomorrow'
 let g:airline#themes#tomorrow#constant = 1
-Bundle 'edkolev/tmuxline.vim'
-let g:tmuxline_preset = {
-      \'a'    : '#S',
-      \'win'  : ['#I', '#W'],
-      \'cwin' : ['#I', '#W'],
-      \'y'    : ['%b %d', '%R']}
+"Bundle 'edkolev/tmuxline.vim'
+"let g:tmuxline_preset = {
+      "\'a'    : '#S',
+      "\'win'  : ['#I', '#W'],
+      "\'cwin' : ['#I', '#W'],
+      "\'y'    : ['%b %d', '%R']}
+
+Bundle 'mhinz/vim-startify'
+let g:startify_change_to_dir = 0
+let g:startify_files_number = 8
+let g:startify_enable_special = 0
+let g:startify_bookmarks = ['~/.vimrc','~/.tmux.conf',]
+let g:startify_skiplist = ['vimrc','tmux.conf',]
+let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
+
 
 " }}}
 
@@ -196,6 +216,7 @@ map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
 " }}}
 
 " General {{{
+call vundle#end()            " required
 filetype plugin indent on
 
 syntax on
@@ -210,7 +231,7 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 map Y y$
 " Yank content in OS's clipboard. `o` stands for "OS's Clipoard".
 vnoremap <leader>yo "+y
-" " Paste content from OS's clipboard
+" Paste content from OS's clipboard
 nnoremap <leader>po "+p
 
 " clear highlight after search
@@ -256,6 +277,17 @@ nnoremap J mzJ`z
 " Ranger
 nnoremap <leader>r :silent !ranger %:h<cr>:redraw!<cr>
 nnoremap <leader>R :silent !ranger<cr>:redraw!<cr>
+
+nnoremap <silent> <leader>T :call GenerateTags()<cr>
+
+" Indent/dedent/autoindent what you just pasted.
+nnoremap <lt>> V`]<
+nnoremap ><lt> V`]>
+nnoremap =- V`]=
+
+" Split line (sister to [J]oin lines)
+" The normal use of S is covered by cc, so don't worry about shadowing it.
+nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 
 " }}}
 
@@ -322,8 +354,8 @@ set ttyfast
 set splitbelow
 set splitright
 
-set textwidth=80
-set colorcolumn=+1
+"set textwidth=80
+"set colorcolumn=+1
 set matchtime=3
 set title
 
@@ -338,9 +370,19 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set smarttab
-set expandtab
+set noexpandtab
 
-set nowrap
+set wrap
+
+if &term == "linux"
+	set t_Co=16
+	colorscheme desert
+else
+	set t_Co=256
+	set background=dark
+	let g:hybrid_use_Xresources = 1
+	colorscheme hybrid
+endif
 
 " }}}
 
@@ -382,6 +424,17 @@ set undodir=~/.vim/tmp/undo// " undo files
 set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap// " swap files
 
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
 " _ }}}
 
 " Don't redraw while executing macros
@@ -389,7 +442,8 @@ set nolazyredraw
 
 " Better Completion
 set complete=.,w,b,u,t
-set completeopt=menuone,menu,longest,preview
+"set completeopt=menuone,menu,longest,preview
+set completeopt=menuone,menu,longest
 
 "--------------------------
 
@@ -457,6 +511,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 " }}}
 
+nnoremap <silent> <leader>7 :call HiSpaces()<cr>
+
 " Highlight word {{{
 nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
 nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
@@ -513,6 +569,26 @@ vnoremap <leader>s :!sort<cr>
 nnoremap <leader>( :tabprev<cr>
 nnoremap <leader>) :tabnext<cr>
 
+" Kill window
+nnoremap K :q<cr>
+
+" Wrap
+nnoremap <leader>W :set wrap!<cr>
+
+" Inserting blank lines
+" I never use the default behavior of <cr> and this saves me a keystroke...
+"nnoremap <cr> o<esc>
+
+" Reselect last-pasted text
+nnoremap gp `[v`]
+
+" Select entire buffer
+"nnoremap vaa ggvGg_
+"nnoremap Vaa ggVG
+
+" Diffoff
+nnoremap <leader>D :diffoff!<cr>
+
 " Jumping to tags.
 "
 " Basically, <c-]> jumps to tags (like normal) and <c-\> opens the tag in a new
@@ -522,18 +598,18 @@ nnoremap <leader>) :tabnext<cr>
 " screen.  Both will pulse the cursor line so you can see where the hell you
 " are.  <c-\> will also fold everything in the buffer and then unfold just
 " enough for you to see the destination line.
-function! JumpToTag()
-    execute "normal! \<c-]>mzzvzz15\<c-e>"
-    execute "keepjumps normal! `z"
-    Pulse
-endfunction
-function! JumpToTagInSplit()
-    execute "normal! \<c-w>v\<c-]>mzzMzvzz15\<c-e>"
-    execute "keepjumps normal! `z"
-    Pulse
-endfunction
-nnoremap <c-]> :silent! call JumpToTag()<cr>
-nnoremap <c-\> :silent! call JumpToTagInSplit()<cr>
+"function! JumpToTag()
+	"execute "normal! \<c-]>mzzvzz15\<c-e>"
+	"execute "keepjumps normal! `z"
+	"Pulse
+"endfunction
+"function! JumpToTagInSplit()
+	"execute "normal! \<c-w>v\<c-]>mzzMzvzz15\<c-e>"
+	"execute "keepjumps normal! `z"
+	"Pulse
+"endfunction
+"nnoremap <c-]> :silent! call JumpToTag()<cr>
+"nnoremap <c-\> :silent! call JumpToTagInSplit()<cr>
 
 " gi already moves to "last place you exited insert mode", so we'll map gI to
 " something similar: move to last change
@@ -661,7 +737,7 @@ if has("gui_running")
     colorscheme hybrid
 	let g:airline#themes#tomorrow#constant = 0
 
-	set guifont=CosmicSansNeueMono\ 14
+	set guifont=FantasqueSansMono\ 13
 
 	set lines=60
 	set columns=100
@@ -680,6 +756,42 @@ augroup END
 " }}}
 
 " EXTENSIONS {{{
+
+" Generate tags {{{
+
+function! GenerateTags() " {{{
+	:silent !find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
+	:silent cs add ./cscope.out
+	redraw!
+endfunction
+
+" }}}
+
+" Highlight whitespaces {{{
+
+hi def ExtraWhitespace ctermbg=red guibg=red
+
+function! HiSpaces() " {{{
+" Save our location.
+    normal! mz
+
+" Calculate an arbitrary match ID. Hopefully nothing else is using it.
+    let mid = 86758
+
+" Clear existing matches, but don't worry if they don't exist.
+    silent! call matchdelete(mid)
+
+" Construct a literal pattern that has to match at boundaries.
+    let pat = '\(\s\+$\| \+\ze\t\|\t\zs \+\)\(\%#\)\@!'
+
+" Actually match the words.
+    call matchadd("ExtraWhitespace", pat, 1, mid)
+
+" Move back to our original location.
+    normal! `z
+endfunction " }}}
+
+" }}}
 
 " Highlight Word {{{
 "

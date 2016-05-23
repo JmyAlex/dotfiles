@@ -26,6 +26,10 @@ declare -a MY_STUFF=(
 	xclip
 	tree
 	wmctrl
+	mc
+	ssh
+	fortune
+	cowsay
 )
 
 declare -a DEV_PACK=(
@@ -114,15 +118,27 @@ sudo dpkg-reconfigure wireshark-common
 sudo usermod -a -G wireshark jeremy
 sudo usermod -a -G dialout jeremy
 
+sudo dpkg-reconfigure dash
+
 cat <<-EOF
 TODO ...
 	Install font
 	Add hdd to fstab
 	Copy compilers
+	dash -> bash
+	configure dhcp server
+	sudo update-alternatives --install /usr/bin/make make /usr/bin/make3.8 10
+	sudo update-alternatives --install /usr/bin/make make /usr/bin/make4.1 20
+	sudo update-alternatives --config make
+	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
+	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20
+	sudo update-alternatives --config gcc
 EOF
 
-
-
 #atftpd config
-#USE_INETD=false
-#OPTIONS="--tftpd-timeout 300 --retry-timeout 5 --daemon --no-multicast --maxthread 100 --verbose=5 /srv/tftp"
+sudo mv /etc/default/atftpd /etc/default/atftpd.backup
+
+sudo bash -c 'cat >>"/etc/default/atftpd" <<-EOF
+USE_INETD=false
+OPTIONS="--tftpd-timeout 300 --retry-timeout 5 --daemon --no-multicast --maxthread 100 --verbose=5 /srv/tftp"
+EOF'
