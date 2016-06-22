@@ -46,6 +46,19 @@ let NERDTreeChDirMode = 2
 set guioptions-=r
 set guioptions-=L
 
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+"let g:NERDTreeIndicatorMapCustom = {
+    "\ "Modified"  : "✹ ",
+    "\ "Staged"    : "✚ ",
+    "\ "Untracked" : "✭ ",
+    "\ "Renamed"   : "➜ ",
+    "\ "Unmerged"  : "═ ",
+    "\ "Deleted"   : "✖ ",
+    "\ "Dirty"     : "✗ ",
+    "\ "Clean"     : "✔︎ ",
+    "\ "Unknown"   : "? "
+    "\ }
+
 Bundle 'vim-scripts/YankRing.vim'
 let g:yankring_replace_n_pkey = '<leader>['
 let g:yankring_replace_n_nkey = '<leader>]'
@@ -53,7 +66,8 @@ let g:yankring_replace_n_nkey = '<leader>]'
 nmap <leader>y :YRShow<cr>
 
 Bundle 'Spaceghost/vim-matchit'
-Bundle 'ctrlp.vim'
+"Bundle 'ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_jump_to_buffer = 0
 let g:ctrlp_match_window_reversed = 1
@@ -213,6 +227,8 @@ map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
 
 " }}}
 
+"Plugin 'ryanoasis/vim-devicons'
+
 " }}}
 
 " General {{{
@@ -227,6 +243,18 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " }}}
 
 " Mappings {{{
+
+" You want to be part of the gurus? Time to get in serious stuff and stop using
+" arrow keys.
+noremap <left> <nop>
+noremap <up> <nop>
+noremap <down> <nop>
+noremap <right> <nop>
+
+" Disable Ex mode and macro
+noremap Q <nop>
+noremap q <nop>
+
 " Yank from current cursor position to end of line
 map Y y$
 " Yank content in OS's clipboard. `o` stands for "OS's Clipoard".
@@ -380,8 +408,12 @@ if &term == "linux"
 else
 	set t_Co=256
 	set background=dark
-	let g:hybrid_use_Xresources = 1
-	colorscheme hybrid
+	let g:hybrid_custom_term_colors = 1
+	try
+		colorscheme hybrid
+	catch /:E185:/
+		" Silently ignore if colorscheme not found.
+	endtry
 endif
 
 " }}}
@@ -454,7 +486,7 @@ set imsearch=0 " Latin charset by default in search mode
 set iskeyword=@,48-57,_,192-255
 
 "Encodings
-"set encoding=utf-8
+set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,cp1251,koi8-r,cp866
 " Меню смены кодировок

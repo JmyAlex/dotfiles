@@ -49,6 +49,7 @@ declare -a DEV_PACK=(
 	tcllib
 	expect
 	unifdef
+	pkg-config
 )
 
 # update / upgrade
@@ -142,3 +143,8 @@ sudo bash -c 'cat >>"/etc/default/atftpd" <<-EOF
 USE_INETD=false
 OPTIONS="--tftpd-timeout 300 --retry-timeout 5 --daemon --no-multicast --maxthread 100 --verbose=5 /srv/tftp"
 EOF'
+
+sudo ln -s /srv/tftp /tftpboot
+sudo chmod 777 /tftpboot
+
+mkdir -p ~/.vim/tmp/{undo,backup,swap}
