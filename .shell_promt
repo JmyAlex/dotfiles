@@ -1,117 +1,7 @@
 #!/bin/bash
 
-#------------------------------------------------------------------------
-
-#GIT_BRANCH_SYMBOL='⑂ '
 GIT_BRANCH_SYMBOL=' '
-GIT_BRANCH_CHANGED_SYMBOL='+'
-GIT_NEED_PUSH_SYMBOL='⇡'
-GIT_NEED_PULL_SYMBOL='⇣'
 PROMPT_SYMBOL='❯'
-
-git_branch()
-{
-	[ -z "$(which git)" ] && return # no git command found
-
-	# try to get current branch or or SHA1 hash for detached head
-	local branch="$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)"
-	[ -z "$branch" ] && return # not a git branch
-
-	local marks
-
-	# branch is modified
-	#[ -n "$(git status --porcelain)" ] && marks+=" $GIT_BRANCH_CHANGED_SYMBOL"
-
-	# print the git branch segment without a trailing newline
-	printf "${cBorder}|${cGit}$GIT_BRANCH_SYMBOL$branch$marks"
-}
-
-#------------------------------------------------------------------------
-
-get_fill_size()
-{
-	local fillsize
-	local promtsize
-	local width
-
-	let promptsize=$(echo -n "┌─|$user@$host:${newPWD}${gitbranch}||${load})|${datenow}|${jobsnow}|─┐" \
-		| wc -m | tr -d " ")
-
-	width=$(tput cols)
-
-	#bull shit
-	if [[ $gitbranch != "" ]]
-	then
-		let promptsize=${promptsize}-25
-	fi
-
-	if [ `id -u` -eq 0 ]
-	then
-		let fillsize=${width}-${promptsize}+1
-	else
-		let fillsize=${width}-${promptsize}-1
-	fi
-
-	echo $fillsize
-}
-
-do_fill()
-{
-	while [ "$fillsize" -gt "0" ]
-	do
-		fill="${fill}─"
-		let fillsize=${fillsize}-1
-	done
-}
-
-# Code for a cool Prompt
-pre_prompt()
-{
-	exitStatus="$?"
-	history -a; #history -n
-	newPWD="${PWD/#$HOME/\~}"
-	user="$(whoami)"
-	host=$(echo -n $HOSTNAME | sed -e "s/[\.].*//")
-	datenow="$(date "+%H:%M")"
-	load="$(load_show)"
-	jobsnow="$(jobs_show)"
-	gitbranch="$(git_branch)"
-
-	fillsize=$(get_fill_size)
-	fill=""
-
-	do_fill
-
-	if [ "$fillsize" -lt "0" ]
-	then
-		#let cutt=3-${fillsize}
-		#newPWD="...$(echo -n $newPWD | sed -e "s/\(^.\{$cutt\}\)\(.*\)/\2/")"
-		newPWD=$(sed "s:\([^/]\)[^/]*/:\1/:g" <<<$newPWD)
-		fillsize=$(get_fill_size)
-		do_fill
-	fi
-
-	if [ "${exitStatus}" -eq 0 ]
-	then 
-		promt_color=$'\[\033[00;38;5;10m\]'
-	else
-		promt_color=$'\[\033[00;38;5;9m\]'
-	fi
-	
-	fillsize=$(get_fill_size)
-
-	if [ "$fillsize" -lt "0" ]
-	then
-		PS1="${promt_color}▶ ${cBorder}"
-		return
-	fi
-
-	PS1="${cBorder}┌─|${cUser}${user}${cDivider}@\
-${cHost}${host}${cBorder}:${cPwd}\$newPWD${gitbranch}${cBorder}|─\${fill}─|\
-\$(load_color)${load}${cBorder}|${cDate}${datenow}\
-${cBorder}|\$(job_color)${jobsnow}${cBorder}\
-${cBorder}|─┐\n${cBorder}└${promt_color}\\$ ${cBorder}"
-}
 
 promt_generator()
 {
@@ -140,12 +30,12 @@ promt_generator()
     fi
 
     #append current path
-    PS1+='echo -n "'${cPwd}'\W";'
+    PS1+='echo -n "'$BLDBLU'\W";'
 
     #append git branch
     if type -p git>/dev/null; then
         PS1+='__GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null);'
-        PS1+='[[ -n "$__GIT_BRANCH" ]] && echo -n " '${cGit}'${GIT_BRANCH_SYMBOL}${__GIT_BRANCH}";'
+        PS1+='[[ -n "$__GIT_BRANCH" ]] && echo -n " '$TXTYLW'${GIT_BRANCH_SYMBOL}${__GIT_BRANCH}";'
         PS1+='unset __GIT_BRANCH;'
     fi
 

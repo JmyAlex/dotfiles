@@ -143,7 +143,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-[ -e "$SHELL_COLORS" ] && . "$SHELL_COLORS"
 [ -e "$SHELL_PROMT" ] && . "$SHELL_PROMT"
 [ -e "$SHELL_ALIASES" ] && . "$SHELL_ALIASES"
 [ -e "$SHELL_FUNCTIONS" ] && . "$SHELL_FUNCTIONS"

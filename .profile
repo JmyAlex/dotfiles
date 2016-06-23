@@ -16,13 +16,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
-export BSPWM_SOCKET="/tmp/bspwm-socket"
-export PANEL_FIFO=/tmp/panel-fifo
-
-export BSPWM_TREE="$XDG_DATA_HOME/bspwm.tree"
-export BSPWM_HISTORY="$XDG_DATA_HOME/bspwm.history"
-export BSPWM_STACK="$XDG_DATA_HOME/bspwm.stack"
-
 export LANG=en_US.UTF-8
 export EDITOR=vim
 
@@ -30,7 +23,6 @@ export DPMS_STANDBY=180
 export DPMS_SUSPEND=360
 export DPMS_OFF=480
 
-export SHELL_COLORS="$HOME/.shell_colors"
 export SHELL_PROMT="$HOME/.shell_promt"
 export SHELL_ALIASES="$HOME/.shell_aliases"
 export SHELL_FUNCTIONS="$HOME/.shell_functions"
