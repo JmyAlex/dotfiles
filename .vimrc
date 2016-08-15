@@ -380,7 +380,7 @@ set shiftround  " Remove unsed white spaces
 set ttyfast
 
 set splitbelow
-set splitright
+"set splitright
 
 "set textwidth=80
 "set colorcolumn=+1

@@ -30,6 +30,8 @@ declare -a MY_STUFF=(
 	ssh
 	fortune
 	cowsay
+	highlight
+	atool
 )
 
 declare -a DEV_PACK=(
@@ -50,6 +52,7 @@ declare -a DEV_PACK=(
 	expect
 	unifdef
 	pkg-config
+	vlan
 )
 
 # update / upgrade
@@ -67,7 +70,7 @@ sudo apt-get install -y ${DEV_PACK[@]}
 
 echo "Configuration..."
 
-cd && mkdir Github && cd Github 
+cd && mkdir Github && cd Github
 
 echo "Clonning github repos..."
 
@@ -115,7 +118,7 @@ vim +PluginInstall +qall
 
 cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
 
-sudo dpkg-reconfigure wireshark-common 
+sudo dpkg-reconfigure wireshark-common
 sudo usermod -a -G wireshark jeremy
 sudo usermod -a -G dialout jeremy
 
