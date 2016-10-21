@@ -160,3 +160,5 @@ replace_ccache()
 {
 	grep -rl '/opt/buildroot-gcc463/usr/bin' config linux-2.6.36.x/drivers/net | xargs sed -i "s#/opt/buildroot-gcc463/usr/bin#${HOME}/ccache_dir#"
 }
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -389,6 +389,7 @@ set title
 
 "set autochdir
 "set visualbell
+set shell=/bin/bash
 
 " White characters {{{
 set autoindent
@@ -398,7 +399,7 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set smarttab
-set noexpandtab
+set expandtab
 
 set wrap
 
