@@ -19,11 +19,6 @@ Plugin 'VundleVim/Vundle.vim'
 " PACKAGES {{{
 
 " _. General {{{
-"Bundle "mileszs/ack.vim"
-"nnoremap <leader>a :Ack!<space>
-"nnoremap <leader>A :Ack! <C-R>=expand("<cword>")<CR><CR>
-"let g:ackprg = 'ack-grep --smart-case --nogroup --nocolor --column'
-
 Bundle 'rking/ag.vim'
 nnoremap <leader>a :Ag -i<space>
 nnoremap <leader>A :Ag -i<space><C-R>=expand("<cword>")<CR><CR>
@@ -171,7 +166,6 @@ Bundle 'chriskempson/vim-tomorrow-theme'
 
 " _. Fancy {{{
 "Powerline
-"set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim
 set laststatus=2
 Bundle 'bling/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
@@ -456,17 +450,6 @@ set undoreload=10000
 set undodir=~/.vim/tmp/undo// " undo files
 set backupdir=~/.vim/tmp/backup// " backups
 set directory=~/.vim/tmp/swap// " swap files
-
-" Make those folders automatically if they don't already exist.
-if !isdirectory(expand(&undodir))
-    call mkdir(expand(&undodir), "p")
-endif
-if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), "p")
-endif
-if !isdirectory(expand(&directory))
-    call mkdir(expand(&directory), "p")
-endif
 
 " _ }}}
 
