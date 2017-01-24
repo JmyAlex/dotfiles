@@ -100,8 +100,6 @@ let g:Gitv_WrapLines = 0
 let g:Gitv_TruncateCommitSubjects = 1
 let g:Gitv_OpenPreviewOnLaunch = 1
 
-Bundle 'sjl/splice.vim'
-
 Bundle 'tpope/vim-fugitive'
 nmap <leader>g :Ggrep
 " ,f for global git serach for word under the cursor (with highlight)
@@ -141,18 +139,10 @@ au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expan
 " }}}
 
 " _. C/C++ {{{
-"Bundle 'cscope.vim'
-
 augroup project
     autocmd!
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
 augroup END
-
-"Bundle 'Valloric/YouCompleteMe'
-"let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-"let g:ycm_add_preview_to_completeopt = 0
-"let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " }}}
 
@@ -473,12 +463,6 @@ set iskeyword=@,48-57,_,192-255
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,cp1251,koi8-r,cp866
-" Меню смены кодировок
-menu Encoding.utf-8 :e ++enc=utf8 <CR>
-menu Encoding.windows-1251 :e ++enc=cp1251<CR>
-menu Encoding.koi8-r :e ++enc=koi8-r<CR>
-menu Encoding.cp866 :e ++enc=cp866<CR>
-map <F6> :emenu Encoding.<TAB>
 
 " }}}
 
@@ -713,19 +697,6 @@ augroup END
 " }}}
 
 " Garbage {{{
-" autocomplete parenthesis, brackets and braces
-"inoremap ( ()<Left>
-"inoremap [ []<Left>
-"inoremap { {}<Left>
-
-"vnoremap ( s()<Esc>P<Right>%
-"vnoremap [ s[]<Esc>P<Right>%
-"vnoremap { s{}<Esc>P<Right>%
-
-" autocomplete quotes (visual and select mode)
-"xnoremap  '  s''<Esc>P<Right>
-"xnoremap  \"  s""<Esc>P<Right>
-"xnoremap  `  s``<Esc>P<Right>
 
 " }}}
 

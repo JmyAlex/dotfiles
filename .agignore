@@ -13,3 +13,4 @@ cscope.out
 *.log
 *.txt*
 *.patch
+*.o
