@@ -20,8 +20,8 @@ Plugin 'VundleVim/Vundle.vim'
 
 " _. General {{{
 Bundle 'rking/ag.vim'
-nnoremap <leader>a :Ag -i<space>
-nnoremap <leader>A :Ag -i<space><C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>a :Ag <space>
+nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-repeat'
@@ -61,26 +61,31 @@ let g:yankring_replace_n_nkey = '<leader>]'
 nmap <leader>y :YRShow<cr>
 
 Bundle 'Spaceghost/vim-matchit'
-"Bundle 'ctrlp.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_split_window = 0
-let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = ['tag']
 
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-nnoremap <leader>. :CtrlPTag<cr>
+Plugin 'junegunn/fzf.vim'
+set rtp+=/home/jeremy/Github/fzf/
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+nnoremap <c-p> :Files<cr>
+nnoremap <leader>G :Buffers<cr><cr>
+nnoremap <leader>. :Tags<cr>
+imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+imap <C-x><C-l> <plug>(fzf-complete-line)
+let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
 
 Bundle 'vim-scripts/scratch.vim'
-
-Bundle 'Gundo'
-map <leader>G :GundoToggle<CR>
-" open on the right so as not to compete with the nerdtree
-let g:gundo_right = 1
-
-Bundle 'EasyMotion'
 
 " }}}
 
