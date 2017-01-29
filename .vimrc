@@ -19,19 +19,19 @@ Plugin 'VundleVim/Vundle.vim'
 " PACKAGES {{{
 
 " _. General {{{
-Bundle 'rking/ag.vim'
+Plugin 'rking/ag.vim'
 nnoremap <leader>a :Ag <space>
 nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-speeddating'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'maxbrunsfeld/vim-yankstack'
-Bundle 'tpope/vim-eunuch'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-repeat'
+"Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'tpope/vim-eunuch'
 
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
@@ -54,13 +54,13 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
     "\ "Unknown"   : "? "
     "\ }
 
-Bundle 'vim-scripts/YankRing.vim'
+Plugin 'vim-scripts/YankRing.vim'
 let g:yankring_replace_n_pkey = '<leader>['
 let g:yankring_replace_n_nkey = '<leader>]'
 "let g:yankring_history_dir = '~/.vim/tmp/'
 nmap <leader>y :YRShow<cr>
 
-Bundle 'Spaceghost/vim-matchit'
+Plugin 'Spaceghost/vim-matchit'
 
 Plugin 'junegunn/fzf.vim'
 set rtp+=/home/jeremy/Github/fzf/
@@ -85,34 +85,34 @@ imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
 
-Bundle 'vim-scripts/scratch.vim'
+Plugin 'vim-scripts/scratch.vim'
 
 " }}}
 
 " _. Coding {{{
-Bundle 'Tagbar'
+Plugin 'Tagbar'
 nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 nmap <leader># :call NERDComment(0, "invert")<cr>
 vmap <leader># :call NERDComment(0, "invert")<cr>
 
-Bundle 'gregsexton/gitv'
+Plugin 'gregsexton/gitv'
 let g:Gitv_DoNotMapCtrlKey = 0
 let g:Gitv_OpenHorizontal = 1
 let g:Gitv_WrapLines = 0
 let g:Gitv_TruncateCommitSubjects = 1
 let g:Gitv_OpenPreviewOnLaunch = 1
 
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 nmap <leader>g :Ggrep
 " ,f for global git serach for word under the cursor (with highlight)
 nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
 " same in visual mode
 vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 "let g:syntastic_auto_loc_list=1
 let g:syntastic_check_on_open = 0
@@ -122,7 +122,7 @@ let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'pa
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 
-Bundle 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
 
 autocmd FileType gitcommit set tw=68 spell
 autocmd FileType gitcommit setlocal foldmethod=manual
@@ -152,18 +152,18 @@ augroup END
 " }}}
 
 " _. Color {{{
-Bundle 'w0ng/vim-hybrid'
-Bundle 'sjl/badwolf'
-Bundle 'zaiste/Atom'
-Bundle 'chriskempson/vim-tomorrow-theme'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'sjl/badwolf'
+Plugin 'zaiste/Atom'
+Plugin 'chriskempson/vim-tomorrow-theme'
 
 " }}}
 
 " _. Fancy {{{
 "Powerline
 set laststatus=2
-Bundle 'bling/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -177,14 +177,14 @@ let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme = 'tomorrow'
 let g:airline#themes#tomorrow#constant = 1
-"Bundle 'edkolev/tmuxline.vim'
+"Plugin 'edkolev/tmuxline.vim'
 "let g:tmuxline_preset = {
       "\'a'    : '#S',
       "\'win'  : ['#I', '#W'],
       "\'cwin' : ['#I', '#W'],
       "\'y'    : ['%b %d', '%R']}
 
-Bundle 'mhinz/vim-startify'
+Plugin 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
 let g:startify_enable_special = 0
@@ -196,7 +196,7 @@ let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"  
 " }}}
 
 " _. Indent {{{
-"Bundle 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
 "set list lcs=tab:\|\
 "let g:indentLine_color_term = 111
 "let g:indentLine_color_gui = '#DADADA'
@@ -207,8 +207,8 @@ let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"  
 " }}}
 
 " _. OS {{{
-Bundle 'zaiste/tmux.vim'
-Bundle 'benmills/vimux'
+Plugin 'zaiste/tmux.vim'
+Plugin 'benmills/vimux'
 map <Leader>rp :VimuxPromptCommand<CR>
 map <Leader>rl :VimuxRunLastCommand<CR>
 
