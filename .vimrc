@@ -218,6 +218,8 @@ map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
 
 "Plugin 'ryanoasis/vim-devicons'
 
+Plugin 'dag/vim-fish'
+
 " }}}
 
 " General {{{

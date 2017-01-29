@@ -1,3 +1,7 @@
+set -g Z_SCRIPT_PATH "/home/jeremy/Github/z/z.sh"
+
+set fish_greeting ""
+
 function ...
     cd ../..
 end
