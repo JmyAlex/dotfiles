@@ -14,8 +14,6 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-" }}}
-
 " PACKAGES {{{
 
 " _. General {{{
@@ -25,11 +23,10 @@ nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-repeat'
-"Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'tpope/vim-eunuch'
+Plugin 'maxbrunsfeld/vim-yankstack'
 
 Plugin 'scrooloose/nerdtree'
 nmap <C-n> :NERDTreeToggle<CR>
@@ -98,13 +95,6 @@ Plugin 'scrooloose/nerdcommenter'
 nmap <leader># :call NERDComment(0, "invert")<cr>
 vmap <leader># :call NERDComment(0, "invert")<cr>
 
-Plugin 'gregsexton/gitv'
-let g:Gitv_DoNotMapCtrlKey = 0
-let g:Gitv_OpenHorizontal = 1
-let g:Gitv_WrapLines = 0
-let g:Gitv_TruncateCommitSubjects = 1
-let g:Gitv_OpenPreviewOnLaunch = 1
-
 Plugin 'tpope/vim-fugitive'
 nmap <leader>g :Ggrep
 " ,f for global git serach for word under the cursor (with highlight)
@@ -114,7 +104,7 @@ vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "
 
 Plugin 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
-"let g:syntastic_auto_loc_list=1
+let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_auto_jump = 0
@@ -156,6 +146,7 @@ Plugin 'w0ng/vim-hybrid'
 Plugin 'sjl/badwolf'
 Plugin 'zaiste/Atom'
 Plugin 'chriskempson/vim-tomorrow-theme'
+Plugin 'joshdick/onedark.vim'
 
 " }}}
 
@@ -175,14 +166,7 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#right_sep = ''
 let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline_theme = 'tomorrow'
-let g:airline#themes#tomorrow#constant = 1
-"Plugin 'edkolev/tmuxline.vim'
-"let g:tmuxline_preset = {
-      "\'a'    : '#S',
-      "\'win'  : ['#I', '#W'],
-      "\'cwin' : ['#I', '#W'],
-      "\'y'    : ['%b %d', '%R']}
+let g:airline_theme = 'onedark'
 
 Plugin 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
@@ -195,35 +179,17 @@ let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"  
 
 " }}}
 
-" _. Indent {{{
-"Plugin 'Yggdroot/indentLine'
-"set list lcs=tab:\|\
-"let g:indentLine_color_term = 111
-"let g:indentLine_color_gui = '#DADADA'
-"let g:indentLine_char = 'c'
-"let g:indentLine_char = '∙▹¦'
-"let g:indentLine_char = '∙'
-
-" }}}
-
-" _. OS {{{
-Plugin 'zaiste/tmux.vim'
-Plugin 'benmills/vimux'
-map <Leader>rp :VimuxPromptCommand<CR>
-map <Leader>rl :VimuxRunLastCommand<CR>
-
-map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
-
-" }}}
-
 "Plugin 'ryanoasis/vim-devicons'
 
-Plugin 'dag/vim-fish'
+Plugin 'vim-scripts/TagHighlight'
+Plugin 'sheerun/vim-polyglot'
 
+" }}}
+
+call vundle#end()            " required
 " }}}
 
 " General {{{
-call vundle#end()            " required
 filetype plugin indent on
 
 syntax on
@@ -328,11 +294,11 @@ autocmd! BufWritePost vimrc source ~/.vimrc
 
 " Make sure Vim returns to the same line when you reopen a file.
 augroup line_return
-	au!
-	au BufReadPost *
-		\ if line("'\"") > 0 && line("'\"") <= line("$") |
-		\     execute 'normal! g`"zvzz' |
-		\ endif
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
 augroup END
 
 " }}}
@@ -340,9 +306,9 @@ augroup END
 " Trailing whitespace {{{
 " Only shown when not in insert mode so I don't go insane.
 augroup trailing
-	au!
-	au InsertEnter * :set listchars-=trail:␣
-	au InsertLeave * :set listchars+=trail:␣
+    au!
+    au InsertEnter * :set listchars-=trail:␣
+    au InsertLeave * :set listchars+=trail:␣
 augroup END
 
 " Remove trailing whitespaces when saving
@@ -369,9 +335,7 @@ set showfulltag  " When completing by tag, show the whole tag, not just the func
 set history=1000
 set shiftround  " Remove unsed white spaces
 set ttyfast
-
-set splitbelow
-"set splitright
+set modelines=0
 
 "set textwidth=80
 "set colorcolumn=+1
@@ -381,6 +345,29 @@ set title
 "set autochdir
 "set visualbell
 set shell=/bin/bash
+set wrap
+
+" Colorscheme {{{
+if (has("termguicolors"))
+    set termguicolors
+endif
+
+if &term == "linux"
+    set t_Co=16
+    colorscheme desert
+else
+    "set t_Co=256
+    "set background=dark
+    "set term=xterm-256color
+    "let g:hybrid_custom_term_colors = 1
+    try
+        colorscheme onedark
+    catch /:E185:/
+        " Silently ignore if colorscheme not found.
+    endtry
+endif
+
+" }}}
 
 " White characters {{{
 set autoindent
@@ -391,22 +378,6 @@ set softtabstop=4
 set shiftwidth=4
 set smarttab
 set expandtab
-
-set wrap
-
-if &term == "linux"
-	set t_Co=16
-	colorscheme desert
-else
-	set t_Co=256
-	set background=dark
-	let g:hybrid_custom_term_colors = 1
-	try
-		colorscheme hybrid
-	catch /:E185:/
-		" Silently ignore if colorscheme not found.
-	endtry
-endif
 
 " }}}
 
@@ -455,16 +426,9 @@ set nolazyredraw
 
 " Better Completion
 set complete=.,w,b,u,t
-"set completeopt=menuone,menu,longest,preview
-set completeopt=menuone,menu,longest
+set completeopt=menuone,menu,longest,preview
 
 "--------------------------
-
-"Russian language
-set keymap=russian-jcukenwin "Switch keys
-set iminsert=0 " Latin charset by default
-set imsearch=0 " Latin charset by default in search mode
-set iskeyword=@,48-57,_,192-255
 
 "Encodings
 set encoding=utf-8
@@ -582,41 +546,11 @@ nnoremap K :q<cr>
 " Wrap
 nnoremap <leader>W :set wrap!<cr>
 
-" Inserting blank lines
-" I never use the default behavior of <cr> and this saves me a keystroke...
-"nnoremap <cr> o<esc>
-
 " Reselect last-pasted text
 nnoremap gp `[v`]
 
-" Select entire buffer
-"nnoremap vaa ggvGg_
-"nnoremap Vaa ggVG
-
 " Diffoff
 nnoremap <leader>D :diffoff!<cr>
-
-" Jumping to tags.
-"
-" Basically, <c-]> jumps to tags (like normal) and <c-\> opens the tag in a new
-" split instead.
-"
-" Both of them will align the destination line to the upper middle part of the
-" screen.  Both will pulse the cursor line so you can see where the hell you
-" are.  <c-\> will also fold everything in the buffer and then unfold just
-" enough for you to see the destination line.
-"function! JumpToTag()
-	"execute "normal! \<c-]>mzzvzz15\<c-e>"
-	"execute "keepjumps normal! `z"
-	"Pulse
-"endfunction
-"function! JumpToTagInSplit()
-	"execute "normal! \<c-w>v\<c-]>mzzMzvzz15\<c-e>"
-	"execute "keepjumps normal! `z"
-	"Pulse
-"endfunction
-"nnoremap <c-]> :silent! call JumpToTag()<cr>
-"nnoremap <c-\> :silent! call JumpToTagInSplit()<cr>
 
 " gi already moves to "last place you exited insert mode", so we'll map gI to
 " something similar: move to last change
@@ -651,7 +585,7 @@ inoremap <C-u> <esc>mzgUiw`za
 " }}}
 
 " . folding {{{
-set foldenable
+set nofoldenable
 set foldmethod=syntax
 set foldlevelstart=0
 
@@ -676,17 +610,6 @@ nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
 nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
 
 " --------------------
-
-set ofu=syntaxcomplete#Complete
-let g:rubycomplete_buffer_loading = 0
-let g:rubycomplete_classes_in_global = 1
-
-" showmarks
-let g:showmarks_enable = 1
-hi! link ShowMarksHLl LineNr
-hi! link ShowMarksHLu LineNr
-hi! link ShowMarksHLo LineNr
-hi! link ShowMarksHLm LineNr
 
 " }}}
 
@@ -719,22 +642,21 @@ if has("gui_running")
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 
-	" Set up the gui cursor to look nice
-	set guicursor=n-v-c:block-Cursor-blinkon0
-	set guicursor+=ve:ver35-Cursor
-	set guicursor+=o:hor50-Cursor
-	set guicursor+=i-ci:ver25-Cursor
-	set guicursor+=r-cr:hor20-Cursori
-	set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
+    " Set up the gui cursor to look nice
+    set guicursor=n-v-c:block-Cursor-blinkon0
+    set guicursor+=ve:ver35-Cursor
+    set guicursor+=o:hor50-Cursor
+    set guicursor+=i-ci:ver25-Cursor
+    set guicursor+=r-cr:hor20-Cursori
+    set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
 
-	set background=dark
-    colorscheme hybrid
-	let g:airline#themes#tomorrow#constant = 0
+    set background=dark
+    colorscheme onedark
 
-	set guifont=FantasqueSansMono\ 13
+    set guifont=FantasqueSansMono\ 13
 
-	set lines=60
-	set columns=100
+    set lines=60
+    set columns=100
 endif
 "
 " }}}
@@ -746,6 +668,7 @@ augroup ft_vim
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    set foldenable
 augroup END
 " }}}
 
@@ -753,10 +676,10 @@ augroup END
 
 " Generate tags {{{
 
-function! GenerateTags() " {{{
-	:silent !find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
-	:silent cs add ./cscope.out
-	redraw!
+function! GenerateTags()
+    :silent !find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
+    :silent cs add ./cscope.out
+    redraw!
 endfunction
 
 " }}}
@@ -863,89 +786,6 @@ function! ScratchToggle()
 endfunction
 
 nnoremap <silent> <leader><tab> :ScratchToggle<cr>
-
-" }}}
-
-" Indent Guides {{{
-
-let g:indentguides_state = 0
-function! IndentGuides() " {{{
-    if g:indentguides_state
-        let g:indentguides_state = 0
-        2match None
-    else
-        let g:indentguides_state = 1
-        execute '2match IndentGuides /\%(\_^\s*\)\@<=\%(\%'.(0*&sw+1).'v\|\%'.(1*&sw+1).'v\|\%'.(2*&sw+1).'v\|\%'.(3*&sw+1).'v\|\%'.(4*&sw+1).'v\|\%'.(5*&sw+1).'v\|\%'.(6*&sw+1).'v\|\%'.(7*&sw+1).'v\)\s/'
-    endif
-endfunction " }}}
-hi def IndentGuides guibg=#303030 ctermbg=234
-nnoremap <leader>I :call IndentGuides()<cr>
-
-" }}}
-
-" Block Colors {{{
-
-let g:blockcolor_state = 0
-function! BlockColor() " {{{
-    if g:blockcolor_state
-        let g:blockcolor_state = 0
-        call matchdelete(77881)
-        call matchdelete(77882)
-        call matchdelete(77883)
-        call matchdelete(77884)
-        call matchdelete(77885)
-        call matchdelete(77886)
-    else
-        let g:blockcolor_state = 1
-        call matchadd("BlockColor1", '^ \{4}.*', 1, 77881)
-        call matchadd("BlockColor2", '^ \{8}.*', 2, 77882)
-        call matchadd("BlockColor3", '^ \{12}.*', 3, 77883)
-        call matchadd("BlockColor4", '^ \{16}.*', 4, 77884)
-        call matchadd("BlockColor5", '^ \{20}.*', 5, 77885)
-        call matchadd("BlockColor6", '^ \{24}.*', 6, 77886)
-    endif
-endfunction " }}}
-" Default highlights {{{
-hi def BlockColor1 guibg=#222222 ctermbg=234
-hi def BlockColor2 guibg=#2a2a2a ctermbg=235
-hi def BlockColor3 guibg=#353535 ctermbg=236
-hi def BlockColor4 guibg=#3d3d3d ctermbg=237
-hi def BlockColor5 guibg=#444444 ctermbg=238
-hi def BlockColor6 guibg=#4a4a4a ctermbg=239
-" }}}
-nnoremap <leader>B :call BlockColor()<cr>
-
-" }}}
-
-" Pulse Line {{{
-
-function! s:Pulse() " {{{
-    redir => old_hi
-        silent execute 'hi CursorLine'
-    redir END
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    let steps = 8
-    let width = 1
-    let start = width
-    let end = steps * width
-    let color = 233
-
-    for i in range(start, end, width)
-        execute "hi CursorLine ctermbg=" . (color + i)
-        redraw
-        sleep 6m
-    endfor
-    for i in range(end, start, -1 * width)
-        execute "hi CursorLine ctermbg=" . (color + i)
-        redraw
-        sleep 6m
-    endfor
-
-    execute 'hi ' . old_hi
-endfunction " }}}
-command! -nargs=0 Pulse call s:Pulse()
 
 " }}}
 
