@@ -62,25 +62,26 @@ Plugin 'Spaceghost/vim-matchit'
 Plugin 'junegunn/fzf.vim'
 set rtp+=/home/jeremy/Github/fzf/
 " Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+"let g:fzf_colors =
+"\ { 'fg':      ['fg', 'Normal'],
+  "\ 'bg':      ['bg', 'Normal'],
+  "\ 'hl':      ['fg', 'Comment'],
+  "\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  "\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  "\ 'hl+':     ['fg', 'Statement'],
+  "\ 'info':    ['fg', 'PreProc'],
+  "\ 'prompt':  ['fg', 'Conditional'],
+  "\ 'pointer': ['fg', 'Exception'],
+  "\ 'marker':  ['fg', 'Keyword'],
+  "\ 'spinner': ['fg', 'Label'],
+  "\ 'header':  ['fg', 'Comment'] }
 nnoremap <c-p> :Files<cr>
 nnoremap <leader>G :Buffers<cr><cr>
 nnoremap <leader>. :Tags<cr>
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
+let g:fzf_prefer_tmux = 1
 
 Plugin 'vim-scripts/scratch.vim'
 
@@ -90,6 +91,7 @@ Plugin 'vim-scripts/scratch.vim'
 Plugin 'Tagbar'
 nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
+autocmd FileType tagbar setlocal nocursorline nocursorcolumn
 
 Plugin 'scrooloose/nerdcommenter'
 nmap <leader># :call NERDComment(0, "invert")<cr>
@@ -147,6 +149,8 @@ Plugin 'sjl/badwolf'
 Plugin 'zaiste/Atom'
 Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'joshdick/onedark.vim'
+let g:onedark_terminal_italics = 1
+Plugin 'sheerun/vim-polyglot'
 
 " }}}
 
@@ -176,13 +180,11 @@ let g:startify_bookmarks = ['~/.vimrc','~/.tmux.conf',]
 let g:startify_skiplist = ['vimrc','tmux.conf',]
 let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
-
 " }}}
 
 "Plugin 'ryanoasis/vim-devicons'
 
 Plugin 'vim-scripts/TagHighlight'
-Plugin 'sheerun/vim-polyglot'
 
 " }}}
 
@@ -346,6 +348,7 @@ set title
 "set visualbell
 set shell=/bin/bash
 set wrap
+set relativenumber
 
 " Colorscheme {{{
 if (has("termguicolors"))
@@ -586,8 +589,8 @@ inoremap <C-u> <esc>mzgUiw`za
 
 " . folding {{{
 set nofoldenable
-set foldmethod=syntax
-set foldlevelstart=0
+"set foldmethod=syntax
+"set foldlevelstart=0
 
 " Space to toggle folds.
 nnoremap <space> za
