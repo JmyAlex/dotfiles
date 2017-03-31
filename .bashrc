@@ -148,7 +148,7 @@ fi
 [ -e "$SHELL_FUNCTIONS" ] && . "$SHELL_FUNCTIONS"
 
 . $HOME/Github/z/z.sh
-export TERM=screen-256color
+export TERM=xterm-256color
 export PAGER=less
 
 #hexdump -v -e '"0x%03_ax" "," "0x" 1/1 "%02X\n"' ./eeprom/MT7662E2_EEPROM_20130903_ePA.bin | grep -v ",0xFF" > 1.csv

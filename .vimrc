@@ -184,8 +184,6 @@ let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"  
 
 "Plugin 'ryanoasis/vim-devicons'
 
-Plugin 'vim-scripts/TagHighlight'
-
 " }}}
 
 call vundle#end()            " required
