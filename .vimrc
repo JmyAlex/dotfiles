@@ -38,7 +38,7 @@ let NERDTreeChDirMode = 2
 set guioptions-=r
 set guioptions-=L
 
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
 "let g:NERDTreeIndicatorMapCustom = {
     "\ "Modified"  : "✹ ",
     "\ "Staged"    : "✚ ",
@@ -76,7 +76,7 @@ set rtp+=/home/jeremy/Github/fzf/
   "\ 'spinner': ['fg', 'Label'],
   "\ 'header':  ['fg', 'Comment'] }
 nnoremap <c-p> :Files<cr>
-nnoremap <leader>G :Buffers<cr><cr>
+nnoremap <leader>b :Buffers<cr><cr>
 nnoremap <leader>. :Tags<cr>
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
