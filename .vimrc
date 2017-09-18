@@ -8,26 +8,23 @@ filetype off
 let mapleader = ","
 let maplocalleader = "\\"
 
-" VUNDLE {{{
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
+" vim-plug {{{
+call plug#begin('~/.vim/plugged')
 
 " PACKAGES {{{
 
 " _. General {{{
-Plugin 'rking/ag.vim'
+Plug 'rking/ag.vim'
 nnoremap <leader>a :Ag <space>
 nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-eunuch'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-eunuch'
 
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
@@ -37,54 +34,41 @@ let NERDTreeChDirMode = 2
 set guioptions-=r
 set guioptions-=L
 
-Plugin 'Spaceghost/vim-matchit'
+Plug 'Spaceghost/vim-matchit'
 
-Plugin 'junegunn/fzf.vim'
-set rtp+=/home/jeremy/Github/fzf/
-" Customize fzf colors to match your color scheme
-"let g:fzf_colors =
-"\ { 'fg':      ['fg', 'Normal'],
-  "\ 'bg':      ['bg', 'Normal'],
-  "\ 'hl':      ['fg', 'Comment'],
-  "\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  "\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  "\ 'hl+':     ['fg', 'Statement'],
-  "\ 'info':    ['fg', 'PreProc'],
-  "\ 'prompt':  ['fg', 'Conditional'],
-  "\ 'pointer': ['fg', 'Exception'],
-  "\ 'marker':  ['fg', 'Keyword'],
-  "\ 'spinner': ['fg', 'Label'],
-  "\ 'header':  ['fg', 'Comment'] }
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 nnoremap <c-p> :Files<cr>
-nnoremap <leader>b :Buffers<cr><cr>
+nnoremap <leader>B :Buffers<cr><cr>
 nnoremap <leader>. :Tags<cr>
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
-let g:fzf_prefer_tmux = 1
+"let g:fzf_prefer_tmux = 1
 
-Plugin 'vim-scripts/scratch.vim'
+Plug 'vim-scripts/scratch.vim'
 
 " }}}
 
 " _. Coding {{{
-Plugin 'Tagbar'
+Plug 'majutsushi/tagbar'
 nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 autocmd FileType tagbar setlocal nocursorline nocursorcolumn
 
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 nmap <leader># :call NERDComment(0, "invert")<cr>
 vmap <leader># :call NERDComment(0, "invert")<cr>
 
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 nmap <leader>g :Ggrep
 " ,f for global git serach for word under the cursor (with highlight)
 nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
 " same in visual mode
 vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=0
 let g:syntastic_check_on_open = 0
@@ -94,7 +78,7 @@ let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'pa
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 
-Plugin 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
 autocmd FileType gitcommit set tw=68 spell
 autocmd FileType gitcommit setlocal foldmethod=manual
@@ -124,21 +108,21 @@ augroup END
 " }}}
 
 " _. Color {{{
-Plugin 'w0ng/vim-hybrid'
-Plugin 'sjl/badwolf'
-Plugin 'zaiste/Atom'
-Plugin 'chriskempson/vim-tomorrow-theme'
-Plugin 'joshdick/onedark.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'sjl/badwolf'
+Plug 'zaiste/Atom'
+Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'joshdick/onedark.vim'
 let g:onedark_terminal_italics = 1
-Plugin 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 
 " }}}
 
 " _. Fancy {{{
 "Powerline
 set laststatus=2
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
@@ -152,7 +136,7 @@ let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme = 'onedark'
 
-Plugin 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
 let g:startify_enable_special = 0
@@ -164,7 +148,8 @@ let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"  
 
 " }}}
 
-call vundle#end()            " required
+" Initialize plugin system
+call plug#end()
 " }}}
 
 " General {{{
