@@ -1,0 +1,24 @@
+diff --git a/colors/onedark.vim b/colors/onedark.vim
+index fea934e..0af2b7a 100644
+--- a/colors/onedark.vim
++++ b/colors/onedark.vim
+@@ -230,6 +230,19 @@ call s:h("WildMenu", { "fg": s:black, "bg": s:blue }) " current match in 'wildme
+ " +--------------------------------+
+ " | Language-Specific Highlighting |
+ " +--------------------------------+
++" C
++call s:h("cStructure", { "fg": s:purple })
++call s:h("cOperator", { "fg": s:purple })
++call s:h("cType", { "fg": s:purple })
++call s:h("cInclude", { "fg": s:purple })
++call s:h("cSpecialCharacter", { "fg": s:cyan })
++call s:h("cSpecial", { "fg": s:cyan })
++call s:h("cFormat", { "fg": s:dark_yellow })
++call s:h("cConstant", { "fg": s:dark_yellow})
++call s:h("cCustomMemVar", { "fg": s:red})
++call s:h("cOperatorChars", { "fg": s:purple })
++call s:h("ModeMsg", { "fg": s:purple })
++"call s:h("ErrorMsg", { "fg": s:purple })
+ 
+ " CSS
+ call s:h("cssAttrComma", { "fg": s:purple })
