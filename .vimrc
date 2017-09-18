@@ -26,7 +26,6 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-eunuch'
-Plugin 'maxbrunsfeld/vim-yankstack'
 
 Plugin 'scrooloose/nerdtree'
 nmap <C-n> :NERDTreeToggle<CR>
@@ -37,25 +36,6 @@ let NERDTreeChDirMode = 2
 " Disable the scrollbars (NERDTree)
 set guioptions-=r
 set guioptions-=L
-
-"Plugin 'Xuyuanp/nerdtree-git-plugin'
-"let g:NERDTreeIndicatorMapCustom = {
-    "\ "Modified"  : "✹ ",
-    "\ "Staged"    : "✚ ",
-    "\ "Untracked" : "✭ ",
-    "\ "Renamed"   : "➜ ",
-    "\ "Unmerged"  : "═ ",
-    "\ "Deleted"   : "✖ ",
-    "\ "Dirty"     : "✗ ",
-    "\ "Clean"     : "✔︎ ",
-    "\ "Unknown"   : "? "
-    "\ }
-
-Plugin 'vim-scripts/YankRing.vim'
-let g:yankring_replace_n_pkey = '<leader>['
-let g:yankring_replace_n_nkey = '<leader>]'
-"let g:yankring_history_dir = '~/.vim/tmp/'
-nmap <leader>y :YRShow<cr>
 
 Plugin 'Spaceghost/vim-matchit'
 
@@ -181,8 +161,6 @@ let g:startify_skiplist = ['vimrc','tmux.conf',]
 let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
 " }}}
-
-"Plugin 'ryanoasis/vim-devicons'
 
 " }}}
 
