@@ -4,55 +4,56 @@
 set -e
 
 declare -a MY_STUFF=(
-	wireshark
-	vlc
-	cscope
-	exuberant-ctags
-	iperf
-	rxvt-unicode-256color
-	ranger
-	vim-gnome
-	tmux
-	silversearcher-ag
-	htop
-	minicom
-	isc-dhcp-server
-	atftpd
-	subversion
-	git
-	git-svn
-	meld
-	xsel
-	xclip
-	tree
-	wmctrl
-	mc
-	ssh
-	fortune
-	cowsay
-	highlight
-	atool
+    wireshark
+    vlc
+    cscope
+    exuberant-ctags
+    iperf
+    rxvt-unicode-256color
+    ranger
+    vim-gnome
+    tmux
+    silversearcher-ag
+    htop
+    minicom
+    isc-dhcp-server
+    atftpd
+    subversion
+    git
+    git-svn
+    meld
+    xsel
+    xclip
+    tree
+    wmctrl
+    mc
+    ssh
+    fortune
+    cowsay
+    highlight
+    atool
+    curl
 )
 
 declare -a DEV_PACK=(
-	bison
-	build-essential
-	fakeroot
-	gettext
-	gperf
-	libncurses5
-	libncurses5-dev
-	make
-	texinfo
-	zlib1g-dev
-	gawk
-	flex
-	doxygen
-	tcllib
-	expect
-	unifdef
-	pkg-config
-	vlan
+    bison
+    build-essential
+    fakeroot
+    gettext
+    gperf
+    libncurses5
+    libncurses5-dev
+    make
+    texinfo
+    zlib1g-dev
+    gawk
+    flex
+    doxygen
+    tcllib
+    expect
+    unifdef
+    pkg-config
+    vlan
 )
 
 # update / upgrade
@@ -77,8 +78,11 @@ echo "Clonning github repos..."
 git clone https://github.com/JmyAlex/dotfiles.git
 git clone https://github.com/rupa/z.git
 
+# tmux plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# vim plugins
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 #FIXME install font https://github.com/belluzj/fantasque-sans
 
@@ -114,7 +118,7 @@ cp -r ~/Github/dotfiles/.urxvt ~/
 cp -r ~/Github/dotfiles/.config/mc ~/.config/
 cp -r ~/Github/dotfiles/.config/ranger ~/.config/
 
-vim +PluginInstall +qall
+vim +PlugInstall +PlugUpdate +qall
 
 cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
 
@@ -126,17 +130,17 @@ sudo dpkg-reconfigure dash
 
 cat <<-EOF
 TODO ...
-	Install font
-	Add hdd to fstab
-	Copy compilers
-	dash -> bash
-	configure dhcp server
-	sudo update-alternatives --install /usr/bin/make make /usr/bin/make3.8 10
-	sudo update-alternatives --install /usr/bin/make make /usr/bin/make4.1 20
-	sudo update-alternatives --config make
-	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
-	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20
-	sudo update-alternatives --config gcc
+    Install font
+    Add hdd to fstab
+    Copy compilers
+    dash -> bash
+    configure dhcp server
+    sudo update-alternatives --install /usr/bin/make make /usr/bin/make3.8 10
+    sudo update-alternatives --install /usr/bin/make make /usr/bin/make4.1 20
+    sudo update-alternatives --config make
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20
+    sudo update-alternatives --config gcc
 EOF
 
 #atftpd config
