@@ -14,7 +14,7 @@ call plug#begin('~/.vim/plugged')
 " PACKAGES {{{
 
 " _. General {{{
-Plug 'rking/ag.vim'
+"Plug 'rking/ag.vim'
 nnoremap <leader>a :Ag <space>
 nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 
