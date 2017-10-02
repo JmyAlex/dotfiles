@@ -1,23 +1,8 @@
 diff --git a/after/syntax/c.vim b/after/syntax/c.vim
-index aa4a31e..a25add1 100644
+index 8cec90f..aa5e412 100644
 --- a/after/syntax/c.vim
 +++ b/after/syntax/c.vim
-@@ -25,6 +25,14 @@ syn match    cCustomFunc     "\w\+\s*(\@=" contains=cCustomParen
- hi def link cCustomFunc  Function
- 
- " -----------------------------------------------------------------------------
-+"  Highlight member variable names.
-+" -----------------------------------------------------------------------------
-+"syn match   cCustomDot    "\." contained
-+"syn match   cCustomPtr    "->" contained
-+"syn match   cCustomMemVar "\(\.\|->\)\w\+" contains=cCustomDot,cCustomPtr
-+"hi def link cCustomMemVar Function
-+
-+" -----------------------------------------------------------------------------
- "  Source: aftersyntaxc.vim
- " -----------------------------------------------------------------------------
- 
-@@ -264,13 +272,13 @@ hi def link cBoolean Boolean
+@@ -274,33 +274,33 @@ hi def link cBoolean Boolean
  " -----------------------------------------------------------------------------
  
  " Operators
@@ -37,4 +22,35 @@ index aa4a31e..a25add1 100644
 +syn match cOperator	"[][]"
  "
  "" Preprocs
- "syn keyword cDefined defined contained containedin=cDefine
+-"syn keyword cDefined defined contained containedin=cDefine
+-"hi def link cDefined cDefine
++syn keyword cDefined defined contained containedin=cDefine
++hi def link cDefined cDefine
+ 
+ "" Functions
+-"syn match cUserFunction "\<\h\w*\>\(\s\|\n\)*("me=e-1 contains=cType,cDelimiter,cDefine
+-"syn match cUserFunctionPointer "(\s*\*\s*\h\w*\s*)\(\s\|\n\)*(" contains=cDelimiter,cOperator
++syn match cUserFunction "\<\h\w*\>\(\s\|\n\)*("me=e-1 contains=cType,cDelimiter,cDefine
++syn match cUserFunctionPointer "(\s*\*\s*\h\w*\s*)\(\s\|\n\)*(" contains=cDelimiter,cOperator
+ "
+-"hi def link cUserFunction cFunction
+-"hi def link cUserFunctionPointer cFunction
++hi def link cUserFunction cFunction
++hi def link cUserFunctionPointer cFunction
+ "
+ "" Delimiters
+-"syn match cDelimiter    "[();\\]"
+-"" foldmethod=syntax fix, courtesy of Ivan Freitas
+-"syn match cBraces display "[{}]"
++syn match cDelimiter    "[();\\]"
++" foldmethod=syntax fix, courtesy of Ivan Freitas
++syn match cBraces display "[{}]"
+ 
+ " Links
+-"hi def link cDelimiter Delimiter
++hi def link cDelimiter Delimiter
+ " foldmethod=syntax fix, courtesy of Ivan Freitas
+-"hi def link cBraces Delimiter
++hi def link cBraces Delimiter
+ 
+ endif
