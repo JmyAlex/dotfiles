@@ -147,6 +147,9 @@ vim +PlugInstall +PlugUpdate +qall
 
 cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
 
+#install fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/Github/fzf && ~/Github/fzf/install
+
 #wireshark without sudo
 sudo dpkg-reconfigure wireshark-common
 sudo usermod -a -G wireshark jeremy
