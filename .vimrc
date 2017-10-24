@@ -30,6 +30,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDChristmasTree = 1
 let NERDTreeChDirMode = 2
+let NERDTreeIgnore=['\.o$', '\.so$', '\.a$', '\~$', '\.pyc$', '^\.gitignore$', '^\.DS_Store$', '^\.']
 " Disable the scrollbars (NERDTree)
 set guioptions-=r
 set guioptions-=L

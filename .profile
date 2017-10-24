@@ -8,15 +8,17 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-export HISTCONTROL=ignoreboth
-export HISTSIZE=1000
-export HISTFILESIZE=2000
-
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DOWNLOAD_DIR="$HOME/Downloads"
+export XDG_ETC_DIR="$HOME/etc"
+export XDG_BIN_DIR="$HOME/bin"
+export XDG_TMP_DIR="$HOME/tmp"
 
-export LANG=en_US.UTF-8
+export LANG="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 export EDITOR=vim
 
 export DPMS_STANDBY=180
@@ -39,7 +41,7 @@ export LESS_TERMCAP_ue=$'\e[0m'        # end underline
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+        . "$HOME/.bashrc"
     fi
 fi
 

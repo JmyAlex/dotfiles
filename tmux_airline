@@ -39,8 +39,8 @@ setw -g window-status-attr 'none'
 setw -g window-status-activity-attr 'none'
 setw -g window-status-separator ''
 
-set -g status-left "#[fg=$onedark_black,bg=$onedark_magenta,nobold] #S #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
-set -g status-right "#[fg=onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]#[fg=$onedark_black,bg=$onedark_green] %a %b %d #[fg=$onedark_black,bg=$onedark_black] #[fg=$onedark_black,bg=$onedark_cyan] %R "
+set -g status-left "#[fg=$onedark_black,bg=$onedark_magenta,nobold]   #S #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
+set -g status-right "#[fg=onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]#[fg=$onedark_black,bg=$onedark_green] %a %b %d #[fg=$onedark_black,bg=$onedark_black] #[fg=$onedark_black,bg=$onedark_cyan] ⏰ %R "
 
 setw -g window-status-format "#[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics] #[default]#{?window_activity_flag,#[bg=$onedark_red],#[fg=$onedark_white,bg=$onedark_visual_grey,italics]} #I #W #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
 

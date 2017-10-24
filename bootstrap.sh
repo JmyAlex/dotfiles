@@ -33,6 +33,7 @@ declare -a MY_STUFF=(
     highlight
     atool
     curl
+    fish
 )
 
 declare -a DEV_PACK=(
@@ -54,6 +55,29 @@ declare -a DEV_PACK=(
     unifdef
     pkg-config
     vlan
+    wget
+    git-core
+    diffstat
+    unzip
+    gcc-multilib
+    chrpath
+    desktop-file-utils
+    groff
+    libxml-parser-perl
+    libsdl1.2-dev
+    xterm
+    libgl1-mesa-dev
+    libglu1-mesa-dev
+    xsltproc
+    docbook-utils
+    fop
+    dblatex
+    xmlto
+    autoconf
+    automake
+    libtool
+    libglib2.0-dev
+    squashfs-tools
 )
 
 # update / upgrade
@@ -107,12 +131,13 @@ ln -s ~/Github/dotfiles/.Xresources ~/.Xresources
 
 ln -s ~/Github/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/Github/dotfiles/.shell_aliases ~/.shell_aliases
-ln -s ~/Github/dotfiles/.shell_colors ~/.shell_colors
 ln -s ~/Github/dotfiles/.shell_functions ~/.shell_functions
 ln -s ~/Github/dotfiles/.shell_promt ~/.shell_promt
 ln -s ~/Github/dotfiles/tmux_airline ~/tmux_airline
 ln -s ~/Github/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/Github/dotfiles/.vimrc ~/.vimrc
+ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
+ln -s ~/Github/dotfiles/.config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 
 cp -r ~/Github/dotfiles/.urxvt ~/
 cp -r ~/Github/dotfiles/.config/mc ~/.config/
@@ -122,6 +147,7 @@ vim +PlugInstall +PlugUpdate +qall
 
 cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
 
+#wireshark without sudo
 sudo dpkg-reconfigure wireshark-common
 sudo usermod -a -G wireshark jeremy
 sudo usermod -a -G dialout jeremy
