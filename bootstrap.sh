@@ -140,15 +140,15 @@ ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 ln -s ~/Github/dotfiles/.config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 
 cp -r ~/Github/dotfiles/.urxvt ~/
-cp -r ~/Github/dotfiles/.config/mc ~/.config/
-cp -r ~/Github/dotfiles/.config/ranger ~/.config/
+#cp -r ~/Github/dotfiles/.config/mc ~/.config/
+#cp -r ~/Github/dotfiles/.config/ranger ~/.config/
 
 vim +PlugInstall +PlugUpdate +qall
 
 cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
 
 #install fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/Github/fzf && ~/Github/fzf/install
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
 #wireshark without sudo
 sudo dpkg-reconfigure wireshark-common
@@ -169,6 +169,9 @@ TODO ...
     sudo update-alternatives --config make
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 10
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20
+    sudo update-alternatives --config gcc
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.8
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-3.4 40 --slave /usr/bin/g++ g++ /usr/bin/g++-3.4
     sudo update-alternatives --config gcc
 EOF
 
