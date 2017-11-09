@@ -20,7 +20,6 @@ declare -a MY_STUFF=(
     atftpd
     subversion
     git
-    git-svn
     meld
     xsel
     xclip
@@ -39,6 +38,7 @@ declare -a MY_STUFF=(
 declare -a DEV_PACK=(
     bison
     build-essential
+    gcc
     fakeroot
     gettext
     gperf
@@ -56,6 +56,7 @@ declare -a DEV_PACK=(
     pkg-config
     vlan
     wget
+    git-svn
     git-core
     diffstat
     unzip
@@ -78,6 +79,7 @@ declare -a DEV_PACK=(
     libtool
     libglib2.0-dev
     squashfs-tools
+    colordiff
 )
 
 # update / upgrade
@@ -95,22 +97,23 @@ sudo apt-get install -y ${DEV_PACK[@]}
 
 echo "Configuration..."
 
-cd && mkdir Github && cd Github
+mkdir -p $HOME/Github
+mkdir -p $HOME/.config/fish/functions
 
 echo "Clonning github repos..."
 
-git clone https://github.com/JmyAlex/dotfiles.git
-git clone https://github.com/rupa/z.git
+git clone https://github.com/JmyAlex/dotfiles.git $HOME/Github/dotfiles
+git clone https://github.com/rupa/z.git $HOME/Github/z
 
 # tmux plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # vim plugins
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 #FIXME install font https://github.com/belluzj/fantasque-sans
 
-cd #Go back home
+#install fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
 
 #make backups
 mv ~/.bashrc ~/.bashrc_default_backup
@@ -145,15 +148,14 @@ cp -r ~/Github/dotfiles/.urxvt ~/
 
 vim +PlugInstall +PlugUpdate +qall
 
-cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
+mkdir -p ~/.vim/tmp/{undo,backup,swap}
 
-#install fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && ~/.fzf/install
+#cp ~/Github/dotfiles/tomorrow.vim ~/.vim/bundle/vim-airline/autoload/airline/themes
 
 #wireshark without sudo
 sudo dpkg-reconfigure wireshark-common
-sudo usermod -a -G wireshark jeremy
-sudo usermod -a -G dialout jeremy
+sudo usermod -a -G wireshark `whoami`
+sudo usermod -a -G dialout `whoami`
 
 sudo dpkg-reconfigure dash
 
@@ -185,5 +187,3 @@ EOF'
 
 sudo ln -s /srv/tftp /tftpboot
 sudo chmod 777 /tftpboot
-
-mkdir -p ~/.vim/tmp/{undo,backup,swap}
