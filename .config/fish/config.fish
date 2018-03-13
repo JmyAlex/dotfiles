@@ -35,7 +35,13 @@ function ... ; cd ../.. ; end
 function .... ; cd ../../.. ; end
 function ..... ; cd ../../../.. ; end
 
-alias l="ls -CF"
+#exa
+alias ls="exa"
+alias lth="ls -lrs modified"
+alias l="ls -F"
+
+#default ls
+#alias l="ls -CF"
 alias ll="ls -alF"
 alias la="ls -A"
 alias lc="colorls"

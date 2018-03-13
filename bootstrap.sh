@@ -187,3 +187,19 @@ EOF'
 
 sudo ln -s /srv/tftp /tftpboot
 sudo chmod 777 /tftpboot
+
+#isc-dhcp-server config
+sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.backup
+
+sudo bash -c 'cat >>"/etc/dhcp/dhcpd.conf" <<-EOF
+subnet 192.168.100.0 netmask 255.255.255.0 {
+  range 192.168.100.110 192.168.100.130;
+  option domain-name-servers 8.8.8.8;
+  #option domain-name "internal.example.org";
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.100.100;
+  option broadcast-address 192.168.100.255;
+  default-lease-time 600;
+  max-lease-time 7200;
+}
+EOF'
