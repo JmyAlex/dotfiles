@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+#mail_command "$sender" "$recepient" "$subject" "$html_template"
+
+import sys
+import smtplib
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE, formatdate
+from os.path import basename
+from email import encoders
+
+def build_msg(send_to, send_from, subject, html_template):
+    # Create message container - the correct MIME type is multipart/alternative.
+    msg = MIMEMultipart('mixed')
+    msg['Subject'] = subject
+    msg['From'] = send_from
+    msg['To'] = send_to
+# Create the body of the message (a plain-text and an HTML version).
+text = ""
+html = html_template
+# Record the MIME types of both parts - text/plain and text/html.
+part1 = MIMEText(text, 'plain')
+part2 = MIMEText(html, 'html')
+# Attach parts into message container.
+# According to RFC 2046, the last part of a multipart message, in this case
+# the HTML message, is best and preferred.
+# msg.attach(part1)
+msg.attach(part2)
+
+#FIXME hardcode filenames
+files = ['./file1', './file2', './file3']
+for f in files or []:
+    part = MIMEBase('application', "octet-stream")
+    part.set_payload(open(f, "rb").read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', 'attachment; filename="{0}"'.format(basename(f)))
+    msg.attach(part)
+    return msg
+
+def send_msg(msg, server, send_from, send_to):
+    # Send the message via local SMTP server.
+    smtp = smtplib.SMTP(server)
+# sendmail function takes 3 arguments: sender's address, recipient's address
+# and message to send - here it is sent as one string.
+smtp.sendmail(send_from, send_to, msg.as_string())
+smtp.quit()
+
+def main():
+    server = '192.168.110.33'
+    send_from = sys.argv[1]
+    send_to = sys.argv[2]
+    subject = sys.argv[3]
+    html_template = sys.argv[4]
+
+    with open(html_template, 'r') as myfile:
+        body = myfile.read()
+
+    msg = build_msg(send_to, send_from, subject, body)
+    send_msg(msg, server, send_from, send_to)
+
+    myfile.close()
+
+if __name__ == '__main__':
+    main()

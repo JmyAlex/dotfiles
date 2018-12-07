@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+
+#tty_command "$tty_port" "$command"
+
+import sys
+import time
+
+try:
+    import pexpect
+    import fdpexpect
+except ImportError:
+    sys.stderr.write("sudo apt-get install python3-pexpect\n")
+    exit(1)
+
+try:
+    import serial
+except ImportError:
+    sys.stderr.write("sudo apt-get install python3-serial\n")
+    exit(1)
+
+def main():
+    PROMPT = ['# ', '> ', pexpect.EOF, pexpect.TIMEOUT]
+    baud_rate = 115200
+
+    tty = sys.argv[1]
+    command = sys.argv[2]
+
+    #init dummy connection
+    port = serial.Serial(tty)
+    #reset
+    with port: #fuck this serial ports!
+        port.setDTR(False)
+        time.sleep(1)
+        port.flushInput()
+        port.setDTR(True)
+
+    port = serial.Serial(tty, baud_rate)
+
+    #init expect connection
+    session = fdpexpect.fdspawn(port.fileno(), 'wb', timeout=10)
+
+    #send command to serial
+    session.sendline(command)
+
+    #handle result
+    index = session.expect(PROMPT)
+    if (index == 0) or (index == 1):
+        print(session.before.decode("utf-8"))
+        port.close()
+        sys.exit(0)
+    elif index == 2:
+        print('Error got EOF! command:' + command)
+        port.close()
+        sys.exit(1)
+    elif index == 3:
+        print('Error got TIMEOUT! command:' + command)
+        port.close()
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()

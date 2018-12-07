@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+#ssh_command "$hostname" "$username" "$password" "$command"
+
+import sys
+
+try:
+    import pxssh
+except ImportError:
+    sys.stderr.write("sudo apt-get install python3-pexpect\n")
+    exit(1)
+
+def send_command(session, cmd):
+    session.sendline(cmd)                                       # run a command
+    session.prompt()                                            # match the prompt
+    print(session.before.decode("utf-8").replace('\r', ''))     # print everything before the prompt.
+
+def connect(hostname, username, password):
+    try:
+        session = pxssh.pxssh()
+        session.force_password = True
+        session.login(hostname, username, password)
+        return session
+    except pxssh.ExceptionPxssh as e:
+        print("pxssh failed on login.")
+        print(e)
+
+def main():
+    hostname = sys.argv[1]
+    username = sys.argv[2]
+    password = sys.argv[3]
+    command = sys.argv[4]
+    session = connect(hostname, username, password)
+    send_command(session, command)
+    session.logout()
+
+if __name__ == '__main__':
+    main()
