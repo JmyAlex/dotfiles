@@ -1,170 +1,146 @@
 #
-# bspwm hotkeys
-#
-
-#+ quit bspwm
-super + alt + {shift + ,_}Escape
-    {bspc quit 1,\
-     bspc query -T > "$BSPWM_TREE"; \
-        bspc query -H > "$BSPWM_HISTORY"; \
-        bspc query -S > "$BSPWM_STACK"; \
-        bspc quit}
-
-#close/kill focused window
-super + {_,shift + }w
-	bspc window -{c,k}
-
-#+ cycle (monocole|tiled) layout
-super + t
-    bspc desktop -l next
-
-#Rotate the tree of the selected desktop
-super + {r,shift + r,u}
-	bspc desktop -R {90,-90,180}
-
-#Flip the tree of the selected desktop
-super + {backslash,shift + backslash}
-	bspc desktop -F {vertical,horizontal}
-
-super + z
-	bspc control --toggle-visibility
-
-super + shift + p
-	bspc config focus_follows_pointer {true,false}
-
-#balance tree
-super + b
-    bspc desktop -B
-
-#toggle floating, fullscreen
-super + {shift+s,s,f,x,X,m}
-	bspc window -t {pseudo_tiled,floating,fullscreen,locked,sticky,private}
-
-#+ jump between last frame, or view last desktop
-super + {grave,Tab}
-    bspc {window,desktop} -f last
-
-#Swap the selected window with the given window
-super + {_,shift + }apostrophe
-	bspc window -s last{_, -f last}
-
-#Transplant the selected window to the given window
-super + y
-    bspc window -w last.manual
-
-#super + m
-    #bspc window -s biggest
-
-#+ change focus or move window in direction
-super + {_,shift + }{h,j,k,l}
-    bspc window -{f,s} {left,down,up,right}
-
-#Focus the selected or given window
-super + {_,shift + }c
-    bspc window -f {next,prev}
-
-super + {d,shift + d}
-	bspc window -f {next,prev}.tiled
-
-super + {_,shift + }{a,v,e}
-	bspc window -f {next,prev}.{floating,unlike,like}
-
-#Circulate the leaves of the tree of the selected desktop.
-super + {comma,period}
-    bspc desktop -C {backward,forward}
-
-#+ cycle to next/prev desktop
-super + bracket{left,right}
-    bspc desktop -f {prev,next}
-
-#Preselect the splitting area of the selected window
-super + ctrl + {h,j,k,l}
-    bspc window -p {left,down,up,right}
-
-#Cancel preselet/cancel presel on desktop
-super + ctrl + {_,shift + }space
-    bspc {window -p cancel,desktop -c}
-
-super + alt + {h,j,k,l}
-	bspc window -e {left -20,down +20,up -20,right +20}
-
-super + alt + shift + {h,j,k,l}
-	bspc window -e {right -20,up +20,down -20,left +20}
-
-super + alt + control + {h,j,k,l} ; {0-9}
-	bspc window -e {left,down,up,right} 0.{0-9}
-
-#+ set common ratios for manual splitting
-super + ctrl + {1-9}
-    bspc window -r 0.{1-9}
-
-#+ view desktop or send focused window to desktop
-super + {_,shift + }{1-9,0}
-    bspc {desktop -f,window -d} ^{1-9,10}
-
-# mouse
-~button1
-    bspc pointer -g focus
-
-super + button{1-3}
-    bspc pointer -g {move,resize_side,resize_corner}
-
-super + !button{1-3}
-    bspc pointer -t %i %i
-
-super + @button{1-3}
-	bspc pointer -u
-
-#
 # wm independent hotkeys
 #
 
+# terminal emulator
 super + Return
-	urxvt
-	#gnome-terminal
+	tilix
 
-super + shift + Return
-    urxvt && bspc window -t floating
-    #gnome-terminal && bspc window -t floating
+# program launcher
+super + @space
+    rofi -show drun -show-icons -sidebar-mode -terminal tilix -font "SF Pro Display Semibold 11"
 
-super + space
-	dmenu_launch
-	#gmrun
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
 
-super + shift + space
-	dmenu_raise
+#
+# bspwm hotkeys
+#
 
-super + shift + b
-	firefox
+# quit bspwm normally
+super + alt + Escape
+	killall -q polybar; bspc quit
 
-Print
-	scrot -q 100
+# close and kill
+super + {_,shift + }w
+	bspc node -{c,k}
 
-# laptop special buttons
-{_,shift + }XF86Audio{Raise,Lower}Volume
-	volume {_,strong_} {raise,lower}
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
 
-#XF86AudioLowerVolume
-	#volume lower
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest node
+super + g
+	bspc node -s biggest
+
+#
+# state/flags
+#
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }c
+	bspc node -f {next,prev}.local
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+#super + {_,shift + }{1-9,0}
+#	bspc {desktop -f,node -d} '^{1-9,10}'
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} {one,two,three,four,five,six,seven,eight,nine,ten}
+#super + {_,shift + ,alt + }{1-9,0}
+#    { bspc desktop --focus \
+#    , bspc desktop --swap \
+#    , bspc node --to-desktop \
+#    } {one,two,three,four,five,six,seven,eight,nine,ten}
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+#
+# custom keys
+#
+super + z
+    gnome-screensaver-command --lock
 
 XF86AudioMute
 	volume toggle
 
 XF86AudioPlay
-	rhythmbox-client --play-pause
-	#ncmpcpp toggle
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
 	
-XF86Audio{Next,Prev}
-	rhythmbox-client --{next,previous}
-	#ncmpcpp next
+XF86AudioNext
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 
-#XF86AudioPrev
-	#rhythmbox-client --previous
-	#ncmpcpp prev
-
-XF86Sleep
-	gksu pm-suspend
-
-# make sxhkd reload its configuration files:
-super + Escape
-    pkill -USR2 -x sxhkd
+XF86AudioPrev
+	dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
