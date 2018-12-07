@@ -33,6 +33,9 @@ declare -a MY_STUFF=(
     atool
     curl
     fish
+    tilix
+    clipit
+    lxappearance
 )
 
 declare -a DEV_PACK=(
@@ -203,3 +206,6 @@ subnet 192.168.100.0 netmask 255.255.255.0 {
   max-lease-time 7200;
 }
 EOF'
+
+#change default shell
+chsh -s `which fish`

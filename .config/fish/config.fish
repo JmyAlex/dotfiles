@@ -16,8 +16,8 @@ set -gx GCC_COLORS 'error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:qu
 
 #XDG
 # System
-set -x XDG_DATA_DIRS /usr/share /usr/local/share
-set -x XDG_CONFIG_DIRS /etc/xdg
+#set -x XDG_DATA_DIRS /usr/share /usr/local/share
+#set -x XDG_CONFIG_DIRS /etc/xdg
 
 # User
 set -x XDG_CACHE_HOME $HOME/.cache
@@ -46,6 +46,8 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias lc="colorls"
 
+alias vssh="ssh -p 3022 developer@127.0.0.1"
+
 function generate_tags --description "Generate ctags and cscope for C"
 	find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
 end
@@ -60,3 +62,5 @@ function fkill
         kill -${1:-9} $pid
     fi'
 end
+
+# vi: ft=fish

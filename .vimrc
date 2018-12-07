@@ -54,6 +54,7 @@ let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
 Plug 'majutsushi/tagbar'
 nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
 autocmd FileType tagbar setlocal nocursorline nocursorcolumn
 
 Plug 'scrooloose/nerdcommenter'
@@ -297,7 +298,7 @@ set showfulltag  " When completing by tag, show the whole tag, not just the func
 set history=1000
 set shiftround  " Remove unsed white spaces
 set ttyfast
-set modelines=0
+set modelines=1
 
 "set textwidth=80
 "set colorcolumn=+1
