@@ -1,55 +1,55 @@
 !-- Xft settings -- !
-Xft.dpi:		96
-Xft.antialias:	true
-Xft.rgba:		rgb
-Xft.hinting:	true
-Xft.autohint:	true
-Xft.hintstyle:	hintfull
-Xft.lcdfilter:	lcddefault
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.autohint:   true
+Xft.hintstyle:  hintfull
+Xft.lcdfilter:  lcddefault
 
-Xcursor.theme:				dmz-aa
+Xcursor.theme:              dmz-aa
 ! Cursor
-URxvt.cursorBlink: 			true
-!URxvt.cursorColor: 		#657b83
-URxvt.cursorUnderline: 		false
+URxvt.cursorBlink:          true
+!URxvt.cursorColor:         #657b83
+URxvt.cursorUnderline:      false
 
-URxvt.font:					xft:FantasqueSansMono:size=13:antialias=true:hinting=true:hintsyle=hintslight
-URxvt.boldFont:				xft:FantasqueSansMono:size=13:bold:antialias=true:hinting=true:hintsyle=hintslight
-URxvt.italicFont:			xft:FantasqueSansMono:size=13:italic:antialias=true:hinting=true:hintsyle=hintslight
-URxvt.boldItalicFont:		xft:FantasqueSansMono:size=13:bold:italic:antialias=true:hinting=true:hintsyle=hintslight
+URxvt.font:                 xft:FantasqueSansMono:size=13:antialias=true:hinting=true:hintsyle=hintslight
+URxvt.boldFont:             xft:FantasqueSansMono:size=13:bold:antialias=true:hinting=true:hintsyle=hintslight
+URxvt.italicFont:           xft:FantasqueSansMono:size=13:italic:antialias=true:hinting=true:hintsyle=hintslight
+URxvt.boldItalicFont:       xft:FantasqueSansMono:size=13:bold:italic:antialias=true:hinting=true:hintsyle=hintslight
 
 URxvt.modifier:             alt
-urxvt.buffered:				true
-urxvt.scrollBar:			false
-URxvt.loginShell:			true
-URxvt.internalBorder:		9
-URxvt.iso14755:				true
-URxvt.iso14755_52:			true
+urxvt.buffered:             true
+urxvt.scrollBar:            false
+URxvt.loginShell:           true
+URxvt.internalBorder:       9
+URxvt.iso14755:             true
+URxvt.iso14755_52:          true
 URxvt.mouseWheelScrollPage: true
 URxvt.saveLines:            32767
 URxvt.urgentOnBell:         true
 
-urxvt.perl-ext:				default,matcher
-urxvt.urlLauncher:			/usr/bin/firefox
-urxvt.matcher.button:		1
+urxvt.perl-ext:             default,matcher
+urxvt.urlLauncher:          /usr/bin/firefox
+urxvt.matcher.button:       1
 
 !URxvt.url-select.launcher:  web_browser
-URxvt.perl-ext-common:		font-size,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things,fullscreen
+URxvt.perl-ext-common:      font-size,keyboard-select,url-select,clipboard,autocomplete-ALL-the-things,fullscreen
 
-URxvt.keysym.M-slash: perl:aAtt:complete
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.keysym:M-s: perl:keyboard-select:search
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.keysym.M-c: perl:clipboard:copy
-URxvt.keysym.M-v: perl:clipboard:paste
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
-URxvt.keysym.C-Up: perl:font-size:increase
-URxvt.keysym.C-Down: perl:font-size:decrease
-URxvt.keysym.S-Up: command:\033]720;1\007
-URxvt.keysym.S-Down: command:\033]721;1\007
-URxvt.keysym.C-Return: command:\033[?25t
-URxvt.keysym.C-Tab: command:\033[?47t
-URxvt.keysym.F11: perl:fullscreen:switch
+URxvt.keysym.M-slash:       perl:aAtt:complete
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+URxvt.keysym:M-s:           perl:keyboard-select:search
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-c:           perl:clipboard:copy
+URxvt.keysym.M-v:           perl:clipboard:paste
+URxvt.keysym.M-C-v:         perl:clipboard:paste_escaped
+URxvt.keysym.C-Up:          perl:font-size:increase
+URxvt.keysym.C-Down:        perl:font-size:decrease
+URxvt.keysym.S-Up:          command:\033]720;1\007
+URxvt.keysym.S-Down:        command:\033]721;1\007
+URxvt.keysym.C-Return:      command:\033[?25t
+URxvt.keysym.C-Tab:         command:\033[?47t
+URxvt.keysym.F11:           perl:fullscreen:switch
 
 ! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
 ! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim
