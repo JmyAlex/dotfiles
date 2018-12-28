@@ -36,6 +36,9 @@ declare -a MY_STUFF=(
     tilix
     clipit
     lxappearance
+    pavucontrol
+    arc-theme
+    papirus-icon-theme
 )
 
 declare -a DEV_PACK=(
@@ -144,6 +147,15 @@ ln -s ~/Github/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/Github/dotfiles/.vimrc ~/.vimrc
 ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 ln -s ~/Github/dotfiles/.config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+
+#bspwm
+ln -s ~/Github/dotfiles/.config/bspwm/bspwmrc ~/.config/bspwm/bspwmrc
+ln -s ~/Github/dotfiles/.config/sxhkd/sxhkdrc ~/.config/sxhkd/sxhkdrc
+ln -s ~/Github/dotfiles/.config/polybar/config ~/.config/polybar/config
+ln -s ~/Github/dotfiles/.config/dunst/dunstrc ~/.config/dunst/dunstrc
+ln -s ~/Github/dotfiles/.compton.conf ~/.compton.conf
+ln -s ~/Github/dotfiles/.config/rofi/config.rasi ~/.config/rofi/config.rasi
+ln -s ~/Github/dotfiles/.config/rofi/onedark.rasi ~/.config/rofi/onedark.rasi
 
 cp -r ~/Github/dotfiles/.urxvt ~/
 #cp -r ~/Github/dotfiles/.config/mc ~/.config/

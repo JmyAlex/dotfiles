@@ -69,6 +69,7 @@ bspc rule -a Pavucontrol state=floating focus=on
 bspc rule -a Lxappearance state=floating focus=on
 bspc rule -a Wireshark desktop='ten' focus=on follow=on
 bspc rule -a Nm-connection-editor state=floating
+bspc rule -a Steam state=floating desktop='three'
 bspc rule -a Gimp desktop=^8 state=floating follow=on
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
@@ -82,7 +83,7 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 polybar top &
 
 # autostart applications
-feh --no-fehbg --bg-fill $HOME/Pictures/wallhaven-440471.png &
+feh --no-fehbg --bg-fill $HOME/Downloads/gvbs329bd0z01.jpg &
 compton --respect-prop-shadow &
 clipit &
 nm-applet &
