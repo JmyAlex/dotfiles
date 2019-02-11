@@ -51,6 +51,15 @@ URxvt.keysym.C-Return:      command:\033[?25t
 URxvt.keysym.C-Tab:         command:\033[?47t
 URxvt.keysym.F11:           perl:fullscreen:switch
 
+rofi.kb-row-up:                      Up,Control+k,Shift+Tab,Shift+ISO_Left_Tab
+rofi.kb-row-down:                    Down,Control+j
+rofi.kb-accept-entry:                Control+m,Return,KP_Enter
+rofi.terminal:                       mate-terminal
+rofi.kb-remove-to-eol:               Control+Shift+e
+rofi.kb-mode-next:                   Shift+Right,Control+Tab,Control+l
+rofi.kb-mode-previous:               Shift+Left,Control+Shift+Tab,Control+h
+rofi.kb-remove-char-back:            BackSpace
+
 ! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
 ! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim
 ! vim: ft=xdefaults

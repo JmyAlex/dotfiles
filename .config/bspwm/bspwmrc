@@ -2,6 +2,7 @@
 
 # trick qt apps to use gtk icon theme
 #export DESKTOP_SESSION=gnome
+xrandr --output eDP-1-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1-1 --mode 1920x1080 --pos 3840x0 --rotate normal --output HDMI-1-1 --primary --mode 1920x1080 --pos 1920x0 --rotate normal
 
 sxhkd &
 xrdb -merge $HOME/.Xresources
@@ -17,9 +18,9 @@ setxkbmap  -layout "us,ru" -option "grp:alt_space_toggle,grp_led:scroll"
 
 #bspc monitor HDMI-1 -f -d I II III IV V VI VII VIII IX X
 #bspc monitor "HDMI-1" -f -d 一 二 三 四 五 六 七 八 九 十
-bspc monitor "eDP-1" -d left
-bspc monitor "HDMI-1" -f -d one two three four five six seven eight nine ten
-bspc monitor "DP-1" -d right
+bspc monitor "eDP-1-1" -d left
+bspc monitor "HDMI-1-1" -f -d one two three four five six seven eight nine ten
+bspc monitor "DP-1-1" -d right
 
 background=$(xrdb -query | grep "background" | cut -f2 | sed -r 's/#//' | head -n 1)
 foreground=$(xrdb -query | grep "foreground" | cut -f2 | sed -r 's/#//' | head -n 1)
@@ -83,7 +84,7 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 polybar top &
 
 # autostart applications
-feh --no-fehbg --bg-fill $HOME/Downloads/gvbs329bd0z01.jpg &
+feh --no-fehbg --bg-fill $HOME/Downloads/wallhaven-237102.png &
 compton --respect-prop-shadow &
 clipit &
 nm-applet &
