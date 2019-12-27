@@ -86,6 +86,7 @@ declare -a DEV_PACK=(
     libglib2.0-dev
     squashfs-tools
     colordiff
+    valgrind
 )
 
 # update / upgrade
@@ -93,7 +94,7 @@ sudo apt-get update
 sudo apt-get -y upgrade
 
 #intall tex
-sudo apt-get install --no-install-recommends -y texlive-latex-extra pgf latex-xcolor latex-beamer
+#sudo apt-get install --no-install-recommends -y texlive-latex-extra pgf latex-xcolor latex-beamer
 
 echo "Installing packages..."
 sudo apt-get install -y ${MY_STUFF[@]}
@@ -103,6 +104,7 @@ sudo apt-get install -y ${DEV_PACK[@]}
 
 echo "Configuration..."
 
+mkdir -p $HOME/bin
 mkdir -p $HOME/Github
 mkdir -p $HOME/.config/fish/functions
 
@@ -149,6 +151,12 @@ ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 ln -s ~/Github/dotfiles/.config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 
 #bspwm
+mkdir -p $HOME/.config/bspwm
+mkdir -p $HOME/.config/sxhkd
+mkdir -p $HOME/.config/polybar
+mkdir -p $HOME/.config/dunst
+mkdir -p $HOME/.config/rofi
+mkdir -p $HOME/.config/tilix/schemes
 ln -s ~/Github/dotfiles/.config/bspwm/bspwmrc ~/.config/bspwm/bspwmrc
 ln -s ~/Github/dotfiles/.config/sxhkd/sxhkdrc ~/.config/sxhkd/sxhkdrc
 ln -s ~/Github/dotfiles/.config/polybar/config ~/.config/polybar/config
@@ -156,6 +164,7 @@ ln -s ~/Github/dotfiles/.config/dunst/dunstrc ~/.config/dunst/dunstrc
 ln -s ~/Github/dotfiles/.compton.conf ~/.compton.conf
 ln -s ~/Github/dotfiles/.config/rofi/config.rasi ~/.config/rofi/config.rasi
 ln -s ~/Github/dotfiles/.config/rofi/onedark.rasi ~/.config/rofi/onedark.rasi
+cp -r ~/Github/dotfiles/.config/tilix/schemes/* .config/tilix/schemes
 
 cp -r ~/Github/dotfiles/.urxvt ~/
 #cp -r ~/Github/dotfiles/.config/mc ~/.config/

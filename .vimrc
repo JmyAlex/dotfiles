@@ -83,6 +83,9 @@ Plug 'airblade/vim-gitgutter'
 autocmd FileType gitcommit set tw=68 spell
 autocmd FileType gitcommit setlocal foldmethod=manual
 
+" Highlight log files
+Plug 'mtdl9/vim-log-highlighting'
+
 " }}}
 
 " _. Ruby {{{
