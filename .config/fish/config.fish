@@ -36,7 +36,7 @@ function .... ; cd ../../.. ; end
 function ..... ; cd ../../../.. ; end
 
 #exa
-alias ls="exa"
+alias ls="exa --group-directories-first"
 alias lth="ls -lrs modified"
 alias l="ls -F"
 

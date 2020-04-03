@@ -39,6 +39,7 @@ declare -a MY_STUFF=(
     pavucontrol
     arc-theme
     papirus-icon-theme
+    feh
 )
 
 declare -a DEV_PACK=(
@@ -227,6 +228,12 @@ subnet 192.168.100.0 netmask 255.255.255.0 {
   max-lease-time 7200;
 }
 EOF'
+
+#fonts:
+#https://github.com/sahibjotsaggu/San-Francisco-Pro-Fonts
+#https://github.com/google/material-design-icons/tree/master/iconfont
+#https://github.com/rayshan/mplus-fonts
+#https://github.com/stark/siji
 
 #change default shell
 chsh -s `which fish`
