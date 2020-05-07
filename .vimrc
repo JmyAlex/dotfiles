@@ -147,6 +147,8 @@ let g:startify_bookmarks = ['~/.vimrc','~/.tmux.conf',]
 let g:startify_skiplist = ['vimrc','tmux.conf',]
 let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
+Plug 'lfv89/vim-interestingwords'
+
 " }}}
 
 " }}}
