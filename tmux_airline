@@ -11,32 +11,26 @@ onedark_comment_grey="#5c6370"
 
 set -g status-bg $onedark_black
 
-set -g message-command-fg $onedark_white
-set -g message-command-bg $onedark_black
-
-set -g message-fg $onedark_white
-set -g message-bg $onedark_black
+set -g message-style fg=$onedark_white,bg=$onedark_black
+set -g message-command-style fg=$onedark_white,bg=$onedark_black
 
 set -g status-justify 'centre'
 set -g status-left-length '100'
 set -g status 'on'
 
-set -g pane-border-fg $onedark_blue
-set -g pane-active-border-fg $onedark_blue
+set -g pane-border-style fg=$onedark_blue
+set -g pane-active-border-style fg=$onedark_blue
 
 set -g status-right-length '100'
-set -g status-right-attr 'none'
-set -g status-attr 'none'
-set -g status-left-attr 'none'
+set -g status-right-style 'none'
+set -g status-style 'none'
+set -g status-left-style 'none'
 
-setw -g window-status-fg $onedark_white
-setw -g window-status-bg $onedark_black
+setw -g window-status-style fg=$onedark_white,bg=$onedark_black
+setw -g window-status-activity-style fg=$onedark_black,bg=$onedark_red
 
-setw -g window-status-activity-fg $onedark_black
-setw -g window-status-activity-bg $onedark_red
-
-setw -g window-status-attr 'none'
-setw -g window-status-activity-attr 'none'
+setw -g window-status-style 'none'
+setw -g window-status-activity-style 'none'
 setw -g window-status-separator ''
 
 set -g status-left "#[fg=$onedark_white,bg=$onedark_visual_grey,nobold] #S #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
@@ -45,3 +39,5 @@ set -g status-right "#[fg=onedark_black,bg=$onedark_black,nobold,nounderscore,no
 setw -g window-status-format "#[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics] #[default]#{?window_activity_flag,#[bg=$onedark_red],#[fg=$onedark_white,bg=$onedark_visual_grey,italics]} #I #W #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
 
 setw -g window-status-current-format "#[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics] #[fg=$onedark_black,bg=$onedark_blue] #I #W #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
+
+# vim: ft=tmux

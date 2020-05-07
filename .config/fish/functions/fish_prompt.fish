@@ -9,6 +9,8 @@ function fish_prompt --description 'Write out the prompt'
     set git_branch_symbol ''
     set promt_symbol '❯ '
 
+    set jobs_amount (jobs | wc -l | xargs) # Zsh had a much more complicated command.
+
     if not set -q __fish_prompt_normal
         set -g __fish_prompt_normal (set_color normal)
     end
@@ -25,6 +27,12 @@ function fish_prompt --description 'Write out the prompt'
         printf ' %s%s ' $git_branch_symbol $git_promt
     else
         printf ' '
+    end
+    set_color normal
+
+    if not test $jobs_amount -eq 0
+        set_color $fish_color_error
+        printf '✦ %s ' $jobs_amount
     end
     set_color normal
 
