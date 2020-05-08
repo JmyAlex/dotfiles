@@ -11,7 +11,7 @@ declare -a MY_STUFF=(
     iperf
     rxvt-unicode-256color
     ranger
-    vim-gnome
+    #vim-gnome
     tmux
     silversearcher-ag
     htop
@@ -112,7 +112,6 @@ mkdir -p $HOME/.config/fish/functions
 echo "Clonning github repos..."
 
 git clone https://github.com/JmyAlex/dotfiles.git $HOME/Github/dotfiles
-git clone https://github.com/rupa/z.git $HOME/Github/z
 
 # tmux plugins
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
