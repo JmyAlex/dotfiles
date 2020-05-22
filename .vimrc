@@ -14,10 +14,6 @@ call plug#begin('~/.vim/plugged')
 " PACKAGES {{{
 
 " _. General {{{
-"Plug 'rking/ag.vim'
-nnoremap <leader>a :Ag <space>
-nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
-
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -41,8 +37,10 @@ Plug 'Spaceghost/vim-matchit'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 nnoremap <c-p> :Files<cr>
-nnoremap <leader>B :Buffers<cr><cr>
+nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>. :Tags<cr>
+nnoremap <leader>a :Ag <space>
+nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
@@ -92,44 +90,17 @@ vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "
 
 Plug 'airblade/vim-gitgutter'
 
-autocmd FileType gitcommit set tw=68 spell
-autocmd FileType gitcommit setlocal foldmethod=manual
-
-" Highlight log files
-Plug 'mtdl9/vim-log-highlighting'
-
 " }}}
-
-" _. Ruby {{{
-autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
-autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
-autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-
-" }}}
-
-" _. HTML {{{
-au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-
-" }}}
-
-" _. C/C++ {{{
-augroup project
-    autocmd!
-    autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
-augroup END
 
 " }}}
 
 " _. Color {{{
-Plug 'w0ng/vim-hybrid'
-Plug 'sjl/badwolf'
-Plug 'zaiste/Atom'
-Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'joshdick/onedark.vim'
 let g:onedark_terminal_italics = 1
 Plug 'sheerun/vim-polyglot'
+
+" Highlight log files
+Plug 'mtdl9/vim-log-highlighting'
 
 " }}}
 
@@ -160,8 +131,11 @@ let g:startify_skiplist = ['vimrc','tmux.conf',]
 let g:startify_custom_header = map(split(system('fortune | cowsay'), '\n'), '"   ". v:val') + ['','']
 
 Plug 'lfv89/vim-interestingwords'
-
-" }}}
+nnoremap <silent> <leader>1 :call InterestingWords('n')<cr>
+nnoremap <silent> <leader>2 :call UncolorAllWords()<cr>
+nnoremap <silent> n :call WordNavigation('forward')<cr>
+nnoremap <silent> N :call WordNavigation('backward')<cr>
+let g:interestingWordsRandomiseColors = 1
 
 " }}}
 
@@ -296,6 +270,41 @@ augroup END
 
 " }}}
 
+" Git commit {{{
+autocmd FileType gitcommit set tw=68 spell
+autocmd FileType gitcommit setlocal foldmethod=manual
+" }}}
+
+" _. Ruby {{{
+autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
+autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
+autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+" }}}
+
+" _. HTML {{{
+au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+" }}}
+
+" _. C/C++ {{{
+augroup project
+    autocmd!
+    autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
+augroup END
+" }}}
+
+" _ Vim {{{
+augroup ft_vim
+    au!
+
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    set foldenable
+augroup END
+" }}}
+
 " }}}
 
 " Settings {{{
@@ -312,7 +321,7 @@ set sidescrolloff=5
 set showcmd  " Show uncompleted commands in status bar
 set noshowmode  " Show the current mode
 set showfulltag  " When completing by tag, show the whole tag, not just the function name
-set history=1000
+set history=10000
 set shiftround  " Remove unsed white spaces
 set ttyfast
 set modelines=1
@@ -337,10 +346,6 @@ if &term == "linux"
     set t_Co=16
     colorscheme desert
 else
-    "set t_Co=256
-    "set background=dark
-    "set term=xterm-256color
-    "let g:hybrid_custom_term_colors = 1
     try
         colorscheme onedark
     catch /:E185:/
@@ -362,19 +367,8 @@ set expandtab
 
 " }}}
 
-set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.DS_Store,*.aux,*.out,*.toc,tmp,*.scssc
 set wildmenu  " Make the command-line completion better
 set wcm=<Tab>
-
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-
-set wildignore+=.hg,.git,.svn " Version control
-set wildignore+=*.aux,*.out,*.toc " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*.spl " compiled spelling word lists
-set wildignore+=*.sw? " Vim swap files
 
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:␣
 set showbreak=↪
@@ -450,7 +444,6 @@ nnoremap <c-o> <c-o>zz
 nnoremap <silent> <leader>? :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
 " Visual Mode */# from Scrooloose {{{
-
 function! s:VSetSearch()
   let temp = @@
   norm! gvy
@@ -464,16 +457,6 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 " }}}
 
 nnoremap <silent> <leader>7 :call HiSpaces()<cr>
-
-" Highlight word {{{
-nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
-
-" }}}
 
 " }}}
 
@@ -494,10 +477,6 @@ noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
-
-" Easy buffer navigation
-noremap <leader>bp :bprevious<cr>
-noremap <leader>bn :bnext<cr>
 
 " Splits ,v and ,h to open new splits (vertical and horizontal)
 nnoremap <leader>v <C-w>v<C-w>l
@@ -607,10 +586,6 @@ augroup END
 
 " }}}
 
-" Garbage {{{
-
-" }}}
-
 " GUI {{{
 if has("gui_running")
     " Remove all the UI cruft
@@ -639,18 +614,7 @@ if has("gui_running")
     set lines=60
     set columns=100
 endif
-"
-" }}}
 
-" _ Vim {{{
-augroup ft_vim
-    au!
-
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    set foldenable
-augroup END
 " }}}
 
 " EXTENSIONS {{{
@@ -688,51 +652,6 @@ function! HiSpaces() " {{{
 " Move back to our original location.
     normal! `z
 endfunction " }}}
-
-" }}}
-
-" Highlight Word {{{
-"
-" This mini-plugin provides a few mappings for highlighting words temporarily.
-"
-" Sometimes you're looking at a hairy piece of code and would like a certain
-" word or two to stand out temporarily. You can search for it, but that only
-" gives you one color of highlighting. Now you can use <leader>N where N is
-" a number from 1-6 to highlight the current word in a specific color.
-
-function! HiInterestingWord(n) " {{{
-" Save our location.
-    normal! mz
-
-" Yank the current word into the z register.
-    normal! "zyiw
-
-" Calculate an arbitrary match ID. Hopefully nothing else is using it.
-    let mid = 86750 + a:n
-
-" Clear existing matches, but don't worry if they don't exist.
-    silent! call matchdelete(mid)
-
-" Construct a literal pattern that has to match at boundaries.
-    let pat = '\V\<' . escape(@z, '\') . '\>'
-
-" Actually match the words.
-    call matchadd("InterestingWord" . a:n, pat, 1, mid)
-
-" Move back to our original location.
-    normal! `z
-endfunction " }}}
-
-" }}}
-
-" Default Highlights {{{
-
-hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
-hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
-hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 " }}}
 
