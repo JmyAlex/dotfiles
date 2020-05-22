@@ -150,7 +150,6 @@ fi
 [ -e "$SHELL_ALIASES" ] && . "$SHELL_ALIASES"
 [ -e "$SHELL_FUNCTIONS" ] && . "$SHELL_FUNCTIONS"
 
-. $HOME/Github/z/z.sh
 export TERM=xterm-256color
 export PAGER=less
 

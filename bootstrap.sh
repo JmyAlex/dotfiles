@@ -11,7 +11,7 @@ declare -a MY_STUFF=(
     iperf
     rxvt-unicode-256color
     ranger
-    #vim-gnome
+    vim
     tmux
     silversearcher-ag
     htop
