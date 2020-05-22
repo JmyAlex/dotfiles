@@ -108,6 +108,7 @@ echo "Configuration..."
 mkdir -p $HOME/bin
 mkdir -p $HOME/Github
 mkdir -p $HOME/.config/fish/functions
+mkdir -p $HOME/.config/nvim
 
 echo "Clonning github repos..."
 
@@ -149,6 +150,7 @@ ln -s ~/Github/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/Github/dotfiles/.vimrc ~/.vimrc
 ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 ln -s ~/Github/dotfiles/.config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+ln -s ~/Github/dotfiles/.config/nvim/init.vim ~/.config/nvim/init.vim
 
 #bspwm
 mkdir -p $HOME/.config/bspwm

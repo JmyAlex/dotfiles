@@ -1,15 +1,9 @@
-" Preamble {{{
-set nocompatible
-filetype off
-
-" }}}
-
 " Leader
 let mapleader = ","
 let maplocalleader = "\\"
 
 " vim-plug {{{
-call plug#begin('~/.vim/plugged')
+call plug#begin(stdpath('data') . '/plugged')
 
 " PACKAGES {{{
 
@@ -20,6 +14,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
 
+" On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 nmap <C-n> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
@@ -34,9 +29,9 @@ set guioptions-=L
 Plug 'Spaceghost/vim-matchit'
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-nnoremap <c-p> :Files<cr>
+nnoremap <c-p> :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>. :Tags<cr>
 nnoremap <leader>a :Ag <space>
@@ -44,7 +39,10 @@ nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
 imap <C-x><C-f> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
+" Border color
 "let g:fzf_prefer_tmux = 1
+let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
+let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -142,6 +140,27 @@ let g:interestingWordsRandomiseColors = 1
 " Initialize plugin system
 call plug#end()
 " }}}
+
+" cscope
+function! Cscope(option, query)
+  let color = '{ x = $1; $1 = ""; z = $3; $3 = ""; printf "\033[34m%s\033[0m:\033[31m%s\033[0m\011\033[37m%s\033[0m\n", x,z,$0; }'
+  let opts = {
+  \ 'source':  "cscope -dL" . a:option . " " . a:query . " | awk '" . color . "'",
+  \ 'options': ['--ansi', '--prompt', '> ',
+  \             '--multi', '--bind', 'alt-a:select-all,alt-d:deselect-all',
+  \             '--color', 'fg:188,fg+:222,bg+:#3a3a3a,hl+:104'],
+  \ 'down': '40%'
+  \ }
+  function! opts.sink(lines) 
+    let data = split(a:lines)
+    let file = split(data[0], ":")
+    execute 'e ' . '+' . file[1] . ' ' . file[0]
+  endfunction
+  call fzf#run(opts)
+endfunction
+
+" Invoke command. 'g' is for call graph, kinda.
+nnoremap <silent> <Leader>g :call Cscope('3', expand('<cword>'))<CR>
 
 " General {{{
 filetype plugin indent on

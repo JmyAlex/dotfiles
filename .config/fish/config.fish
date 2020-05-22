@@ -52,6 +52,7 @@ alias la="ls -A"
 alias lc="colorls"
 
 alias vssh="ssh -p 3022 developer@127.0.0.1"
+alias vim="nvim"
 
 function generate_tags --description "Generate ctags and cscope for C"
 	find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
