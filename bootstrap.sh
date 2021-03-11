@@ -166,7 +166,7 @@ ln -s ~/Github/dotfiles/.config/dunst/dunstrc ~/.config/dunst/dunstrc
 ln -s ~/Github/dotfiles/.compton.conf ~/.compton.conf
 ln -s ~/Github/dotfiles/.config/rofi/config.rasi ~/.config/rofi/config.rasi
 ln -s ~/Github/dotfiles/.config/rofi/onedark.rasi ~/.config/rofi/onedark.rasi
-cp -r ~/Github/dotfiles/.config/tilix/schemes/* .config/tilix/schemes
+cp -r ~/Github/dotfiles/.config/tilix/schemes/* ~/.config/tilix/schemes
 
 cp -r ~/Github/dotfiles/.urxvt ~/
 #cp -r ~/Github/dotfiles/.config/mc ~/.config/

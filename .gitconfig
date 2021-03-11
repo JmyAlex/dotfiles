@@ -155,6 +155,7 @@
 [merge]
     tool = meld
     renameLimit = 0
+    keepBackup = false
 
 [mergetool]
     keepBackup = false

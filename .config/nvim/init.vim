@@ -41,7 +41,7 @@ imap <C-x><C-l> <plug>(fzf-complete-line)
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
 " Border color
 "let g:fzf_prefer_tmux = 1
-let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
+let g:fzf_layout = {'up':'~90%', 'window': { 'width': 1, 'height': 1,'yoffset':0,'xoffset': 0, 'highlight': 'Todo', 'border': 'sharp' } }
 let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 " This is the default extra key bindings
 let g:fzf_action = {
@@ -63,8 +63,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-
-nnoremap <leader>d :call fzf#vim#tags('^' . expand('<cword>'), {'options': '--exact --select-1 --exit-0 +i'})<CR>
 
 " }}}
 
@@ -92,6 +90,7 @@ Plug 'airblade/vim-gitgutter'
 
 " _. Color {{{
 Plug 'joshdick/onedark.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 let g:onedark_terminal_italics = 1
 Plug 'sheerun/vim-polyglot'
 
@@ -131,7 +130,8 @@ nnoremap <silent> <leader>1 :call InterestingWords('n')<cr>
 nnoremap <silent> <leader>2 :call UncolorAllWords()<cr>
 nnoremap <silent> n :call WordNavigation('forward')<cr>
 nnoremap <silent> N :call WordNavigation('backward')<cr>
-let g:interestingWordsRandomiseColors = 1
+let g:interestingWordsGUIColors = ['#ffa724', '#aeee00', '#8cffba', '#b88853', '#ff9eb8', '#ff2c4b']
+let g:interestingWordsTermColors = ['214', '154', '121', '137', '211', '195']
 
 " }}}
 
@@ -143,15 +143,15 @@ call plug#end()
 
 " cscope
 function! Cscope(option, query)
-  let color = '{ x = $1; $1 = ""; z = $3; $3 = ""; printf "\033[34m%s\033[0m:\033[31m%s\033[0m\011\033[37m%s\033[0m\n", x,z,$0; }'
+  let color = '{ x = $1; $1 = ""; y = $2; $2 = ""; z = $3; $3 = ""; printf "\033[34m%s\033[0m:\033[31m%s\040\033[33m%s\033[0m\040\033[37m%s\033[0m\n", x,z,y,$0; }'
   let opts = {
   \ 'source':  "cscope -dL" . a:option . " " . a:query . " | awk '" . color . "'",
   \ 'options': ['--ansi', '--prompt', '> ',
   \             '--multi', '--bind', 'alt-a:select-all,alt-d:deselect-all',
-  \             '--color', 'fg:188,fg+:222,bg+:#3a3a3a,hl+:104'],
+  \             '--color', 'fg:-1,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe'],
   \ 'down': '40%'
   \ }
-  function! opts.sink(lines) 
+  function! opts.sink(lines)
     let data = split(a:lines)
     let file = split(data[0], ":")
     execute 'e ' . '+' . file[1] . ' ' . file[0]
@@ -159,8 +159,17 @@ function! Cscope(option, query)
   call fzf#run(opts)
 endfunction
 
-" Invoke command. 'g' is for call graph, kinda.
-nnoremap <silent> <Leader>g :call Cscope('3', expand('<cword>'))<CR>
+"'find_symbol': '-0',
+nnoremap <silent> <C-\>s :call Cscope('0', expand('<cword>'))<CR>
+"'find_definition': '-1',
+nnoremap <silent> <C-]> :call Cscope('1', expand('<cword>'))<CR>
+"'find_callees': '-2',
+nnoremap <silent> <C-\>d :call Cscope('2', expand('<cword>'))<CR>
+"'find_callers': '-3',
+nnoremap <silent> <C-\>c :call Cscope('3', expand('<cword>'))<CR>
+"'find_string': '-4',
+"'find_egrep_pattern': '-6',
+"'find_files_including': '-8'
 
 " General {{{
 filetype plugin indent on
@@ -313,17 +322,6 @@ augroup project
 augroup END
 " }}}
 
-" _ Vim {{{
-augroup ft_vim
-    au!
-
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    set foldenable
-augroup END
-" }}}
-
 " }}}
 
 " Settings {{{
@@ -335,8 +333,8 @@ set number
 set ruler  " show the current row and column
 set mouse=a
 set mousehide  " Hide the mouse when typing text
-set sidescroll=8
-set sidescrolloff=5
+"set sidescroll=8
+"set sidescrolloff=5
 set showcmd  " Show uncompleted commands in status bar
 set noshowmode  " Show the current mode
 set showfulltag  " When completing by tag, show the whole tag, not just the function name
@@ -345,8 +343,8 @@ set shiftround  " Remove unsed white spaces
 set ttyfast
 set modelines=1
 
-"set textwidth=80
-"set colorcolumn=+1
+set textwidth=80
+set colorcolumn=+1
 set matchtime=3
 set title
 
@@ -567,6 +565,7 @@ inoremap <C-u> <esc>mzgUiw`za
 set nofoldenable
 "set foldmethod=syntax
 "set foldlevelstart=0
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Space to toggle folds.
 nnoremap <space> za
@@ -674,22 +673,16 @@ endfunction " }}}
 
 " }}}
 
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
+" _ Vim {{{
+augroup ft_vim
+    au!
 
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-" expand tabs into spaces
-    let onetab = strpart(' ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+    set foldenable
+augroup END
+" }}}
 
 " }}}
 
