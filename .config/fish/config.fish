@@ -62,7 +62,7 @@ function generate_tags --description "Generate ctags and cscope for C"
 end
 
 function fzf_snippet
-    ls -d ~/snippets/* | fzf --multi --preview-window=up:50% --preview 'cat {}' | xargs cat | xclip -selection clipboard
+    ls -d ~/snippets/* | fzf --multi --preview-window=up:50% --preview 'cat {}' | xargs cat | xclip
 end
 
 # fkill - kill process

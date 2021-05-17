@@ -34,7 +34,7 @@ declare -a MY_STUFF=(
     curl
     fish
     tilix
-    clipit
+    copyq
     lxappearance
     pavucontrol
     arc-theme
@@ -118,6 +118,9 @@ git clone https://github.com/JmyAlex/dotfiles.git $HOME/Github/dotfiles
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # vim plugins
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# neovim
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 #FIXME install font https://github.com/belluzj/fantasque-sans
 
@@ -169,7 +172,8 @@ ln -s ~/Github/dotfiles/.config/rofi/onedark.rasi ~/.config/rofi/onedark.rasi
 cp -r ~/Github/dotfiles/.config/tilix/schemes/* ~/.config/tilix/schemes
 
 cp -r ~/Github/dotfiles/.urxvt ~/
-#cp -r ~/Github/dotfiles/.config/mc ~/.config/
+mkdir -p $HOME/.local/share/mc/skins/
+ln -s ~/Github/dotfiles/dracula.ini ~/.local/share/mc/skins/dracula.ini
 #cp -r ~/Github/dotfiles/.config/ranger ~/.config/
 
 vim +PlugInstall +PlugUpdate +qall
