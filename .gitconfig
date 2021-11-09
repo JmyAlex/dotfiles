@@ -159,3 +159,21 @@
 
 [mergetool]
     keepBackup = false
+
+[core]
+    editor = nvim
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    syntax-theme = base16
+    navigate = true
+    line-numbers = true
+    side-by-side = true

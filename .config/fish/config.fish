@@ -6,6 +6,8 @@ set -x TERM "xterm-256color"
 set -x LANG "en_US.UTF-8"
 set -x LC_CTYPE "en_US.UTF-8"
 set -x LC_ALL "en_US.UTF-8"
+set -x EDITOR "nvim"
+
 
 set -gx PATH "$HOME/bin" $PATH
 
@@ -18,7 +20,8 @@ set -gx FZF_DEFAULT_OPTS '
 --color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
 '
 
-export HIGHLIGHT_STYLE=clarity
+#export HIGHLIGHT_STYLE=clarity
+export MANPAGER="sh -c 'ansifilter | col -bx | bat -l man -p'"
 
 #XDG
 # System
@@ -42,9 +45,9 @@ function .... ; cd ../../.. ; end
 function ..... ; cd ../../../.. ; end
 
 #exa
-alias ls="exa --group-directories-first"
+alias ls="exa --group-directories-first --icons"
 alias lth="ls -lrs modified"
-alias l="ls -F"
+alias l="ls -F --icons"
 alias lg="exa --long --git"
 
 #default ls
@@ -55,7 +58,10 @@ alias lc="colorls"
 
 alias vssh="ssh -p 3022 developer@127.0.0.1"
 alias vim="nvim"
-alias fd="fdfind"
+#alias find="fd"
+alias cat=bat
+alias df=duf
+alias ps=procs
 
 function generate_tags --description "Generate ctags and cscope for C"
 	find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
