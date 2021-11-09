@@ -14,69 +14,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
 
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-nmap <C-n> :NERDTreeToggle<CR>
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDChristmasTree = 1
-let NERDTreeChDirMode = 2
-let NERDTreeIgnore=['\.o$', '\.so$', '\.a$', '\~$', '\.pyc$', '^\.gitignore$', '^\.DS_Store$', '^\.']
-" Disable the scrollbars (NERDTree)
-set guioptions-=r
-set guioptions-=L
-
 Plug 'Spaceghost/vim-matchit'
-
-" Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-nnoremap <c-p> :Files<CR>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>. :Tags<cr>
-nnoremap <leader>a :Ag <space>
-nnoremap <leader>A :Ag <space><C-R>=expand("<cword>")<CR><CR>
-imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-imap <C-x><C-l> <plug>(fzf-complete-line)
-let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
-" Border color
-"let g:fzf_prefer_tmux = 1
-let g:fzf_layout = {'up':'~90%', 'window': { 'width': 1, 'height': 1,'yoffset':0,'xoffset': 0, 'highlight': 'Todo', 'border': 'sharp' } }
-let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
-" This is the default extra key bindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
 
 " }}}
 
 " _. Coding {{{
-Plug 'majutsushi/tagbar'
-nmap <leader>t :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-autocmd FileType tagbar setlocal nocursorline nocursorcolumn
-
-Plug 'scrooloose/nerdcommenter'
-nmap <leader># :call NERDComment(0, "invert")<cr>
-vmap <leader># :call NERDComment(0, "invert")<cr>
-
 Plug 'tpope/vim-fugitive'
 nmap <leader>g :Ggrep
 " ,f for global git serach for word under the cursor (with highlight)
@@ -86,13 +28,40 @@ vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "
 
 Plug 'airblade/vim-gitgutter'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'glepnir/lspsaga.nvim'
+
+" Plug 'sunjon/shade.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'b3nj5m1n/kommentary'
+Plug 'akinsho/nvim-bufferline.lua'
+Plug 'hoob3rt/lualine.nvim'
+
+Plug 'folke/lsp-colors.nvim'
+Plug 'simrat39/symbols-outline.nvim'
+
+Plug 'karb94/neoscroll.nvim'
+
+Plug 'p00f/nvim-ts-rainbow'
+Plug 'shaunsingh/nord.nvim'
+
 " }}}
 
 " _. Color {{{
 Plug 'joshdick/onedark.vim'
+" Plug 'navarasu/onedark.nvim'
 Plug 'dracula/vim', { 'as': 'dracula' }
-let g:onedark_terminal_italics = 1
-Plug 'sheerun/vim-polyglot'
+" let g:onedark_terminal_italics = 1
+" Plug 'sheerun/vim-polyglot'
 
 " Highlight log files
 Plug 'mtdl9/vim-log-highlighting'
@@ -100,23 +69,6 @@ Plug 'mtdl9/vim-log-highlighting'
 " }}}
 
 " _. Fancy {{{
-"Powerline
-set laststatus=2
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline_theme = 'onedark'
-
 Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
@@ -141,35 +93,88 @@ let g:interestingWordsTermColors = ['214', '154', '121', '137', '211', '195']
 call plug#end()
 " }}}
 
-" cscope
-function! Cscope(option, query)
-  let color = '{ x = $1; $1 = ""; y = $2; $2 = ""; z = $3; $3 = ""; printf "\033[34m%s\033[0m:\033[31m%s\040\033[33m%s\033[0m\040\033[37m%s\033[0m\n", x,z,y,$0; }'
-  let opts = {
-  \ 'source':  "cscope -dL" . a:option . " " . a:query . " | awk '" . color . "'",
-  \ 'options': ['--ansi', '--prompt', '> ',
-  \             '--multi', '--bind', 'alt-a:select-all,alt-d:deselect-all',
-  \             '--color', 'fg:-1,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe'],
-  \ 'down': '40%'
-  \ }
-  function! opts.sink(lines)
-    let data = split(a:lines)
-    let file = split(data[0], ":")
-    execute 'e ' . '+' . file[1] . ' ' . file[0]
-  endfunction
-  call fzf#run(opts)
-endfunction
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    "javascript", "typescript", "cpp",
+    "html", "css", "lua", "c", "rust", "go", "java", "query",
+    "python", "json", "fish"
+  },
+  highlight = {
+      enable = true,
+      disable = { },  -- list of language that will be disabled
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+  },
+}
+EOF
 
-"'find_symbol': '-0',
-nnoremap <silent> <C-\>s :call Cscope('0', expand('<cword>'))<CR>
-"'find_definition': '-1',
-nnoremap <silent> <C-]> :call Cscope('1', expand('<cword>'))<CR>
-"'find_callees': '-2',
-nnoremap <silent> <C-\>d :call Cscope('2', expand('<cword>'))<CR>
-"'find_callers': '-3',
-nnoremap <silent> <C-\>c :call Cscope('3', expand('<cword>'))<CR>
-"'find_string': '-4',
-"'find_egrep_pattern': '-6',
-"'find_files_including': '-8'
+lua << EOF
+require('kommentary.config').configure_language("default", {
+    prefer_multi_line_comments = true,
+})
+
+require('neoscroll').setup({
+    -- All these keys will be mapped to their corresponding default scrolling animation
+    mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
+                '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
+    hide_cursor = true,          -- Hide cursor while scrolling
+    stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+    use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+    respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+    cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+    easing_function = nil,        -- Default easing function
+    pre_hook = nil,              -- Function to run before the scrolling animation starts
+    post_hook = nil,              -- Function to run after the scrolling animation ends
+})
+
+vim.g.symbols_outline = {
+    width = 25,
+}
+EOF
+
+lua require('status_line')
+lua require('tab_line')
+lua require('nvim_telescope')
+lua require('lsp')
+lua require('nvim_tree')
+
+" Using Lua functions
+nnoremap <c-p> <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>a <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>A <cmd>lua require('telescope.builtin').grep_string()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>ft <cmd>lua require('telescope.builtin').treesitter()<cr>
+nnoremap <silent> <C-\>c <cmd>lua require('telescope.builtin').lsp_references()<cr>
+nnoremap <silent> <C-\>s <cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>
+
+nnoremap <silent>gR <cmd>lua require('lspsaga.rename').rename()<CR>
+
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
+" nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+"nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+"nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+"nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
+
+let g:gitgutter_sign_added = '▋' 
+let g:gitgutter_sign_modified = '▋'
+let g:gitgutter_sign_removed = '▋'
+let g:gitgutter_sign_removed_first_line = '▔'
+let g:gitgutter_sign_modified_removed = '▎'
+
+nmap <leader>t :SymbolsOutline<CR>
 
 " General {{{
 filetype plugin indent on
@@ -241,10 +246,6 @@ nnoremap <leader>V V`]
 " Keep the cursor in place while joining lines
 nnoremap J mzJ`z
 
-" Ranger
-nnoremap <leader>r :silent !ranger %:h<cr>:redraw!<cr>
-nnoremap <leader>R :silent !ranger<cr>:redraw!<cr>
-
 nnoremap <silent> <leader>T :call GenerateTags()<cr>
 
 " Indent/dedent/autoindent what you just pasted.
@@ -271,6 +272,9 @@ augroup END
 
 " When vimrc is edited, reload it
 autocmd! BufWritePost vimrc source ~/.vimrc
+
+au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}
+au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif
 
 " Line Return {{{
 
@@ -303,25 +307,6 @@ autocmd FileType gitcommit set tw=68 spell
 autocmd FileType gitcommit setlocal foldmethod=manual
 " }}}
 
-" _. Ruby {{{
-autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
-autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
-autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-" }}}
-
-" _. HTML {{{
-au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-" }}}
-
-" _. C/C++ {{{
-augroup project
-    autocmd!
-    autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
-augroup END
-" }}}
-
 " }}}
 
 " Settings {{{
@@ -343,8 +328,8 @@ set shiftround  " Remove unsed white spaces
 set ttyfast
 set modelines=1
 
-set textwidth=80
-set colorcolumn=+1
+"set textwidth=80
+"set colorcolumn=+1
 set matchtime=3
 set title
 
@@ -604,48 +589,9 @@ augroup END
 
 " }}}
 
-" GUI {{{
-if has("gui_running")
-    " Remove all the UI cruft
-    set go-=m
-    set go-=T
-    set go-=l
-    set go-=L
-    set go-=r
-    set go-=R
-
-    highlight SpellBad term=underline gui=undercurl guisp=Orange
-
-    " Set up the gui cursor to look nice
-    set guicursor=n-v-c:block-Cursor-blinkon0
-    set guicursor+=ve:ver35-Cursor
-    set guicursor+=o:hor50-Cursor
-    set guicursor+=i-ci:ver25-Cursor
-    set guicursor+=r-cr:hor20-Cursori
-    set guicursor+=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
-
-    set background=dark
-    colorscheme onedark
-
-    set guifont=FantasqueSansMono\ 13
-
-    set lines=60
-    set columns=100
-endif
-
 " }}}
 
 " EXTENSIONS {{{
-
-" Generate tags {{{
-
-function! GenerateTags()
-    :silent !find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
-    :silent cs add ./cscope.out
-    redraw!
-endfunction
-
-" }}}
 
 " Highlight whitespaces {{{
 
