@@ -337,7 +337,7 @@ set title
 "set visualbell
 set shell=/bin/bash
 set wrap
-set relativenumber
+" set relativenumber
 
 " Colorscheme {{{
 if (has("termguicolors"))

@@ -177,3 +177,5 @@
     navigate = true
     line-numbers = true
     side-by-side = true
+[gui]
+	recentrepo = /home/jeremy/work/8.0.x_experiments
