@@ -69,6 +69,32 @@ Plug 'mtdl9/vim-log-highlighting'
 " }}}
 
 " _. Fancy {{{
+" Plug 'glepnir/dashboard-nvim'
+" let g:dashboard_default_executive ='telescope'
+" let g:dashboard_custom_header = [
+"       \'             ▄▄▀▀▀▀▀▀▀▀▄▄              ',
+"       \'          ▄▀▀            ▀▄▄           ',
+"       \'        ▄▀                  ▀▄         ',
+"       \'       ▌             ▀▄       ▀▀▄      ',
+"       \'      ▌                ▀▌        ▌     ',
+"       \'     ▐                  ▌        ▐     ',
+"       \'     ▌▐    ▐    ▐       ▌         ▌    ',
+"       \'    ▐ ▌    ▌  ▐ ▌      ▐       ▌▐ ▐    ',
+"       \'    ▐ ▌    ▌▄▄▀▀▌▌     ▐▀▌▀▌▄  ▐ ▌ ▌   ',
+"       \'     ▌▌    ▐▀▄▌▌▐▐    ▐▐▐ ▐ ▌▌ ▐ ▌▄▐   ',
+"       \'   ▄▀▄▐    ▌▌▄▀▄▐ ▌▌ ▐ ▌▄▀▄ ▐  ▐ ▌ ▀▄  ',
+"       \'  ▀▄▀  ▌  ▄▀ ▌█▐  ▐▐▀   ▌█▐ ▀▄▐ ▌▌   ▀ ',
+"       \'   ▀▀▄▄▐ ▀▄▀ ▀▄▀        ▀▄▀▄▀ ▌ ▐      ',
+"       \'      ▀▐▀▄ ▀▄        ▐      ▀▌▐        ',
+"       \'        ▌ ▌▐ ▀              ▐ ▐        ',
+"       \'        ▐ ▐ ▌    ▄▄▀▀▀▀▄    ▌ ▐        ',
+"       \'         ▌▐ ▐▄   ▐     ▌  ▄▀  ▐        ',
+"       \'        ▐  ▌▐▐▀▄  ▀▄▄▄▀ ▄▀▐   ▐        ',
+"       \'        ▌▌ ▌▐ ▌ ▀▄▄    ▄▌▐ ▌  ▐        ',
+"       \'       ▐ ▐ ▐▐ ▌    ▀▀▄▀▌▐  ▌  ▌        ',
+"       \'       ▌  ▌▐ ▌        ▐▀▄▌ ▐           ',
+"       \]
+" autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2
 Plug 'mhinz/vim-startify'
 let g:startify_change_to_dir = 0
 let g:startify_files_number = 8
@@ -84,6 +110,24 @@ nnoremap <silent> n :call WordNavigation('forward')<cr>
 nnoremap <silent> N :call WordNavigation('backward')<cr>
 let g:interestingWordsGUIColors = ['#ffa724', '#aeee00', '#8cffba', '#b88853', '#ff9eb8', '#ff2c4b']
 let g:interestingWordsTermColors = ['214', '154', '121', '137', '211', '195']
+
+Plug 'folke/twilight.nvim'
+Plug 'folke/trouble.nvim'
+
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
+Plug 'onsails/lspkind-nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'rcarriga/nvim-notify'
+Plug 'sindrets/diffview.nvim'
+
 
 " }}}
 
@@ -113,6 +157,22 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 lua << EOF
+require("twilight").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+    }
+EOF
+
+lua << EOF
+require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+    }
+EOF
+
+lua << EOF
 require('kommentary.config').configure_language("default", {
     prefer_multi_line_comments = true,
 })
@@ -132,7 +192,17 @@ require('neoscroll').setup({
 })
 
 vim.g.symbols_outline = {
-    width = 25,
+    highlight_hovered_item = false,
+    auto_preview = false,
+    relative_width = false,
+    width = 35,
+    auto_close = true,
+}
+
+require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    show_current_context_start = true,
 }
 EOF
 
@@ -140,7 +210,7 @@ lua require('status_line')
 lua require('tab_line')
 lua require('nvim_telescope')
 lua require('lsp')
-lua require('nvim_tree')
+" lua require('nvim_tree')
 
 " Using Lua functions
 nnoremap <c-p> <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -361,11 +431,11 @@ endif
 set autoindent
 set smartindent
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=8
+set softtabstop=8
+set shiftwidth=8
 set smarttab
-set expandtab
+set noexpandtab
 
 " }}}
 

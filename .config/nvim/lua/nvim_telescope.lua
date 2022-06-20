@@ -1,7 +1,8 @@
 local actions = require('telescope.actions')
+local action_layout = require("telescope.actions.layout")
 require'telescope'.setup {
   defaults = {
-    prompt_prefix = ' ❯ ',
+    prompt_prefix = ' 🔍 ',
     layout_strategy = 'flex',
     scroll_strategy = 'cycle',
     winblend = 0,
@@ -17,6 +18,8 @@ require'telescope'.setup {
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist, -- + my_cool_custom_action.x,
         ["<a-q>"] = false,
         ["<esc>"] = actions.close,
+        ["<C-u>"] = false,
+        ["<M-p>"] = action_layout.toggle_preview,
       },
     },
     file_ignore_patterns = { 'build', 'tags' },

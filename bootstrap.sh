@@ -90,6 +90,16 @@ declare -a DEV_PACK=(
     valgrind
 )
 
+# procs
+# exa
+# bat
+# fd-find
+# git-delta
+# htop
+# iotop
+# atop
+# ripgrep
+
 # update / upgrade
 sudo apt-get update
 sudo apt-get -y upgrade
