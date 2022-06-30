@@ -35,7 +35,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'onsails/lspkind-nvim'
+Plug 'folke/lsp-colors.nvim'
 Plug 'glepnir/lspsaga.nvim'
 
 " Plug 'sunjon/shade.nvim'
@@ -46,9 +48,7 @@ Plug 'b3nj5m1n/kommentary'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'hoob3rt/lualine.nvim'
 
-Plug 'folke/lsp-colors.nvim'
 Plug 'simrat39/symbols-outline.nvim'
-
 Plug 'karb94/neoscroll.nvim'
 
 Plug 'p00f/nvim-ts-rainbow'
@@ -123,11 +123,9 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
-Plug 'onsails/lspkind-nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'rcarriga/nvim-notify'
 Plug 'sindrets/diffview.nvim'
-
 
 " }}}
 
@@ -210,7 +208,7 @@ lua require('status_line')
 lua require('tab_line')
 lua require('nvim_telescope')
 lua require('lsp')
-" lua require('nvim_tree')
+lua require('nvim_tree')
 
 " Using Lua functions
 nnoremap <c-p> <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -431,11 +429,11 @@ endif
 set autoindent
 set smartindent
 
-set tabstop=8
-set softtabstop=8
-set shiftwidth=8
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set smarttab
-set noexpandtab
+set expandtab
 
 " }}}
 

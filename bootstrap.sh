@@ -93,12 +93,15 @@ declare -a DEV_PACK=(
 # procs
 # exa
 # bat
+# duf
 # fd-find
 # git-delta
 # htop
 # iotop
 # atop
 # ripgrep
+# openfortivpn
+# cargo vivid
 
 # update / upgrade
 sudo apt-get update
@@ -119,6 +122,7 @@ mkdir -p $HOME/bin
 mkdir -p $HOME/Github
 mkdir -p $HOME/.config/fish/functions
 mkdir -p $HOME/.config/nvim
+mkdir -p $HOME/.config/tilix/schemes
 
 echo "Clonning github repos..."
 
@@ -158,12 +162,13 @@ ln -s ~/Github/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/Github/dotfiles/.shell_aliases ~/.shell_aliases
 ln -s ~/Github/dotfiles/.shell_functions ~/.shell_functions
 ln -s ~/Github/dotfiles/.shell_promt ~/.shell_promt
-ln -s ~/Github/dotfiles/tmux_airline ~/tmux_airline
+ln -s ~/Github/dotfiles/tmux_airline ~/.tmux_airline
 ln -s ~/Github/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/Github/dotfiles/.vimrc ~/.vimrc
 ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 ln -s ~/Github/dotfiles/.config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 ln -s ~/Github/dotfiles/.config/nvim/init.vim ~/.config/nvim/init.vim
+cp -r ~/Github/dotfiles/.config/tilix/schemes/* ~/.config/tilix/schemes
 
 #bspwm
 mkdir -p $HOME/.config/bspwm
@@ -171,7 +176,6 @@ mkdir -p $HOME/.config/sxhkd
 mkdir -p $HOME/.config/polybar
 mkdir -p $HOME/.config/dunst
 mkdir -p $HOME/.config/rofi
-mkdir -p $HOME/.config/tilix/schemes
 ln -s ~/Github/dotfiles/.config/bspwm/bspwmrc ~/.config/bspwm/bspwmrc
 ln -s ~/Github/dotfiles/.config/sxhkd/sxhkdrc ~/.config/sxhkd/sxhkdrc
 ln -s ~/Github/dotfiles/.config/polybar/config ~/.config/polybar/config
@@ -179,7 +183,6 @@ ln -s ~/Github/dotfiles/.config/dunst/dunstrc ~/.config/dunst/dunstrc
 ln -s ~/Github/dotfiles/.compton.conf ~/.compton.conf
 ln -s ~/Github/dotfiles/.config/rofi/config.rasi ~/.config/rofi/config.rasi
 ln -s ~/Github/dotfiles/.config/rofi/onedark.rasi ~/.config/rofi/onedark.rasi
-cp -r ~/Github/dotfiles/.config/tilix/schemes/* ~/.config/tilix/schemes
 
 cp -r ~/Github/dotfiles/.urxvt ~/
 mkdir -p $HOME/.local/share/mc/skins/

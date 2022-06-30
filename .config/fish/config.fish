@@ -59,16 +59,16 @@ alias lc="colorls"
 alias vssh="ssh -p 3022 developer@127.0.0.1"
 alias vim="nvim"
 #alias find="fd"
-alias cat=bat
+#alias cat=bat
 alias df=duf
 alias ps=procs
 
 function generate_tags --description "Generate ctags and cscope for C"
-	find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
+    find -name '*.[hc]' -exec ctags '{}' + ; find -name '*.[hc]' -exec cscope -b '{}' +
 end
 
 function fzf_snippet
-    ls -d ~/snippets/* | fzf --multi --preview-window=up:50% --preview 'cat {}' | xargs cat | xclip
+    ls -d --no-icons ~/snippets/* | fzf --multi --preview-window=up:50% --preview 'cat {}' | xargs cat | xclip
 end
 
 # fkill - kill process
