@@ -8,23 +8,11 @@ call plug#begin(stdpath('data') . '/plugged')
 " PACKAGES {{{
 
 " _. General {{{
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-eunuch'
-
-Plug 'Spaceghost/vim-matchit'
 
 " }}}
 
 " _. Coding {{{
 Plug 'tpope/vim-fugitive'
-nmap <leader>g :Ggrep
-" ,f for global git serach for word under the cursor (with highlight)
-nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
-" same in visual mode
-vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
 Plug 'airblade/vim-gitgutter'
 
@@ -38,7 +26,6 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'onsails/lspkind-nvim'
 Plug 'folke/lsp-colors.nvim'
-Plug 'glepnir/lspsaga.nvim'
 
 " Plug 'sunjon/shade.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -61,7 +48,6 @@ Plug 'joshdick/onedark.vim'
 " Plug 'navarasu/onedark.nvim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 " let g:onedark_terminal_italics = 1
-" Plug 'sheerun/vim-polyglot'
 
 " Highlight log files
 Plug 'mtdl9/vim-log-highlighting'
@@ -220,21 +206,8 @@ nnoremap <leader>ft <cmd>lua require('telescope.builtin').treesitter()<cr>
 nnoremap <silent> <C-\>c <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <silent> <C-\>s <cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>
 
-nnoremap <silent>gR <cmd>lua require('lspsaga.rename').rename()<CR>
-
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gr <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
-nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-" nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-"nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-"nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-"nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-
 nnoremap <C-n> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
+nmap <leader>t :SymbolsOutline<CR>
 
 let g:gitgutter_sign_added = '▋' 
 let g:gitgutter_sign_modified = '▋'
@@ -242,7 +215,6 @@ let g:gitgutter_sign_removed = '▋'
 let g:gitgutter_sign_removed_first_line = '▔'
 let g:gitgutter_sign_modified_removed = '▎'
 
-nmap <leader>t :SymbolsOutline<CR>
 
 " General {{{
 filetype plugin indent on
@@ -331,18 +303,11 @@ nnoremap S i<cr><esc>^mwgk:silent! s/\v +$//<cr>:noh<cr>`w
 " Resize splits when the window is resized
 au VimResized * :wincmd =
 
-"Powerline
-augroup FastEscape
-        autocmd!
-        au InsertEnter * set timeoutlen=0
-        au InsertLeave * set timeoutlen=1000
-augroup END
-
 " When vimrc is edited, reload it
 autocmd! BufWritePost vimrc source ~/.vimrc
 
 au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}
-au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif
+" au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif
 
 " Line Return {{{
 
@@ -378,34 +343,17 @@ autocmd FileType gitcommit setlocal foldmethod=manual
 " }}}
 
 " Settings {{{
-set autoread
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-set hidden  " Don't remove buffer when we switch to next
 
 set number
-set ruler  " show the current row and column
-set mouse=a
-set mousehide  " Hide the mouse when typing text
-"set sidescroll=8
-"set sidescrolloff=5
-set showcmd  " Show uncompleted commands in status bar
-set noshowmode  " Show the current mode
 set showfulltag  " When completing by tag, show the whole tag, not just the function name
-set history=10000
 set shiftround  " Remove unsed white spaces
-set ttyfast
-set modelines=1
 
-"set textwidth=80
-"set colorcolumn=+1
 set matchtime=3
 set title
+set laststatus=3
 
-"set autochdir
-"set visualbell
 set shell=/bin/bash
 set wrap
-" set relativenumber
 
 " Colorscheme {{{
 if (has("termguicolors"))
@@ -426,18 +374,14 @@ endif
 " }}}
 
 " White characters {{{
-set autoindent
 set smartindent
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set smarttab
 set expandtab
 
 " }}}
 
-set wildmenu  " Make the command-line completion better
 set wcm=<Tab>
 
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:␣
@@ -466,9 +410,6 @@ set directory=~/.vim/tmp/swap// " swap files
 
 " _ }}}
 
-" Don't redraw while executing macros
-set nolazyredraw
-
 " Better Completion
 set complete=.,w,b,u,t
 set completeopt=menuone,menu,longest,preview
@@ -491,8 +432,6 @@ vnoremap / /\v
 set ignorecase
 set smartcase
 set showmatch " jump to matches when entering regexp
-set hlsearch  " Enable search highlighting
-set incsearch  " Incrementally match the search
 set gdefault
 
 " clear search matching
@@ -556,20 +495,6 @@ nnoremap <leader>h <C-w>s<C-w>j
 vnoremap < <gv
 vnoremap > >gv
 
-" Bubbling lines
-nmap <C-Up> [e
-nmap <C-Down> ]e
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
-
-" Sort lines
-nnoremap <leader>s vip:!sort<cr>
-vnoremap <leader>s :!sort<cr>
-
-" Tabs
-nnoremap <leader>( :tabprev<cr>
-nnoremap <leader>) :tabnext<cr>
-
 " Kill window
 nnoremap K :q<cr>
 
@@ -578,9 +503,6 @@ nnoremap <leader>W :set wrap!<cr>
 
 " Reselect last-pasted text
 nnoremap gp `[v`]
-
-" Diffoff
-nnoremap <leader>D :diffoff!<cr>
 
 " gi already moves to "last place you exited insert mode", so we'll map gI to
 " something similar: move to last change
@@ -615,10 +537,6 @@ inoremap <C-u> <esc>mzgUiw`za
 " }}}
 
 " . folding {{{
-set nofoldenable
-"set foldmethod=syntax
-"set foldlevelstart=0
-set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 
 " Space to toggle folds.
 nnoremap <space> za
@@ -630,17 +548,6 @@ nnoremap zO zCzO
 
 " Use ,z to "focus" the current fold.
 nnoremap <leader>z zMzvzz
-
-" }}}
-
-" Quick editing {{{
-
-nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
-nnoremap <leader>es <C-w>s<C-w>j:e ~/.vim/snippets/<cr>
-nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
-nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
-
-" --------------------
 
 " }}}
 
@@ -685,17 +592,6 @@ function! HiSpaces() " {{{
     normal! `z
 endfunction " }}}
 
-" }}}
-
-" _ Vim {{{
-augroup ft_vim
-    au!
-
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    set foldenable
-augroup END
 " }}}
 
 " }}}

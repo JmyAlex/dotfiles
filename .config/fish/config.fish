@@ -10,6 +10,7 @@ set -x EDITOR "nvim"
 
 
 set -gx PATH "$HOME/bin" $PATH
+set -gx PATH "$HOME/.cargo/bin" $PATH
 
 # colored GCC warnings and errors
 set -gx GCC_COLORS 'error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
