@@ -1,13 +1,13 @@
-onedark_black="#282c34"
-onedark_blue="#61afef"
-onedark_yellow="#e5c07b"
-onedark_red="#e06c75"
-onedark_white="#aab2bf"
+onedark_black="#303446"
+onedark_blue="#8caaee"
+onedark_yellow="#e5c890"
+onedark_red="#e78284"
+onedark_white="#c6d0f5"
 onedark_green="#98c379"
 onedark_magenta="#c678dd"
-onedark_cyan="#56b6c2"
-onedark_visual_grey="#3e4452"
-onedark_comment_grey="#5c6370"
+onedark_cyan="#85c1dc"
+onedark_visual_grey="#626880"
+onedark_comment_grey="#626880"
 
 set -g status-bg $onedark_black
 

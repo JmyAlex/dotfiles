@@ -14,7 +14,7 @@ call plug#begin(stdpath('data') . '/plugged')
 " _. Coding {{{
 Plug 'tpope/vim-fugitive'
 
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -23,6 +23,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'neovim/nvim-lspconfig'
+Plug 'SmiteshP/nvim-navic'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'onsails/lspkind-nvim'
 Plug 'folke/lsp-colors.nvim'
@@ -31,7 +32,7 @@ Plug 'folke/lsp-colors.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 
-Plug 'b3nj5m1n/kommentary'
+Plug 'numToStr/Comment.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'hoob3rt/lualine.nvim'
 
@@ -39,15 +40,16 @@ Plug 'simrat39/symbols-outline.nvim'
 Plug 'karb94/neoscroll.nvim'
 
 Plug 'p00f/nvim-ts-rainbow'
-Plug 'shaunsingh/nord.nvim'
+Plug 'm-demare/hlargs.nvim'
+Plug 'folke/which-key.nvim'
 
 " }}}
 
 " _. Color {{{
-Plug 'joshdick/onedark.vim'
 " Plug 'navarasu/onedark.nvim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-" let g:onedark_terminal_italics = 1
+Plug 'olimorris/onedarkpro.nvim'
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+Plug 'shaunsingh/nord.nvim'
 
 " Highlight log files
 Plug 'mtdl9/vim-log-highlighting'
@@ -132,6 +134,14 @@ require'nvim-treesitter.configs'.setup {
       enable = true,
       disable = { },  -- list of language that will be disabled
   },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  },
+  autopairs = { enable = true },
+  autotag = { enable = true },
+  incremental_selection = { enable = true },
+  indent = { enable = false },
   rainbow = {
     enable = true,
     extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
@@ -157,9 +167,17 @@ require("trouble").setup {
 EOF
 
 lua << EOF
-require('kommentary.config').configure_language("default", {
-    prefer_multi_line_comments = true,
-})
+  require("which-key").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
+lua << EOF
+require('Comment').setup()
+
+require('hlargs').setup()
 
 require('neoscroll').setup({
     -- All these keys will be mapped to their corresponding default scrolling animation
@@ -183,10 +201,33 @@ vim.g.symbols_outline = {
     auto_close = true,
 }
 
+require('gitsigns').setup {
+    signs = {
+	add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+	change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+	delete       = {hl = 'GitSignsDelete', text = '', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+	topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+	changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    },
+}
+
 require("indent_blankline").setup {
     -- for example, context is off by default, use this to turn it on
     show_current_context = true,
     show_current_context_start = true,
+    show_first_indent_level = false,
+    filetype_exclude = {
+      "help",
+      "terminal",
+      "alpha",
+      "packer",
+      "lspinfo",
+      "TelescopePrompt",
+      "TelescopeResults",
+      "Mason",
+      "",
+    },
+    buftype_exclude = { "terminal" },
 }
 EOF
 
@@ -208,12 +249,6 @@ nnoremap <silent> <C-\>s <cmd>lua require('telescope.builtin').lsp_dynamic_works
 
 nnoremap <C-n> :NvimTreeToggle<CR>
 nmap <leader>t :SymbolsOutline<CR>
-
-let g:gitgutter_sign_added = '▋' 
-let g:gitgutter_sign_modified = '▋'
-let g:gitgutter_sign_removed = '▋'
-let g:gitgutter_sign_removed_first_line = '▔'
-let g:gitgutter_sign_modified_removed = '▎'
 
 
 " General {{{
@@ -360,25 +395,25 @@ if (has("termguicolors"))
     set termguicolors
 endif
 
-if &term == "linux"
-    set t_Co=16
-    colorscheme desert
-else
-    try
-        colorscheme onedark
-    catch /:E185:/
-        " Silently ignore if colorscheme not found.
-    endtry
-endif
+" if &term == "linux"
+"     set t_Co=16
+"     colorscheme desert
+" else
+"     try
+"         colorscheme onedarkpro
+"     catch /:E185:/
+"         " Silently ignore if colorscheme not found.
+"     endtry
+" endif
 
 " }}}
 
 " White characters {{{
 set smartindent
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
+set tabstop=8
+set softtabstop=8
+set shiftwidth=8
+set noexpandtab
 
 " }}}
 
@@ -394,7 +429,7 @@ set synmaxcol=800
 " " Basically this makes terminal Vim work sanely.
 set notimeout
 set ttimeout
-set ttimeoutlen=10
+set ttimeoutlen=500
 
 " _ backups {{{
 set backup
