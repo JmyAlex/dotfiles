@@ -1,8 +1,0 @@
-#!/bin/bash
-
-while true
-do
-	status=$(dropbox status)
-	echo "D $status"
-	sleep 2
-done

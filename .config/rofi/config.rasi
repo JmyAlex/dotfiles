@@ -1,5 +1,0 @@
-configuration {
-    show-icons: true;
-    terminal: "tilix";
-    theme: "onedark";
-}
