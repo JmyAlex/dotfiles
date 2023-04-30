@@ -27,6 +27,7 @@ set -Ux FZF_DEFAULT_OPTS "\
 
 #export HIGHLIGHT_STYLE=clarity
 export MANPAGER="sh -c 'ansifilter | col -bx | bat -l man -p'"
+export LS_COLORS="$(vivid generate catppuccin-frappe)"
 
 #XDG
 # System
@@ -166,3 +167,6 @@ set -g fish_pager_color_progress $gray
 set -g fish_pager_color_prefix $pink
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $gray
+
+
+starship init fish | source

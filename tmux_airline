@@ -33,7 +33,7 @@ setw -g window-status-style 'none'
 setw -g window-status-activity-style 'none'
 setw -g window-status-separator ''
 
-set -g status-left "#[fg=$onedark_white,bg=$onedark_visual_grey,nobold] #S #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
+set -g status-left "#{tmux_mode_indicator} #[fg=$onedark_white,bg=$onedark_visual_grey,nobold] #S #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
 set -g status-right "#[fg=onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]#[fg=$onedark_white,bg=$onedark_visual_grey] %a %b %d #[fg=$onedark_black,bg=$onedark_black] #[fg=$onedark_white,bg=$onedark_visual_grey] %R "
 
 setw -g window-status-format "#[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics] #[default]#{?window_activity_flag,#[bg=$onedark_red]#[fg=$onedark_black],#[fg=$onedark_white,bg=$onedark_visual_grey,italics]} #I #W #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
