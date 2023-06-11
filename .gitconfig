@@ -144,19 +144,4 @@
     editor = nvim
 
 [format]
-    pretty = fuller
-
-#[pager]
-#    diff = delta
-#    log = delta
-#    reflog = delta
-#    show = delta
-
-#[interactive]
-#    diffFilter = delta --color-only
-
-#[delta]
-#    syntax-theme = base16
-#    navigate = true
-#    line-numbers = true
-#    side-by-side = true
+    ; pretty = fuller
