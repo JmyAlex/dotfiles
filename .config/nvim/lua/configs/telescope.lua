@@ -17,6 +17,7 @@ local options = {
       "--line-number",
       "--column",
       "--smart-case",
+      "--follow",
     },
     prompt_prefix = "    ",
     entry_prefix = "  ",

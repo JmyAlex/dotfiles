@@ -65,13 +65,15 @@
 
     #log
     l = log -C --decorate
+    lf = log --pretty=fuller
     ls = log -C --stat --decorate
     lsp = log -C --stat -p --decorate
     lg = log --graph '--pretty=tformat:%Cblue%h%Creset %Cgreen%ar%Creset %Cblue%d%Creset %s'
     lga = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all
     lsd = log --graph '--pretty=tformat:%C(blue bold)%h%Creset %Cgreen%ar%Creset %C(blue bold)%d%Creset %s' --all --simplify-by-decoration
-    l1 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-    l2 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    l1 = log --oneline --decorate
+    l2 = log --graph --oneline --all --decorate
+    l3 = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 
     changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
     short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"

@@ -28,9 +28,10 @@ M.outline = function()
     local options = {
         highlight_hovered_item = false,
         auto_preview = false,
-        relative_width = false,
-        width = 35,
+        -- relative_width = false,
+        -- width = 35,
         auto_close = true,
+        show_symbol_details = false,
     }
 
     symbols.setup(options)

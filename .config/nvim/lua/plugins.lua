@@ -106,7 +106,7 @@ local plugins = {
 
   ["onsails/lspkind-nvim"] = { },
 
-  ["lukoshkin/trailing-whitespace"] = { },
+  ["lukoshkin/trailing-whitespace"] = { commit = "2d4aeb132973da15edbe0d093ce836563ee2aef1" },
 
    -- load luasnips + cmp related in insert mode only
   ["rafamadriz/friendly-snippets"] = {
@@ -189,16 +189,17 @@ local plugins = {
     end,
   },
 
-  ["akinsho/bufferline.nvim"] = {
-    after = "catppuccin",
-    tag = "v3.*",
-    requires = 'nvim-tree/nvim-web-devicons',
-    config = function ()
-      require("configs.others").bufferline()
-    end
-  },
+  -- ["akinsho/bufferline.nvim"] = {
+  --   after = "catppuccin",
+  --   tag = "v3.*",
+  --   requires = 'nvim-tree/nvim-web-devicons',
+  --   config = function ()
+  --     require("configs.others").bufferline()
+  --   end
+  -- },
 
   ["j-hui/fidget.nvim"] = {
+    tag = "legacy",
     config = function ()
       require("fidget").setup{}
     end

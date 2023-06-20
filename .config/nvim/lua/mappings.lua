@@ -286,6 +286,7 @@ M.telescope = {
     ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "   find oldfiles" },
 
     -- git
+    ["<leader>gf"] = { "<cmd> Telescope git_files <CR>", "   git files" },
     ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "   git commits" },
     ["<leader>gt"] = { "<cmd> Telescope git_status <CR>", "  git status" },
 
