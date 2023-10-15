@@ -2,14 +2,19 @@ local opt = vim.opt
 local g = vim.g
 
 g.mapleader = " "
+g.maplocalleader = ' '
 
-opt.laststatus = 3 -- global statusline
+-- global statusline
+opt.laststatus = 3
 opt.showmode = false
+opt.cmdheight = 0
 
 opt.title = true
 opt.clipboard = "unnamedplus"
 opt.cul = true -- cursor line
-opt.cmdheight = 0
+
+-- Enable break indent
+opt.breakindent = true
 
 -- Indenting
 opt.expandtab = true
@@ -24,9 +29,17 @@ opt.termencoding = 'utf-8'
 opt.fillchars = { eob = " " }
 opt.listchars = { tab = '⟶ ', eol='¬', extends='❯', precedes='❮', trail='␣' }
 opt.showbreak = '↪'
+
+-- Case insensitive searching UNLESS /C or capital in search
 opt.ignorecase = true
 opt.smartcase = true
+
+opt.shiftround = true
+
 opt.mouse = "a"
+
+-- Set completeopt to have a better completion experience
+opt.completeopt = 'menuone,noselect'
 
 -- Numbers
 opt.number = true
@@ -36,47 +49,20 @@ opt.number = true
 opt.shortmess:append "sI"
 
 opt.signcolumn = "yes"
+
 opt.splitbelow = true
 opt.splitright = true
+
 opt.termguicolors = true
-opt.timeoutlen = 400
+
+opt.swapfile = false
+
+-- Save undo history
 opt.undofile = true
 opt.undolevels = 3000
 opt.undoreload = 10000
 
--- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
--- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
-
--- disable some builtin vim plugins
-local default_plugins = {
-  "2html_plugin",
-  "getscript",
-  "getscriptPlugin",
-  "gzip",
-  "logipat",
-  "netrw",
-  "netrwPlugin",
-  "netrwSettings",
-  "netrwFileHandlers",
-  "matchit",
-  "tar",
-  "tarPlugin",
-  "rrhelper",
-  "spellfile_plugin",
-  "vimball",
-  "vimballPlugin",
-  "zip",
-  "zipPlugin",
-  "tutor",
-  "rplugin",
-  "syntax",
-  "synmenu",
-  "optwin",
-  "compiler",
-  "bugreport",
-  "ftplugin",
-}
-
-for _, plugin in pairs(default_plugins) do
-  g["loaded_" .. plugin] = 1
-end
+-- Decrease update time
+opt.updatetime = 250
+opt.timeout = true
+opt.timeoutlen = 300

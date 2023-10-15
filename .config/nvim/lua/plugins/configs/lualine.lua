@@ -1,119 +1,5 @@
--- local navic = require("nvim-navic")
--- require'lualine'.setup {
---   options = {
---     icons_enabled = true,
---     theme = 'auto',
---     component_separators = '',
---     section_separators = '',
---     disabled_filetypes = {}
---   },
---   sections = {
---     lualine_a = {'mode'},
---     lualine_b = {'branch', 'diff', 'diagnostics'},
---     lualine_c = {'filename', { navic.get_location, cond = navic.is_available }},
---     -- lualine_x = {'encoding', 'fileformat', 'filetype'},
---     lualine_x = {
---         -- { navic.get_location, cond = navic.is_available }
---     },
---     lualine_y = {'progress'},
---     lualine_z = {'location'}
---   },
---   inactive_sections = {
---     lualine_a = {},
---     lualine_b = {},
---     lualine_c = {'filename'},
---     lualine_x = {'location'},
---     lualine_y = {},
---     lualine_z = {}
---   },
---   tabline = {},
---   extensions = {}
--- }
-
--- require('lualine').setup {
---   options = {
---     icons_enabled = true,
---     theme = 'auto',
---     component_separators = '',
---     section_separators = '',
---     disabled_filetypes = {
---       statusline = {
---         'NvimTree',
---         'alpha'
---       },
---       winbar = {
---         'NvimTree',
---         'alpha'
---       },
---       NvimTree = {},
---     },
---     ignore_focus = {},
---     always_divide_middle = true,
---     globalstatus = true,
---     refresh = {
---       statusline = 1000,
---       tabline = 1000,
---       winbar = 1000,
---     }
---   },
---   sections = {
---     lualine_a = {'mode'},
---     lualine_b = {'branch', 'diff', 'diagnostics'},
---     lualine_c = {},
---     lualine_x = {'encoding', 'fileformat', 'filetype'},
---     lualine_y = {'progress'},
---     lualine_z = {'location'}
---   },
---   inactive_sections = {
---     lualine_a = {},
---     lualine_b = {},
---     lualine_c = {},
---     lualine_x = {'location'},
---     lualine_y = {},
---     lualine_z = {}
---   },
---   tabline = {},
---   winbar = {},
-  -- winbar = {
-  --   lualine_a = {'filename', { navic.get_location, cond = navic.is_available }},
-  --   lualine_b = {},
-  --   lualine_c = {},
-  --   lualine_x = {},
-  --   lualine_y = {},
-  --   lualine_z = {}
-  -- },
-  -- inactive_winbar = {
-  --   lualine_a = {'filename'},
-  --   lualine_b = {},
-  --   lualine_c = {},
-  --   lualine_x = {},
-  --   lualine_y = {},
-  --   lualine_z = {}
-  -- },
---   extensions = {}
--- }
-
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
 local lualine = require('lualine')
-local colors_theme = require("catppuccin.palettes").get_palette()
-
--- Color table for highlights
--- stylua: ignore
--- local colors = {
---   bg       = '#202328',
---   fg       = '#bbc2cf',
---   yellow   = '#ECBE7B',
---   cyan     = '#008080',
---   darkblue = '#081633',
---   green    = '#98be65',
---   orange   = '#FF8800',
---   violet   = '#a9a1e1',
---   magenta  = '#c678dd',
---   blue     = '#51afef',
---   red      = '#ec5f67',
--- }
+local colors_theme = require("catppuccin.palettes").get_palette("frappe")
 
 local colors = {
   bg       = colors_theme.mantle,
@@ -232,33 +118,25 @@ ins_left {
 
 ins_left {
   'mode',
-  color = function()
-    -- auto change color according to neovims mode
-    local mode_color = {
-      n = colors.red,
-      i = colors.green,
-      v = colors.blue,
-      [''] = colors.blue,
-      V = colors.blue,
-      c = colors.magenta,
-      no = colors.red,
-      s = colors.orange,
-      S = colors.orange,
-      [''] = colors.orange,
-      ic = colors.yellow,
-      R = colors.violet,
-      Rv = colors.violet,
-      cv = colors.red,
-      ce = colors.red,
-      r = colors.cyan,
-      rm = colors.cyan,
-      ['r?'] = colors.cyan,
-      ['!'] = colors.red,
-      t = colors.red,
-    }
-    return { fg = mode_color[vim.fn.mode()], gui = 'bold' }
-  end,
 }
+
+ins_left {
+  function()
+    return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+  end,
+  color = { fg = colors.fg, gui = 'bold' },
+}
+
+-- ins_left {
+--   function()
+--     local result = vim.fn.getcwd()
+--       local home = os.getenv("HOME")
+--       if home and vim.startswith(result, home) then
+--         result = "~" .. result:sub(home:len() + 1)
+--       end
+--     return result
+--   end,
+-- }
 
 -- return {
 --   ActiveLSP = "",
@@ -310,7 +188,6 @@ ins_left {
 
 ins_left {
   'branch',
-  -- icon = '',
   icon = '',
   color = { fg = colors.fg, gui = 'bold' },
 }
@@ -336,18 +213,6 @@ ins_left {
     color_info = { fg = colors.cyan },
   },
 }
-
--- ins_left {
---   -- filesize component
---   'filesize',
---   cond = conditions.buffer_not_empty,
--- }
-
--- ins_left {
---   'filename',
---   cond = conditions.buffer_not_empty,
---   color = { fg = colors.magenta, gui = 'bold' },
--- }
 
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
