@@ -1,43 +1,46 @@
-onedark_black="#303446"
-onedark_blue="#8caaee"
-onedark_yellow="#e5c890"
-onedark_red="#e78284"
-onedark_white="#c6d0f5"
-onedark_green="#98c379"
-onedark_magenta="#c678dd"
-onedark_cyan="#85c1dc"
-onedark_visual_grey="#626880"
-onedark_comment_grey="#626880"
+# --> Catppuccin (Frappe)
+thm_bg="#303446"
+thm_fg="#c6d0f5"
+thm_cyan="#99d1db"
+thm_black="#292c3c"
+thm_gray="#414559"
+thm_magenta="#ca9ee6"
+thm_pink="#f4b8e4"
+thm_red="#e78284"
+thm_green="#a6d189"
+thm_yellow="#e5c890"
+thm_blue="#8caaee"
+thm_orange="#ef9f76"
+thm_black4="#626880"
 
-set -g status-bg $onedark_black
+set -g status-bg $thm_bg
 
-set -g message-style fg=$onedark_white,bg=$onedark_black
-set -g message-command-style fg=$onedark_white,bg=$onedark_black
+set -g message-style fg=$thm_fg,bg=$thm_bg
+set -g message-command-style fg=$thm_fg,bg=$thm_bg
 
-set -g status-justify 'centre'
-set -g status-left-length '100'
 set -g status 'on'
-
-set -g pane-border-style fg=$onedark_blue
-set -g pane-active-border-style fg=$onedark_blue
-
+set -g status-position top
+set -g status-justify 'left'
+set -g status-left-length '100'
 set -g status-right-length '100'
-set -g status-right-style 'none'
+
+set -g pane-border-style fg=$thm_gray
+set -g pane-active-border-style fg=$thm_blue
+
 set -g status-style 'none'
+set -g status-right-style 'none'
 set -g status-left-style 'none'
 
-setw -g window-status-style fg=$onedark_white,bg=$onedark_black
-setw -g window-status-activity-style fg=$onedark_black,bg=$onedark_red
+setw -g window-status-style default
+setw -g window-status-activity-style fg=$thm_red,bg=$thm_bg
+setw -g window-status-last-style fg=$thm_yellow,bold,bg=$thm_bg
+setw -g window-status-current-style fg=$thm_magenta,bold,bg=$thm_bg
+setw -g window-status-bell-style default
 
-setw -g window-status-style 'none'
-setw -g window-status-activity-style 'none'
-setw -g window-status-separator ''
+set -g status-left "#[fg=$thm_blue,bold]  #S "
+set -g status-right "#h  %a %b %d  %R #{tmux_mode_indicator}"
 
-set -g status-left "#{tmux_mode_indicator} #[fg=$onedark_white,bg=$onedark_visual_grey,nobold] #S #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
-set -g status-right "#[fg=onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]#[fg=$onedark_white,bg=$onedark_visual_grey] %a %b %d #[fg=$onedark_black,bg=$onedark_black] #[fg=$onedark_white,bg=$onedark_visual_grey] %R "
-
-setw -g window-status-format "#[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics] #[default]#{?window_activity_flag,#[bg=$onedark_red]#[fg=$onedark_black],#[fg=$onedark_white,bg=$onedark_visual_grey,italics]} #I #W #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
-
-setw -g window-status-current-format "#[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics] #[fg=$onedark_black,bg=$onedark_blue] #I #W #[fg=$onedark_black,bg=$onedark_black,nobold,nounderscore,noitalics]"
+setw -g window-status-format "#I:#W #{?window_last_flag,\uf7d9 ,}#{?window_activity_flag,\uf192 ,}#{?window_zoomed_flag,\uf848 ,}"
+setw -g window-status-current-format "👉 #I:#W #{?window_zoomed_flag,\uf848 ,}"
 
 # vim: ft=tmux
