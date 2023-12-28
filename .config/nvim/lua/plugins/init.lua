@@ -78,6 +78,13 @@ local plugins = {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+
+      {
+        "nvim-treesitter/nvim-treesitter-context",
+        event = "VeryLazy",
+        enabled = true,
+        opts = { mode = "cursor", max_lines = 3 },
+      },
     },
     build = ':TSUpdate',
     config = function ()
@@ -101,23 +108,30 @@ local plugins = {
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     event = { "BufReadPost", "BufNewFile" },
-    -- main = 'ibl',
-    version = "2.20.7",
+    main = 'ibl',
     opts = {
-      -- char = '┊',
-      filetype_exclude = {
-        "help",
-        "terminal",
-        "lazy",
-        "lspinfo",
-        "TelescopePrompt",
-        "TelescopeResults",
-        "mason",
-        "",
+      indent = {
+        char = "│",
+        tab_char = "│",
       },
-      buftype_exclude = { "terminal" },
-      show_first_indent_level = false,
-      show_trailing_blankline_indent = false,
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "terminal",
+          "lazy",
+          "lspinfo",
+          "TelescopePrompt",
+          "TelescopeResults",
+          "mason",
+          "notify",
+          "toggleterm",
+          "",
+        },
+        buftypes = {
+          "terminal",
+        },
+      },
     },
   },
 
@@ -139,23 +153,103 @@ local plugins = {
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    -- cmd = "Telescope",
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+      -- Only load if `make` is available. Make sure you have the system
+      -- requirements installed.
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        -- NOTE: If you are having trouble with this installation,
+        --       refer to the README for telescope-fzf-native for more instructions.
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+      "nvim-telescope/telescope-file-browser.nvim",
+      "nvim-telescope/telescope-project.nvim",
+    },
+    keys = {
+      { "<leader>?", "<cmd>Telescope oldfiles<cr>", mode = "n", desc = "[?] Find recently opened files" },
+      { "<leader><space>", "<cmd>Telescope buffers<cr>", mode = "n", desc = "[ ] Find existing buffers" },
+      { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", mode = "n", desc = "[/] Fuzzily search in current buffer" },
+      { "<leader>gf", "<cmd>Telescope git_files<cr>", mode = "n", desc = "Search [G]it [F]iles" },
+      { "<leader>gs", "<cmd>Telescope git_status<cr>", mode = "n", desc = "Search [G]it [S]tatus" },
+      { "<leader>sa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true prompt_title=All_Files <cr>", mode = "n", desc = "[S]earch [A]ll" },
+      { "<leader>sf", "<cmd>Telescope find_files<cr>", mode = "n", desc = "[S]earch [F]iles" },
+      { "<leader>sh", "<cmd>Telescope help_tags<cr>", mode = "n", desc = "[S]earch [H]elp" },
+      { "<leader>sw", "<cmd>Telescope grep_string<cr>", mode = "n", desc = "[S]earch current [W]ord" },
+      { "<leader>sg", "<cmd>Telescope live_grep<cr>", mode = "n", desc = "[S]earch by [G]rep" },
+      { "<leader>sd", "<cmd>Telescope diagnostics<cr>", mode = "n", desc = "[S]earch [D]iagnostics" },
+      { "<leader>sp", "<cmd>Telescope project<cr>", mode = "n", desc = "[S]earch [P]roject" },
+    },
     config = function ()
       require "plugins.configs.telescope"
     end,
   },
 
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    cond = function()
-      return vim.fn.executable 'make' == 1
-    end,
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = true,
+    keys = {
+      { "<leader>T", "<cmd>ToggleTerm direction=float<cr>", mode = "n", desc = "[T]oggle terminal" },
+    }
+  },
+
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+        progress = {
+          enabled = false,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      popupmenu = {
+        enabled = false,
+      },
+      smart_move = {
+        enabled = false,
+      },
+      presets = {
+        bottom_search = false, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = false, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false, -- add a border to hover docs and signature help
+      },
+    },
+    config = true,
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    }
   },
 
   {
@@ -163,13 +257,9 @@ local plugins = {
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     opts = {
       disable_netrw = true,
-      open_on_setup = false,
       hijack_cursor = true,
       update_focused_file = {
         enable = true,
-      },
-      view = {
-        hide_root_folder = true,
       },
       git = {
         enable = false,
@@ -178,6 +268,7 @@ local plugins = {
       renderer = {
         highlight_git = false,
         highlight_opened_files = "none",
+        root_folder_label = false,
       }
     },
     keys = {

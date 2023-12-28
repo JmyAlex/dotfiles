@@ -82,40 +82,6 @@ ins_left {
   padding = { left = 0, right = 1 }, -- We don't need space before this
 }
 
--- ins_left {
---   -- mode component
---   function()
---     return ''
---   end,
---   color = function()
---     -- auto change color according to neovims mode
---     local mode_color = {
---       n = colors.red,
---       i = colors.green,
---       v = colors.blue,
---       [''] = colors.blue,
---       V = colors.blue,
---       c = colors.magenta,
---       no = colors.red,
---       s = colors.orange,
---       S = colors.orange,
---       [''] = colors.orange,
---       ic = colors.yellow,
---       R = colors.violet,
---       Rv = colors.violet,
---       cv = colors.red,
---       ce = colors.red,
---       r = colors.cyan,
---       rm = colors.cyan,
---       ['r?'] = colors.cyan,
---       ['!'] = colors.red,
---       t = colors.red,
---     }
---     return { fg = mode_color[vim.fn.mode()] }
---   end,
---   padding = { right = 1 },
--- }
-
 ins_left {
   'mode',
 }
@@ -124,67 +90,9 @@ ins_left {
   function()
     return vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
   end,
+  icon = '',
   color = { fg = colors.fg, gui = 'bold' },
 }
-
--- ins_left {
---   function()
---     local result = vim.fn.getcwd()
---       local home = os.getenv("HOME")
---       if home and vim.startswith(result, home) then
---         result = "~" .. result:sub(home:len() + 1)
---       end
---     return result
---   end,
--- }
-
--- return {
---   ActiveLSP = "",
---   ActiveTS = "綠",
---   ArrowLeft = "",
---   ArrowRight = "",
---   BufferClose = "",
---   DapBreakpoint = "",
---   DapBreakpointCondition = "",
---   DapBreakpointRejected = "",
---   DapLogPoint = ".>",
---   DapStopped = "",
---   DefaultFile = "",
---   Diagnostic = "裂",
---   DiagnosticError = "",
---   DiagnosticHint = "",
---   DiagnosticInfo = "",
---   DiagnosticWarn = "",
---   Ellipsis = "…",
---   FileModified = "",
---   FileReadOnly = "",
---   FolderClosed = "",
---   FolderEmpty = "",
---   FolderOpen = "",
---   Git = "",
---   str = '  ',
---   GitAdd = "",
---   GitBranch = "",
---   GitChange = "",
---   GitConflict = "",
---   GitDelete = "",
---   GitIgnored = "◌",
---   GitRenamed = "➜",
---   GitStaged = "✓",
---   GitUnstaged = "✗",
---   GitUntracked = "★",
---   LSPLoaded = "",
---   LSPLoading1 = "",
---   LSPLoading2 = "",
---   LSPLoading3 = "",
---   MacroRecording = "",
---   NeovimClose = "", -- TODO v3: remove this icon
---   Paste = "",
---   Search = "",
---   Selected = "❯",
---   Spellcheck = "暈",
---   TabClose = "",
--- }
 
 ins_left {
   'branch',
@@ -196,9 +104,9 @@ ins_left {
   'diff',
   symbols = { added = ' ', modified = ' ', removed = ' ' },
   diff_color = {
-    added = { fg = colors.green },
-    modified = { fg = colors.blue },
-    removed = { fg = colors.red },
+    added = { fg = colors.fg },
+    modified = { fg = colors.fg },
+    removed = { fg = colors.fg },
   },
   cond = conditions.hide_in_width,
 }
@@ -206,12 +114,14 @@ ins_left {
 ins_left {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
-  symbols = { error = ' ', warn = ' ', info = ' ' },
+  symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
   diagnostics_color = {
-    color_error = { fg = colors.red },
-    color_warn = { fg = colors.yellow },
-    color_info = { fg = colors.cyan },
+    error = { fg = colors.fg },
+    warn = { fg = colors.fg },
+    info = { fg = colors.fg },
+    hint = { fg = colors.fg },
   },
+  cond = conditions.hide_in_width,
 }
 
 -- Insert mid section. You can make any number of sections in neovim :)
@@ -223,6 +133,20 @@ ins_left {
 }
 
 -- Add components to right sections
+
+ins_right {
+  function ()
+    local search = vim.fn.searchcount({ maxcount = 0 })
+    if next(search) ~= nil then
+      if search.current > 0 and vim.v.hlsearch ~= 0 then
+        return search.current .. "/" .. search.total
+      else
+        return ""
+      end
+    end
+  end,
+  icon = ' ',
+}
 
 ins_right { 'location', color = { fg = colors.fg, gui = 'bold' } }
 

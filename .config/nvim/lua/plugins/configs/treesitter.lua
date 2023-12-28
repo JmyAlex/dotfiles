@@ -2,9 +2,10 @@ local treesitter = require("nvim-treesitter.configs")
 
 local options = {
   ensure_installed = {
-    "javascript", "typescript", "cpp",
+    "javascript", "typescript", "cpp", "regex", "markdown",
     "html", "css", "lua", "c", "rust", "go", "java", "query",
-    "python", "json", "fish", "bash", "awk", "vim", "vimdoc"
+    "python", "json", "fish", "bash", "awk", "vim", "vimdoc",
+    "markdown_inline", "cmake", "dockerfile",
   },
   highlight = {
     enable = true,
