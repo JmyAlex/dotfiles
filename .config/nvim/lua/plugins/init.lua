@@ -10,7 +10,7 @@ local plugins = {
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {}, tag = "legacy" },
+      -- { 'j-hui/fidget.nvim', opts = {}, tag = "legacy" },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -19,7 +19,14 @@ local plugins = {
         'SmiteshP/nvim-navic',
         lazy = true,
         dependencies = {
-          { 'utilyre/barbecue.nvim', opts = {} },
+          {
+            'utilyre/barbecue.nvim',
+            opts = {
+              attach_navic = false,
+              show_modified = true,
+              theme = "catppuccin",
+            },
+          },
         },
       },
     },
@@ -39,6 +46,9 @@ local plugins = {
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
@@ -70,7 +80,44 @@ local plugins = {
     },
   },
 
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    opts = function ()
+      return {
+        require("catppuccin").setup({
+          flavour = "frappe", -- latte, frappe, macchiato, mocha
+          styles = {
+            comments = { "italic" },
+            conditionals = { "italic" },
+            loops = {},
+            functions = {},
+            keywords = { "bold", "italic" },
+            strings = {},
+            variables = {},
+            numbers = {},
+            booleans = {},
+            properties = {},
+            types = {},
+            operators = {},
+          },
+          integrations = {
+            navic = { enabled = true, custom_bg = "lualine" },
+            treesitter_context = true,
+            noice = true,
+            notify = true,
+            beacon = true,
+            mason = true,
+            symbols_outline = true,
+          },
+        })
+      }
+    end,
+    config = function()
+      vim.cmd.colorscheme 'catppuccin'
+    end,
+  },
 
   {
     -- Highlight, edit, and navigate code
@@ -102,38 +149,36 @@ local plugins = {
     end,
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    event = { "BufReadPost", "BufNewFile" },
-    main = 'ibl',
-    opts = {
-      indent = {
-        char = "│",
-        tab_char = "│",
-      },
-      scope = { enabled = false },
-      exclude = {
-        filetypes = {
-          "help",
-          "terminal",
-          "lazy",
-          "lspinfo",
-          "TelescopePrompt",
-          "TelescopeResults",
-          "mason",
-          "notify",
-          "toggleterm",
-          "",
-        },
-        buftypes = {
-          "terminal",
-        },
-      },
-    },
-  },
+  -- Add indentation guides even on blank lines
+  -- {
+  --   'lukas-reineke/indent-blankline.nvim',
+  --   event = { "BufReadPost", "BufNewFile" },
+  --   opts = {
+  --     indent = {
+  --       char = "│",
+  --       tab_char = "│",
+  --     },
+  --     scope = { enabled = false },
+  --     exclude = {
+  --       filetypes = {
+  --         "help",
+  --         "terminal",
+  --         "lazy",
+  --         "lspinfo",
+  --         "TelescopePrompt",
+  --         "TelescopeResults",
+  --         "mason",
+  --         "notify",
+  --         "toggleterm",
+  --         "",
+  --       },
+  --       buftypes = {
+  --         "terminal",
+  --       },
+  --     },
+  --   },
+  --   main = 'ibl',
+  -- },
 
   -- "gc" to comment visual regions/lines
   {
@@ -177,7 +222,7 @@ local plugins = {
       { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", mode = "n", desc = "[/] Fuzzily search in current buffer" },
       { "<leader>gf", "<cmd>Telescope git_files<cr>", mode = "n", desc = "Search [G]it [F]iles" },
       { "<leader>gs", "<cmd>Telescope git_status<cr>", mode = "n", desc = "Search [G]it [S]tatus" },
-      { "<leader>sa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true prompt_title=All_Files <cr>", mode = "n", desc = "[S]earch [A]ll" },
+      { "<leader>sa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true prompt_title=All_Files<cr>", mode = "n", desc = "[S]earch [A]ll" },
       { "<leader>sf", "<cmd>Telescope find_files<cr>", mode = "n", desc = "[S]earch [F]iles" },
       { "<leader>sh", "<cmd>Telescope help_tags<cr>", mode = "n", desc = "[S]earch [H]elp" },
       { "<leader>sw", "<cmd>Telescope grep_string<cr>", mode = "n", desc = "[S]earch current [W]ord" },
@@ -210,9 +255,6 @@ local plugins = {
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true,
         },
-        progress = {
-          enabled = false,
-        },
       },
       routes = {
         {
@@ -227,12 +269,6 @@ local plugins = {
           view = "mini",
         },
       },
-      popupmenu = {
-        enabled = false,
-      },
-      smart_move = {
-        enabled = false,
-      },
       presets = {
         bottom_search = false, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together
@@ -241,15 +277,33 @@ local plugins = {
         lsp_doc_border = false, -- add a border to hover docs and signature help
       },
     },
-    config = true,
     dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     }
+  },
+
+  {
+    "stevearc/conform.nvim",
+    lazy = true,
+    event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          c = { "clang-format" },
+          cpp = { "clang-format" },
+        },
+      })
+
+      vim.keymap.set({ "n", "v", "x" }, "<leader>mp", function()
+        require("conform").format({
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 1000,
+        })
+      end, { desc = "Format file or range (in visual mode)" })
+    end,
   },
 
   {
