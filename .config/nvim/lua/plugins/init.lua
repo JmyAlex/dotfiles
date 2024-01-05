@@ -150,35 +150,36 @@ local plugins = {
   },
 
   -- Add indentation guides even on blank lines
-  -- {
-  --   'lukas-reineke/indent-blankline.nvim',
-  --   event = { "BufReadPost", "BufNewFile" },
-  --   opts = {
-  --     indent = {
-  --       char = "│",
-  --       tab_char = "│",
-  --     },
-  --     scope = { enabled = false },
-  --     exclude = {
-  --       filetypes = {
-  --         "help",
-  --         "terminal",
-  --         "lazy",
-  --         "lspinfo",
-  --         "TelescopePrompt",
-  --         "TelescopeResults",
-  --         "mason",
-  --         "notify",
-  --         "toggleterm",
-  --         "",
-  --       },
-  --       buftypes = {
-  --         "terminal",
-  --       },
-  --     },
-  --   },
-  --   main = 'ibl',
-  -- },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    -- event = { "BufReadPost", "BufNewFile" },
+    cmd = { "IBLToggle", "IBLEnable", "IBLDisable" },
+    opts = {
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "terminal",
+          "lazy",
+          "lspinfo",
+          "TelescopePrompt",
+          "TelescopeResults",
+          "mason",
+          "notify",
+          "toggleterm",
+          "",
+        },
+        buftypes = {
+          "terminal",
+        },
+      },
+    },
+    main = 'ibl',
+  },
 
   -- "gc" to comment visual regions/lines
   {
@@ -285,25 +286,28 @@ local plugins = {
 
   {
     "stevearc/conform.nvim",
-    lazy = true,
-    event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
-    config = function()
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          c = { "clang-format" },
-          cpp = { "clang-format" },
-        },
-      })
+    cmd = { "ConformInfo" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+      },
+    },
 
-      vim.keymap.set({ "n", "v", "x" }, "<leader>mp", function()
-        require("conform").format({
-          lsp_fallback = true,
-          async = false,
-          timeout_ms = 1000,
-        })
-      end, { desc = "Format file or range (in visual mode)" })
-    end,
+    keys = {
+      {
+        "<leader>mp", function()
+          require("conform").format({
+            lsp_fallback = true,
+            async = false,
+            timeout_ms = 1000,
+          })
+        end,
+        desc = "Format file or range (in visual mode)",
+        mode = { "n", "v", "x" },
+      },
+    },
   },
 
   {
@@ -346,6 +350,24 @@ local plugins = {
     },
   },
 
+  { "sindrets/diffview.nvim", cmd = { "DiffviewOpen", "DiffviewClose" }, },
+
+  {
+    'niuiic/git-log.nvim',
+    dependencies = {
+      'niuiic/core.nvim'
+    },
+
+    keys = {
+      {
+        "<leader>gl",
+        function ()
+          require("git-log").check_log()
+        end,
+        desc = "Git Log" },
+    },
+  },
+
   -- highlight whitespace
   {
     'lukoshkin/trailing-whitespace',
@@ -364,6 +386,9 @@ local plugins = {
       { "<leader>2", "<cmd>HiMyWordsClear<cr>", desc = "HiMyWordsClear" },
     },
   },
+
+  -- icons
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {}, event = "VeryLazy", },
