@@ -61,6 +61,32 @@ declare -a DEV_PACK=(
 # openfortivpn
 # cargo vivid
 
+declare -a BREW_LIST=(
+    bat
+    exa
+    fd
+    fish
+    fzf
+    midnight-commander
+    neovim
+    minicom
+    node
+    cmake
+    cscope
+    openfortivpn
+    ripgrep
+    sd
+    starship
+    tldr
+    tmux
+    vivid
+)
+
+declare -a BREW_CASK=(
+    iterm2
+    maccy
+)
+
 # update / upgrade
 sudo apt-get update
 sudo apt-get -y upgrade
@@ -96,7 +122,8 @@ mv ~/.profile ~/.profile_default_backup
 
 echo "Symlinking dot files..."
 
-ln -s ~/Github/dotfiles/.agignore ~/.rgignore
+# ln -s ~/Github/dotfiles/.agignore ~/.agignore
+ln -s ~/Github/dotfiles/.rgignore ~/.rgignore
 ln -s ~/Github/dotfiles/.gitconfig ~/.gitconfig
 
 ln -s ~/Github/dotfiles/.bashrc ~/.bashrc
@@ -109,11 +136,13 @@ ln -s ~/Github/dotfiles/.shell_promt ~/.shell_promt
 ln -s ~/Github/dotfiles/tmux_airline ~/.tmux_airline
 ln -s ~/Github/dotfiles/.tmux.conf ~/.tmux.conf
 ln -s ~/Github/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
+ln -s ~/Github/dotfiles/.clang-format ~/.clang-format
+ln -s ~/Github/dotfiles/.config/starship.toml ~/.config/starship.toml
 ln -s ~/Github/dotfiles/.config/nvim/init.vim ~/.config/nvim/init.vim
+ln -s ~/Github/dotfiles/.config/nvim/lua ~/.config/nvim/lua
 cp -r ~/Github/dotfiles/.config/tilix/schemes/* ~/.config/tilix/schemes
 
-mkdir -p $HOME/.local/share/mc/skins/
-ln -s ~/Github/dotfiles/dracula.ini ~/.local/share/mc/skins/dracula.ini
+mkdir -p $HOME/.local/share/mc/skins && cd $HOME/.local/share/mc/skins && git clone https://github.com/catppuccin/mc.git && ln -s -f ./mc/catppuccin.ini .
 
 #wireshark without sudo
 sudo dpkg-reconfigure wireshark-common
